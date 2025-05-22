@@ -5,3 +5,4 @@ Trabajo Practico Final para la material de introduccion al desarrollo de softwar
 - Nahuel Matias Villa - Padron: 106795
 - Brian Abel Quiroz - Padron: 107166
 - Franco Guastavino - Padron: 113265
+- Alejandro Nicolas Sotelo van Oordt - Padron: 95985
