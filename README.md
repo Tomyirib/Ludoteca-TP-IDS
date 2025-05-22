@@ -3,3 +3,4 @@ Trabajo Practico Final para la material de introduccion al desarrollo de softwar
 
 ## Integrantes
 - Nahuel Matias Villa - Padron: 106795
+- Brian Abel Quiroz - Padron: 107166
