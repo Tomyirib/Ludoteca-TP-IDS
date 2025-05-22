@@ -7,3 +7,4 @@ Trabajo Practico Final para la material de introduccion al desarrollo de softwar
 - Franco Guastavino - Padron: 113265
 - Alejandro Nicolas Sotelo van Oordt - Padron: 95985
 - Tomás Agustín Irigoyen Barrone - Padron: 114019
+- Gianluca Miguel Pate - Padron: 105695
