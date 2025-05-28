@@ -24,6 +24,10 @@ def login():
             last_name = request.form['last_name']
     return render_template('login.html', brand=BRAND)
 
+@app.route('/carrito')
+def carrito():
+    return render_template('carrito.html', brand=BRAND)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
