@@ -1,4 +1,4 @@
- c<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,18 +18,29 @@
 </style>
 </head>
 
-<body>
+<body class="body-carrito">
   <div class="carrito">
-    <div class="carrito-title">
+    <div class="carrito-title-cont">
         <h2 class="carrito-title">Tu carrito</h2>
     </div>
     <div class="carrito-producto">
-        <div class="eliminar-producto">
+        <div class="game-photo">
+            <img src="{{ url_for('static', filename='images/balatro.webp')}}">
+        </div>
+        <div class="game-info">
+            <h3 class="game-title">Balatro</h3>
+            <p class="game-descr">Jueguito de cartas, que se yo, bumchacalacapum, en el que se cartea la carta</p>
+            <p class="game-tags">Tags: Cartas, Cartas?</p>
+        </div>
+        <div class="game-price-cont">
+            <p class="game-price">$60</p>
+        </div>
+        <div class="carrito-eliminar">
             <span class="material-symbols-outlined">close</span>
         </div>
-        <div class="info-">
-                      
-        </div>
     </div>
-    
+    <div class="carrito-resumen">
+        <p id="total">Tu total es: $60</p>
+        <button class="checkout">Proceder al pago</button>      
+    </div>
 </html>
