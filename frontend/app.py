@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 
 app = Flask(__name__)
@@ -13,17 +13,8 @@ def index():
 def generic():
     return render_template('generic.html', brand=BRAND)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET'])
 def login():
-    if requests.method == 'POST':
-        if 'email_login' in requests.form:
-            email = requests.form['email_login']
-            password = requests.form['password_login']
-        elif 'email_signup' in requests.form:
-            email = requests.form['email_signup']
-            password = requests.form['password_signup']
-            first_name = requests.form['first_name']
-            last_name = requests.form['last_name']
     return render_template('login.html', brand=BRAND)
 
 @app.route('/carrito')

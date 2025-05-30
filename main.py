@@ -1,4 +1,5 @@
 import subprocess
+from backend.iniciar_db import iniciar_db
 
 a = subprocess.Popen(["python3", "backend/app.py"])
 
