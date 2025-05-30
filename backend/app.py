@@ -1,18 +1,19 @@
-from flask import Flask, render_template, jsonify, url_for, request
+from flask import Flask, request, jsonify
+import requests
+from steam_service import fetch_game_data
 
 app = Flask(__name__)
-BRAND = 'Ludoteca Vapor'
 
 @app.route('/')
-def index():
-    return render_template('index.html', brand=BRAND)
+def back():
+    return jsonify({"status": "OK", "message": "Backend API is running"}), 200
 
-@app.route('/generic')
-def generic():
-    return render_template('generic.html', brand=BRAND)
+@app.route('/games/<int:game_id>', methods=['GET'])
+def get_game(game_id):
+    return fetch_game_data(game_id)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/auth', methods=['POST'])
+def api_login():
     if request.method == 'POST':
         if 'email_login' in request.form:
             email = request.form['email_login']
@@ -22,12 +23,6 @@ def login():
             password = request.form['password_signup']
             first_name = request.form['first_name']
             last_name = request.form['last_name']
-    return render_template('login.html', brand=BRAND)
-
-@app.route('/carrito')
-def carrito():
-    return render_template('carrito.html', brand=BRAND)
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
