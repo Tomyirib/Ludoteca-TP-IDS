@@ -7,7 +7,8 @@ BRAND = 'Ludoteca Vapor'
 @app.route('/')
 def index():
     get_game()
-    return render_template('index.html', brand=BRAND)
+    juegos = get_game()
+    return render_template('index.html', brand=BRAND, juegos=juegos)
 
 @app.route('/generic')
 def generic():
@@ -23,11 +24,30 @@ def carrito():
 
 
 def get_game():
-    response = requests.get("http://localhost:8080/games/440")
+    GAME_IDS = [10, 570, 730, 346110, 70]  # tus IDs de prueba
+    juegos = []
 
-    if response.status_code == 200:
-        print(response.json())
+    for app_id in GAME_IDS:
+        url = f"https://store.steampowered.com/api/appdetails?appids={app_id}"
+        response = requests.get(url)
+        if response.status_code != 200:
+            continue
+        data = response.json()
+        if not data.get(str(app_id), {}).get("success"):
+            continue
+        game_data = data.get(str(app_id))["data"]
+        juego = {
+            "name": game_data.get("name"),
+            "image": game_data.get("header_image")
+        }
+        juegos.append(juego)
+
+    return juegos
+    #response = requests.get("http://localhost:8080/games/440")
+
+    #if response.status_code == 200:
+    #    print(response.json())
     
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)
