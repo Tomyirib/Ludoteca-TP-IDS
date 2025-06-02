@@ -30,16 +30,15 @@ CREATE TABLE IF NOT EXISTS juego_genero (
 
 -- Tabla de categorías
 CREATE TABLE IF NOT EXISTS categorias (
-    id INTEGER UNIQUE PRIMARY KEY,
-    descripcion TEXT UNIQUE
+    id INT UNIQUE PRIMARY KEY,
+    descripcion VARCHAR(255) 
 );
 
-
 CREATE TABLE IF NOT EXISTS juego_categoria (
-    juego_id INTEGER,
-    categoria_id INTEGER,
+    juego_id INT,
+    categoria_id INT,
     PRIMARY KEY (juego_id, categoria_id),
-    FOREIGN KEY (juego_id) REFERENCES juegos(id) ON DELETE CASCADE,
+    FOREIGN KEY (juego_id) REFERENCES juegos(id_juego) ON DELETE CASCADE,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
 );
 
@@ -67,10 +66,10 @@ CREATE TABLE IF NOT EXISTS requisitos_recomendados (
 -- Tabla para login 
 
 CREATE TABLE IF NOT EXISTS usuario (
-    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     es_admin BOOLEAN,
-    email TEXT UNIQUE NOT NULL,
-    contrasenia TEXT NOT NULL,
-    primer_nombre TEXT NOT NULL,
-    apellido TEXT NOT NULL
+    email VARCHAR(255) NOT NULL,
+    contrasenia VARCHAR(255) NOT NULL,
+    primer_nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL
 );

@@ -16,7 +16,8 @@
     <noscript>
         <link rel="stylesheet" href="{{ url_for('static', filename='/css/noscript.css', _external=True) }}" />
     </noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart" />
     <style>
 
         .material-symbols-outlined {
@@ -80,11 +81,9 @@
             <h2>Menu</h2>
             <ul>
                 <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('generic') }}">Ipsum veroeros</a></li>
-                <li><a href="{{ url_for('generic') }}">Tempus etiam</a></li>
-                <li><a href="{{ url_for('generic') }}">Consequat dolor</a></li>
                 <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('carrito') }}"><span class="material-symbols-outlined" style="font-size: 36px">shopping_cart</span></a></li>
+                <li><a href="{{ url_for('carrito') }}"><span class="material-symbols-outlined"
+                            style="font-size: 36px">shopping_cart</span></a></li>
             </ul>
         </nav>
         <!-- Main -->

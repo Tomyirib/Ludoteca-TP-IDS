@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 
 conn = mysql.connector.connect (
@@ -7,7 +8,12 @@ conn = mysql.connector.connect (
 )
 cursor = conn.cursor()
 
-with open("init_db.sql", "r") as file:
+def iniciar_db():
+    print("Iniciando base de datos...")
+    
+
+sql_path = os.path.join(os.path.dirname(__file__), "init_db.sql")
+with open(sql_path, "r") as file:
     init_db = file.read()
 
 for linea in cursor.execute(init_db, multi=True):
