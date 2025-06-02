@@ -1,21 +1,22 @@
-<div id="juegosCarousel" class="carousel slide" data-bs-ride="carousel" style="position: relative;">
-  
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+
   <div class="carousel-inner">
-    {% for juego in juegos %}
+    {% for juego in juegos[:4] %}
       <div class="carousel-item {% if loop.first %}active{% endif %}">
-        <img src="{{ juego.image }}" class="d-block mx-auto" style="width: 100%"; alt="{{ juego.name }}"><!--<img src="{{ juego.image }}" class="d-block mx-auto" style="width: 100%"; alt="{{ juego.name }}">-->
+        <img src="{{ juego.header_image }}" class="d-block w-100" alt="{{ juego.name }}">
         <div class="carousel-caption d-none d-md-block">
-          <!--<h5>{{ juego.name }}</h5>-->
         </div>
       </div>
     {% endfor %}
   </div>
 
-  <button class="carousel-control-prev" type="button" data-bs-target="#juegosCarousel" data-bs-slide="prev">
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
   </button>
-
-  <button class="carousel-control-next" type="button" data-bs-target="#juegosCarousel" data-bs-slide="next">
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Siguiente</span>
   </button>
+  
 </div>
