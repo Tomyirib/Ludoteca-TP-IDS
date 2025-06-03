@@ -25,9 +25,11 @@ def fetch_game_data(app_id):
             "name": data.get("name"),
             "description": data.get("short_description"),
             "header_image": data.get("header_image"),
+            "screenshots": data.get("screenshots", []),
             "price": data.get("price_overview", {}).get("final_formatted", "Gratis"),
             "genres": [g["description"] for g in data.get("genres", [])],
-            "category_ids": data.get("categories")
+            "category_ids": data.get("categories"),
+            "videos": [m.get("mp4", {}).get("max") for m in data.get("movies", []) if m.get("mp4")]
         }
     return game_info
 
