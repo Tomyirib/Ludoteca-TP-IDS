@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS requisitos_recomendados (
 -- Tabla para login 
 
 CREATE TABLE IF NOT EXISTS usuario (
-    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INTEGER PRIMARY KEY,
     es_admin BOOLEAN,
     email TEXT UNIQUE NOT NULL,
     contrasenia TEXT NOT NULL,
