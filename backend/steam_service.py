@@ -23,11 +23,17 @@ def fetch_game_data(app_id):
     game_info = {
             "id": app_id,
             "name": data.get("name"),
+            "type": data.get("type"),
+            "is_free": data.get("is_free"),
+            "required_age": data.get("required_age"),
             "description": data.get("short_description"),
+            "website": data.get("website")
             "header_image": data.get("header_image"),
+            "screenshots": data.get("screenshots", []),
             "price": data.get("price_overview", {}).get("final_formatted", "Gratis"),
             "genres": [g["description"] for g in data.get("genres", [])],
-            "category_ids": data.get("categories")
+            "category_ids": data.get("categories"),
+            "videos": [m.get("mp4", {}).get("max") for m in data.get("movies", []) if m.get("mp4")]
         }
     return game_info
 
@@ -40,11 +46,11 @@ def get_all_games_data():
         if not data:
             continue
 
-        # Mapear categorías
         for cat in data.get("categories", []):
             categories_map[cat["id"]] = cat["description"]
 
     
         games.append(data)
+    
 
     return games, categories_map
