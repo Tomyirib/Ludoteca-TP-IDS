@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS juegos (
     website TEXT,
     description TEXT,
     header_image TEXT,
-    price TEXT,
-    header_image TEXT
+    price TEXT
 );
 
 

@@ -1,14 +1,16 @@
 import subprocess
-from backend.iniciar_db import iniciar_db
+from backend.iniciar_db import generate_insert_query
 
-a = subprocess.Popen(["python3", "backend/app.py"])
+#a = subprocess.Popen(["python3", "backend/app.py"])
 
-b = subprocess.Popen(["python3", "frontend/app.py"])
+#b = subprocess.Popen(["python3", "frontend/app.py"])
 
-try:
-    a.wait()
-    b.wait()
-except KeyboardInterrupt:
-    print("Deteniendo servicios...")
-    a.terminate()
-    b.terminate()
+
+#try:
+generate_insert_query()
+    #a.wait()
+    #b.wait()
+#except KeyboardInterrupt:
+#    print("Deteniendo servicios...")
+    #a.terminate()
+    #b.terminate()
