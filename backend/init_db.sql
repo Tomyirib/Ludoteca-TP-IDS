@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS juego_categoria (
     juego_id INT,
     categoria_id INT,
     PRIMARY KEY (juego_id, categoria_id),
-    FOREIGN KEY (juego_id) REFERENCES juegos(id_juego) ON DELETE CASCADE,
+    FOREIGN KEY (juego_id) REFERENCES juegos(id) ON DELETE CASCADE,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
 );
 
