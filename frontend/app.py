@@ -6,12 +6,23 @@ BRAND = 'Ludoteca Vapor'
 
 @app.route('/')
 def index():
-    get_game()
-    return render_template('index.html', brand=BRAND)
 
-@app.route('/generic')
-def generic():
-    return render_template('generic.html', brand=BRAND)
+    game_ids = [440, 570, 730, 578080, 271590, 292030, 359550, 252490, 381210, 105600, 275850, 346110]
+    juegos = []
+    for game_id in game_ids:
+        juego = get_game(game_id)
+        if juego:
+            juegos.append(juego)
+
+    return render_template('index.html', brand=BRAND, juegos=juegos)
+
+@app.route('/juego/<int:game_id>', methods=['GET'])
+def generic(game_id):
+    juego = get_game(game_id)
+    if juego:
+        return render_template('generic.html', juego=juego, brand=BRAND)
+    else:
+        return print("Juego no encontrado"), 404
 
 @app.route('/login', methods=['GET'])
 def login():
@@ -22,12 +33,13 @@ def carrito():
     return render_template('carrito.html', brand=BRAND)
 
 
-def get_game():
-    response = requests.get("http://localhost:8080/games/440")
+def get_game(game_id):
+    response = requests.get(f"http://localhost:8080/games/{game_id}")
 
     if response.status_code == 200:
-        print(response.json())
-    
+        return response.json()
+    else:
+        return None
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)

@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 from mysql.connector import Error
 from backend.steam_service import get_all_games_data
