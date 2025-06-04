@@ -1,16 +1,16 @@
 import subprocess
-from backend.iniciar_db import main
+from backend.iniciar_db import init_db
 
-#a = subprocess.Popen(["python3", "backend/app.py"])
+a = subprocess.Popen(["python3", "backend/app.py"])
 
-#b = subprocess.Popen(["python3", "frontend/app.py"])
+b = subprocess.Popen(["python3", "frontend/app.py"])
 
 
 try:
-    main()
- #   a.wait()
-    #b.wait()
+    #init_db()
+    a.wait()
+    b.wait()
 except KeyboardInterrupt:
     print("Deteniendo servicios...")
-  #  a.terminate()
-    #b.terminate()
+    a.terminate()
+    b.terminate()

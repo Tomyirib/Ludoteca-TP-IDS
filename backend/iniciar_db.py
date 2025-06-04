@@ -103,23 +103,42 @@ def generar_insert_sql(connection, name, data):
         print(f"Se encontraron {error_count} errores durante la inserción.")
     cursor.close()
 
-def main():
+def clean_database(connection, db_name):
+    
+    if not connection or not connection.is_connected():
+        print("❌ No hay una conexión activa al servidor MySQL para limpiar la base de datos.")
+        return False
+
+    try:
+        with connection.cursor() as cursor: # Usamos un context manager para el cursor
+            # Encadenamos las sentencias en un solo bloque, separadas por ;
+            # y ejecutamos en un solo `execute` si el conector lo permite (MySQL Connector lo hace para DDL)
+            sql_script = f"""
+            DROP DATABASE IF EXISTS {db_name};
+            """
+            # El método `execute` puede manejar múltiples sentencias DDL separadas por ;
+            cursor.execute(sql_script)
+            
+            connection.commit() # Confirma todos los cambios
+            print(f"✅ Base de datos '{db_name}' limpia y recreada con éxito.")
+            return True
+
+    except Error as e:
+        print(f"❌ Error durante la limpieza y recreación de la base de datos '{db_name}': {e}")
+        connection.rollback() # Revertir si hay un error
+        return False
+
+def init_db():
     conn = None
     try:
         conn = connect_db()
         if conn:
-            # Ejecutar el script de inicialización de la DB
-            ejecutar_init_db(conn)
-
-            # --- Descomentar estas líneas cuando quieras insertar datos reales ---
-            # Asegúrate de que 'get_all_games_data()' devuelva una lista de diccionarios.
-            print("\nObteniendo datos de juegos...")
-            all_games_data = get_all_games_data()[0]# Esto debería devolver una lista de juegos
-            if all_games_data:
-            #    # Usar el primer elemento si get_all_games_data() devuelve una tupla/lista con los datos en [0]
-            #    # O simplemente 'all_games_data' si ya es la lista de juegos.
-            #    # Aquí asumo que la función get_all_games_data() devuelve directamente la lista de diccionarios.
-                generar_insert_sql(conn, "juegos", all_games_data)
+            if clean_database(conn, DB_CONFIG['database']):
+                ejecutar_init_db(conn)
+                print("\nObteniendo datos de juegos...")
+                all_games_data = get_all_games_data()[0]# Esto debería devolver una lista de juegos
+                if all_games_data:
+                    generar_insert_sql(conn, "juegos", all_games_data)
             else:
                 print("No se obtuvieron datos de juegos para insertar.")
             # -------------------------------------------------------------------
