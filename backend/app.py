@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import requests
-from steam_service import fetch_game_data
+from steam_service import fetch_game_data, get_all_games_data
 
 app = Flask(__name__)
 
@@ -11,6 +11,21 @@ def back():
 @app.route('/games/<int:game_id>', methods=['GET'])
 def get_game(game_id):
     return fetch_game_data(game_id)
+
+@app.route('/games', methods=['GET'])
+def get_games():
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 12))
+    all_games, _ = get_all_games_data()
+    total = len(all_games)
+    start = (page - 1) * per_page
+    end = start + per_page
+    return jsonify({
+        "games": all_games[start:end],
+        "total": total,
+        "page": page,
+        "per_page": per_page
+    })
 
 @app.route('/auth', methods=['POST'])
 def api_login():
