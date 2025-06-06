@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% include "cuadros.html" %}
+<br>
+<div class="pagination" style="justify-content: center;">
+    {% if page > 1 %}
+    <a href="{{ url_for('catalogo', page=page-1) }}">Anterior</a>
+    {% endif %}
+    <span> {{ page }} </span>
+    {% if page * per_page < total %} <a href="{{ url_for('catalogo', page=page+1) }}">Siguiente</a>
+        {% endif %}
+</div>
+
+{% endblock %}

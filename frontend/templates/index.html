@@ -4,32 +4,20 @@
 {% block content %}
 
 <div class="container mt-4 mb-5" style="width: 800px;">
-  {% include "carousel.html" %}
+	{% include "carousel.html" %}
 </div>
-<!-- Main -->
 
 <div id="main">
 	<div class="inner">
-		
+
 		<header>
 			<h1>{{ brand }}</h1>
 			<p>La mejor tienda de videojuegos online.</p>
 		</header>
-		<section class="tiles">
-			{% for juego in juegos %}
-			<article class="style{{ loop.cycle('1','2','3','4','5','6') }}">
-				<span class="image">
-					<img src="{{ juego.header_image }}" alt="{{ juego.name }}" />
-				</span>
-				<a href="{{ url_for('generic', game_id=juego.id) }}">
-					<h2>{{ juego.name }}</h2>
-					<div class="content">
-						<p>{{ juego.short_description or '' }}</p>
-					</div>
-				</a>
-			</article>
-			{% endfor %}
-		</section>
+	</div>
+	<div>
+		<h1 class="text-center">Novedades</h1>
+		{% include "cuadros.html" %}
 	</div>
 </div>
 
