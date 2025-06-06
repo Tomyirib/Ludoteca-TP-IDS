@@ -1,7 +1,7 @@
 import os
 import mysql.connector
 from mysql.connector import Error
-from backend.steam_service import get_all_games_data
+from steam_service import get_all_games_data
 import json
 
 DB_CONFIG = {
@@ -17,7 +17,7 @@ def connect_db():
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         if conn.is_connected():
-            print(f"Conexión exitosa a la base de datos '{DB_CONFIG['database']}'")
+            print(f"✅ Conexión exitosa a la base de datos '{DB_CONFIG['database']}'")
         return conn
     except Error as e:
         print(f"❌ Error al conectar a la base de datos: {e}")
