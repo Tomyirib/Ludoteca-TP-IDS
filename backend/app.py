@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 from steam_service import fetch_game_data
-from db_login import insert_user
+from db_login import insert_user, login
 
 app = Flask(__name__)
 
@@ -18,10 +18,19 @@ def api_login():
     if request.method == 'POST':
         if 'email_login' in request.form:
             email = request.form['email_login']
-            password = request.form['password_login']
-            if not all([email, password]):
+            contrasenia = request.form['password_login']
+
+            if not all([email, contrasenia]):
                 return jsonify({"error": "Faltan campos requeridos"}), 400
+            
+            result = login(email, contrasenia)
+
+            if result == True:
+                return jsonify({"mensaje": "Login exitoso"}), 201
+            else:
+                return jsonify({"error": "No se pudo completar el login"}), 500
         
+
         elif 'email_signup' in request.form:
             email = request.form['email_signup']
             contrasenia = request.form['password_signup']
