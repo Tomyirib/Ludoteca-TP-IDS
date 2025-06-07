@@ -1,0 +1,12 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql_ludoteca
+    # restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ludoteca
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
