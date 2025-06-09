@@ -1,3 +1,5 @@
+import sys
+sys.path.append('./backend')
 import subprocess
 from backend.iniciar_db import init_db
 
