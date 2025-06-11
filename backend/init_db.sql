@@ -25,6 +25,20 @@ CREATE TABLE IF NOT EXISTS juego_genero (
     PRIMARY KEY (id_juego, id_genero)
 );
 
+CREATE TABLE IF NOT EXISTS screenshots (
+    id_screenshot INT PRIMARY KEY AUTO_INCREMENT,
+    juego_id INT,
+    url TEXT,
+    FOREIGN KEY (juego_id) REFERENCES juegos(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS videos (
+    id_video INT PRIMARY KEY AUTO_INCREMENT,
+    juego_id INT,
+    url TEXT,
+    FOREIGN KEY (juego_id) REFERENCES juegos(id) ON DELETE CASCADE
+);
+
 -- Tabla de categorías
 CREATE TABLE IF NOT EXISTS categorias (
     id INTEGER UNIQUE PRIMARY KEY,
