@@ -9,7 +9,7 @@ b = subprocess.Popen(["python3", "frontend/app.py"])
 
 
 try:
-    #init_db()
+    init_db()
     a.wait()
     b.wait()
 except KeyboardInterrupt:
