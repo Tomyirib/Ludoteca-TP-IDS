@@ -24,7 +24,7 @@ def generic(game_id):
     else:
         return print("Juego no encontrado"), 404
 
-@app.route('/login', methods=['GET'])
+@app.route('/login')
 def login():
     return render_template('login.html', brand=BRAND)
 
