@@ -16,9 +16,9 @@
 				</div>
 				{% endif %}
 
-				{% for img in juego.screenshots [0:5]%}
+				{% for url in juego.screenshots [0:5]%}
 				<div class="carousel-item {% if not juego.videos and loop.first %}active{% endif %}">
-					<img src="{{ img.path_full }}" class="d-block w-100" alt="Screenshot {{ loop.index }}">
+					<img src="{{ url }}" class="d-block w-100" alt="Screenshot {{ loop.index }}">
 				</div>
 				{% endfor %}
 			</div>
@@ -35,15 +35,15 @@
 
 		<p><strong>Géneros:</strong></p>
 		<ul>
-			{% for gen in juego.genres %}
+			{% for gen in juego.generos %}
 			<li>{{ gen }}</li>
 			{% endfor %}
 		</ul>
 
 		<p><strong>Categorías:</strong></p>
 		<ul>
-			{% for cat in juego.category_ids %}
-			<li>{{ cat.description }}</li>
+			{% for cat in juego.categorias %}
+			<li>{{ cat }}</li>
 			{% endfor %}
 		</ul>
 	</div>
