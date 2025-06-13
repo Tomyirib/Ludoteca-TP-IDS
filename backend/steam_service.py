@@ -1,13 +1,10 @@
-import requests
+import requests, json
 
 # Lista de juegos a consultar
-GAME_IDS = [
-    440, 570, 730, 578080, 271590, 292030, 359550, 252490, 381210, 105600,
-    275850, 346110, 812140, 1091500, 1174180, 230410, 1085660, 1245620, 945360,
-    8930, 620, 400, 550, 10, 70, 80, 221100, 513710, 1222670, 1063730, 1604030,
-    1222140, 1716740, 289070, 1172620, 1811260, 552500, 108600, 703080, 1551360,
-    1250410, 1056960, 1938090, 1675200, 39210, 1623730, 1693980
-]
+def load_game_ids():
+    with open("backend/game_ids.json", "r") as file:
+        return json.load(file)
+GAME_IDS = load_game_ids()
 
 def fetch_game_data(app_id):
     url = f"https://store.steampowered.com/api/appdetails?appids={app_id}"
