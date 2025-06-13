@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/comunidad.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="main">
+    <div class="inner">
+        <h1>Comunidad</h1>
+
+        <div class="comunidad-container">
+            {% include 'comentarios.html' %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

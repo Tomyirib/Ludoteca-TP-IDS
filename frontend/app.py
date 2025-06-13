@@ -50,5 +50,18 @@ def get_game(game_id):
     else:
         return None
 
+@app.route('/comunidad')
+def comunidad():
+    # dummy-data:
+    comentario_1={"comentario_id":1,"usuario_id":41,"usuario_username":"The Viper","usuario_avatar":"pic10.jpg","juego_id":404,"juego_nombre":"Balatro","comentario_texto":"Este juego esta buenisimo, no veo la hora de jugarlo!","juego_imagen_cabecera":"pic01.jpg","comentario_timestamp":"2025-10-23 15:32"}
+    comentario_2={"comentario_id":2,"usuario_id":17,"usuario_username":"BadBunny69","usuario_avatar":"pic11.jpg","juego_id":404,"juego_nombre":"CS:GO 2","juego_imagen_cabecera":"pic02.jpg","comentario_texto":"Ahhh! No me anda el mouse :'(","comentario_timestamp":"2025-11-12 11:24"}
+    comentario_3={"comentario_id":3,"usuario_id":37,"usuario_username":"Tercero","usuario_avatar":"pic13.jpg","juego_id":242,"juego_nombre":"Age of Empires II","juego_imagen_cabecera":"pic03.jpg","comentario_texto":"Wololo!","comentario_timestamp":"2025-04-04 01:34"}
+    comentarios_recientes=[comentario_1, comentario_2, comentario_3]
+    # comentarios = obtener_comentarios_recientes()
+    # masComentados = obtener_juegos_comentados()
+    # if user.logeado == true:
+        # comentarios_usuario = obtener_comentarios_usuario()
+    return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
