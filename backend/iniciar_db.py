@@ -188,3 +188,6 @@ def populate_tables(conn, all_games_data):
                 )
     conn.commit()
     cursor.close()
+    
+if __name__ == "__main__":
+    init_db()

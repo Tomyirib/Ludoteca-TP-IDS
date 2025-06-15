@@ -2968,7 +2968,7 @@ body.is-touch .tiles article .content {
 /* Header */
 
 #header {
-	padding: 8em 0 0.1em 0;
+	padding: 2em 0 0.1em 0;
 }
 
 #header .logo {
@@ -2976,7 +2976,7 @@ body.is-touch .tiles article .content {
 	border-bottom: 0;
 	color: inherit;
 	font-weight: 900;
-	letter-spacing: 0.35em;
+	letter-spacing: 0.20em;
 	margin: 0 0 2.5em 0;
 	text-decoration: none;
 	text-transform: uppercase;
