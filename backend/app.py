@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 import requests
-from steam_service import fetch_game_data
+from steam_service import fetch_game_data, get_all_games_data
 from db_login import insert_user, login
+from iniciar_db import connect_db as get_db_connection
 
 app = Flask(__name__)
 
@@ -11,7 +12,68 @@ def back():
 
 @app.route('/games/<int:game_id>', methods=['GET'])
 def get_game(game_id):
-    return fetch_game_data(game_id)
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM juegos WHERE id = %s", (game_id,))
+    juego = cursor.fetchone()
+
+    cursor.execute("""
+        SELECT g.descripcion FROM generos g
+        JOIN juego_genero jg ON g.id_genero = jg.id_genero
+        WHERE jg.id_juego = %s
+    """, (game_id,))
+    generos = [row["descripcion"] for row in cursor.fetchall()]
+
+    cursor.execute("""
+        SELECT c.descripcion FROM categorias c
+        JOIN juego_categoria jc ON c.id = jc.categoria_id
+        WHERE jc.juego_id = %s
+    """, (game_id,))
+    categorias = [row["descripcion"] for row in cursor.fetchall()]
+
+    cursor.execute("SELECT url FROM screenshots WHERE juego_id = %s", (game_id,))
+    screenshots = [row["url"] for row in cursor.fetchall()]
+
+    cursor.execute("SELECT url FROM videos WHERE juego_id = %s", (game_id,))
+    videos = [row["url"] for row in cursor.fetchall()]
+
+    cursor.close()
+    conn.close()
+
+    if not juego:
+        return jsonify({"error": "Juego no encontrado"}), 404
+
+    juego["generos"] = generos
+    juego["categorias"] = categorias
+    juego["screenshots"] = screenshots
+    juego["videos"] = videos
+
+    return jsonify(juego)
+
+
+@app.route('/games', methods=['GET'])
+def get_games():
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 12))
+    offset = (page - 1) * per_page
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM juegos LIMIT %s OFFSET %s", (per_page, offset))
+    juegos = cursor.fetchall()
+
+    cursor.execute("SELECT COUNT(*) as total FROM juegos")
+    total = cursor.fetchone()["total"]
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({
+        "games": juegos,
+        "total": total,
+        "page": page,
+        "per_page": per_page
+    })
 
 @app.route('/auth', methods=['POST'])
 def api_login():

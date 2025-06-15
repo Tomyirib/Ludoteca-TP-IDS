@@ -2,11 +2,13 @@
 
   <div class="carousel-inner">
     {% for juego in juegos[:4] %}
-      <div class="carousel-item {% if loop.first %}active{% endif %}">
+    <div class="carousel-item {% if loop.first %}active{% endif %}">
+      <a href="{{ url_for('generic', game_id=juego.id) }}">
         <img src="{{ juego.header_image }}" class="d-block w-100" alt="{{ juego.name }}">
-        <div class="carousel-caption d-none d-md-block">
-        </div>
+      </a>
+      <div class="carousel-caption d-none d-md-block">
       </div>
+    </div>
     {% endfor %}
   </div>
 
@@ -18,5 +20,5 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Siguiente</span>
   </button>
-  
+
 </div>

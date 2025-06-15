@@ -32,6 +32,15 @@ def login():
 def carrito():
     return render_template('carrito.html', brand=BRAND)
 
+@app.route('/catalogo')
+def catalogo():
+    page = int(request.args.get('page', 1))
+    per_page = 12
+    response = requests.get(f"http://localhost:8080/games?page={page}&per_page={per_page}")
+    data = response.json()
+    juegos = data["games"]
+    total = data["total"]
+    return render_template('catalogo.html', juegos=juegos, page=page, total=total, per_page=per_page, brand=BRAND)
 
 def get_game(game_id):
     response = requests.get(f"http://localhost:8080/games/{game_id}")

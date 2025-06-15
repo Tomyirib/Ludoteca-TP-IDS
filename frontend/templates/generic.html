@@ -2,50 +2,49 @@
 
 {% block content %}
 
-<!-- Main -->
 <div id="main">
 	<div class="inner">
 		<h1>{{ juego.name }}</h1>
-			<div id="gameCarousel" class="carousel slide mb-4" data-bs-ride="false">
-  				<div class="carousel-inner">
-    			{% if juego.videos %}
-    			<div class="carousel-item active">
-     				<video class="d-block w-100" controls>
-        				<source src="{{ juego.videos[0] }}" type="video/mp4">
-        				Tu navegador no soporta video.
-      				</video>
-    			</div>
-    			{% endif %}
+		<div id="gameCarousel" class="carousel slide mb-4" data-bs-ride="false">
+			<div class="carousel-inner">
+				{% if juego.videos %}
+				<div class="carousel-item active">
+					<video class="d-block w-100" controls>
+						<source src="{{ juego.videos[0] }}" type="video/mp4">
+						Tu navegador no soporta video.
+					</video>
+				</div>
+				{% endif %}
 
-    			{% for img in juego.screenshots [0:5]%}
-    				<div class="carousel-item {% if not juego.videos and loop.first %}active{% endif %}">
-      					<img src="{{ img.path_full }}" class="d-block w-100" alt="Screenshot {{ loop.index }}">
-    				</div>
-   				 {% endfor %}
-  				</div>
-
-  				<button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
-   					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    			</button>
-    			<button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
-    				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-    			</button>
+				{% for url in juego.screenshots [0:5]%}
+				<div class="carousel-item {% if not juego.videos and loop.first %}active{% endif %}">
+					<img src="{{ url }}" class="d-block w-100" alt="Screenshot {{ loop.index }}">
+				</div>
+				{% endfor %}
 			</div>
+
+			<button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			</button>
+		</div>
 		<p><strong>Descripción:</strong> {{ juego.description }}</p>
 		<p><strong>Precio:</strong> {{ juego.price }}</p>
 
 		<p><strong>Géneros:</strong></p>
 		<ul>
-  		{% for gen in juego.genres %}
- 			<li>{{ gen }}</li>
- 		{% endfor %}
+			{% for gen in juego.generos %}
+			<li>{{ gen }}</li>
+			{% endfor %}
 		</ul>
 
 		<p><strong>Categorías:</strong></p>
 		<ul>
- 			{% for cat in juego.category_ids %}
- 			<li>{{ cat.description }}</li>
- 			{% endfor %}
+			{% for cat in juego.categorias %}
+			<li>{{ cat }}</li>
+			{% endfor %}
 		</ul>
 	</div>
 </div>

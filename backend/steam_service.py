@@ -2,7 +2,11 @@ import requests
 
 # Lista de juegos a consultar
 GAME_IDS = [
-    440, 570, 730
+    440, 570, 730, 578080, 271590, 292030, 359550, 252490, 381210, 105600,
+    275850, 346110, 812140, 1091500, 1174180, 230410, 1085660, 1245620, 945360,
+    8930, 620, 400, 550, 10, 70, 80, 221100, 513710, 1222670, 1063730, 1604030,
+    1222140, 1716740, 289070, 1172620, 1811260, 552500, 108600, 703080, 1551360,
+    1250410, 1056960, 1938090, 39210, 1623730, 1693980
 ]
 
 def fetch_game_data_for_database(app_id):
@@ -24,13 +28,20 @@ def fetch_game_data_for_database(app_id):
             "description": data.get("short_description"),
             "website": data.get("website"),
             "header_image": data.get("header_image"),
-            #"screenshots": data.get("screenshots", []),
             "price": data.get("price_overview", {}).get("final_formatted", "Gratis"),
-            #"genres": [g["description"] for g in data.get("genres", [])],
-            #"category_ids": data.get("categories"),
-            #"videos": [m.get("mp4", {}).get("max") for m in data.get("movies", []) if m.get("mp4")]
         }
-    return game_info
+    genres = data.get("genres") or []
+    categories = data.get("categories") or []
+    screenshots = data.get("screenshots") or []
+    videos = data.get("movies") or []
+
+    return {
+        "game_info": game_info,
+        "genres": genres,
+        "categories": categories,
+        "screenshots": screenshots,
+        "videos": videos
+    }
 
 def fetch_game_data(app_id):
     url = f"https://store.steampowered.com/api/appdetails?appids={app_id}"
@@ -51,11 +62,11 @@ def fetch_game_data(app_id):
             "description": data.get("short_description"),
             "website": data.get("website"),
             "header_image": data.get("header_image"),
-            "screenshots": data.get("screenshots", []),
+            "screenshots": data.get("screenshots", []) or [],
             "price": data.get("price_overview", {}).get("final_formatted", "Gratis"),
-            "genres": [g["description"] for g in data.get("genres", [])],
-            "category_ids": data.get("categories"),
-            "videos": [m.get("mp4", {}).get("max") for m in data.get("movies", []) if m.get("mp4")]
+            "genres": [g["description"] for g in (data.get("genres") or [])],
+            "category_ids": data.get("categories", []) or [],
+            "videos": [m.get("mp4", {}).get("max") for m in (data.get("movies") or []) if m.get("mp4")]
         }
     return game_info
 
@@ -67,11 +78,6 @@ def get_all_games_data():
         data = fetch_game_data_for_database(app_id)
         if not data:
             continue
-
-        #for cat in data.get("categories", []):
-        #    categories_map[cat["id"]] = cat["description"]
-
-    
         games.append(data)
     
 

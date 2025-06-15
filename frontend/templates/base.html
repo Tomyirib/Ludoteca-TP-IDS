@@ -19,7 +19,6 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart" />
     <style>
-
         .material-symbols-outlined {
             font-variation-settings:
                 'FILL' 0,
@@ -28,24 +27,28 @@
                 'opsz' 24;
             font-family: 'Material Symbols Outlined';
         }
+
         .carousel-control-prev,
         .carousel-control-next {
             box-shadow: none !important;
-            background: rgba(0,0,0,0);
-            width: 10%;                  
+            background: rgba(0, 0, 0, 0);
+            width: 10%;
             top: 0;
             bottom: 0;
-            height: 95%;                
-            border-radius: 0;           
+            height: 95%;
+            border-radius: 0;
         }
+
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
             width: 3rem;
-            height: 3rem; 
+            height: 3rem;
         }
+
         .carousel-control-prev {
             left: 0;
         }
+
         .carousel-control-next {
             right: 0;
         }
@@ -81,6 +84,7 @@
             <h2>Menu</h2>
             <ul>
                 <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('catalogo') }}">Catálogo</a></li>
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 <li><a href="{{ url_for('carrito') }}"><span class="material-symbols-outlined"
                             style="font-size: 36px">shopping_cart</span></a></li>
