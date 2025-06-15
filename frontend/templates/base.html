@@ -61,6 +61,7 @@
     <div id="wrapper">
 
         <!-- Header -->
+        {% block header %}
         <header id="header">
             <div class="inner">
 
@@ -79,8 +80,9 @@
 
             </div>
         </header>
-
+        {% endblock %}
         <!-- Menu -->
+        {% block menu %}
         <nav id="menu">
             <h2>Menu</h2>
             <ul>
@@ -91,6 +93,7 @@
                             style="font-size: 36px">shopping_cart</span></a></li>
             </ul>
         </nav>
+        {% endblock %}
         <!-- Main -->
         {% block content %}
 
@@ -99,7 +102,8 @@
         {% endblock %}
 
         <!-- Footer -->
-        <!--<footer id="footer">
+        {% block footer %}
+        <footer id="footer">
             <div class="inner">
                 <section>
                     <h2>Contactanos</h2>
@@ -142,8 +146,8 @@
                     <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
                 </ul>
             </div>
-        </footer>-->
-
+        </footer>
+        {% endblock %}
     </div>
 
     <!-- Scripts -->
