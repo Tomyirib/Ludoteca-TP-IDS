@@ -1,96 +1,62 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
 {% block footer %}{% endblock %}
+
 {% block content %}
-<html lang="en">
+<div class="form">
+  <h1 id="login-title">{{ brand }}</h1>
+  <ul class="tab-group">
+    <li class="tab active"><a class="a-login" href="#signup">Registrarse</a></li>
+    <li class="tab"><a class="a-login" href="#login">Iniciar sesión</a></li>
+  </ul>
 
-<head>
-  <meta charset="UTF-8">
-  <title>{{ brand }} - Login</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-</head>
-
-<body class="body-login">
-
-  
-  <div class="form">
-    <h1 id="login-title">{{ brand }}</h1>
-    <ul class="tab-group">
-      <li class="tab active"><a class="a-login" href="#signup">Registrarse</a></li>
-      <li class="tab"><a class="a-login" href="#login">Iniciar sesion</a></li>
-    </ul>
-
-    <div class="tab-content">
-
-      <div id="signup">
-        <h1 class="login-h1">Registrarse</h1>
-
-        <form action="http://localhost:8080/auth" method="POST">
-          <div class="top-row">
-            <div class="field-wrap">
-              <label class="login-label">
-                Nombre<span class="req"></span>
-              </label>
-              <input class="login-input" type="text" name="first_name" required autocomplete="off" />
-            </div>
-
-            <div class="field-wrap">
-              <label class="login-label">
-                Apellido<span class="req"></span>
-              </label>
-              <input class="login-input" type="text" name="last_name" required autocomplete="off" />
-            </div>
-          </div>
-
+  <div class="tab-content">
+    <div id="signup">
+      <h1 class="login-h1">Registrarse</h1>
+      <form action="/auth" method="POST">
+        <div class="top-row">
           <div class="field-wrap">
-            <label class="login-label">
-              Correo electronico<span class="req"></span>
-            </label>
-            <input class="login-input" type="email" name="email_signup" required autocomplete="off" />
+            <label class="login-label">Nombre</label>
+            <input class="login-input" type="text" name="first_name" required />
           </div>
-
           <div class="field-wrap">
-            <label class="login-label">
-              Contraseña<span class="req"></span>
-            </label>
-            <input class="login-input" type="password" name="password_signup" required autocomplete="off" />
+            <label class="login-label">Apellido</label>
+            <input class="login-input" type="text" name="last_name" required />
           </div>
+        </div>
 
-          <button type="submit" id="boton-login" class="login-button login-button-block">Acceder</button>
-        </form>
-      </div>
+        <div class="field-wrap">
+          <label class="login-label">Correo electrónico</label>
+          <input class="login-input" type="email" name="email_signup" required />
+        </div>
 
-      <div id="login">
-        <h1 class="login-h1">Inicio de sesion</h1>
+        <div class="field-wrap">
+          <label class="login-label">Contraseña</label>
+          <input class="login-input" type="password" name="password_signup" required />
+        </div>
 
-        <form action="http://localhost:8080/auth" method="post">
-          <div class="field-wrap">
-            <label class="login-label">Correo electronico
-              <span class="req">
-              </span>
-            </label>
-            <input class="login-input" type="email" name="email_login" required autocomplete="off" />
-          </div>
+        <button type="submit" class="login-button login-button-block">Acceder</button>
+      </form>
+    </div>
 
-          <div class="field-wrap">
-            <label class="login-label">
-              Contraseña<span class="req"></span>
-            </label>
-            <input class="login-input" type="password" name="password_login" required autocomplete="off" />
-          </div>
+    <div id="login">
+      <h1 class="login-h1">Inicio de sesión</h1>
+      <form action="/auth" method="post">
+        <div class="field-wrap">
+          <label class="login-label">Correo electrónico</label>
+          <input class="login-input" type="email" name="email_login" required />
+        </div>
 
-          <p class="forgot"><a class="a-login" href="#">Olvidaste tu constraseña?</a></p>
+        <div class="field-wrap">
+          <label class="login-label">Contraseña</label>
+          <input class="login-input" type="password" name="password_login" required />
+        </div>
 
-          <button type="submit" class="login-button login-button-block">Ingresar</button>
-        </form>
-      </div>
-
+        <p class="forgot"><a class="a-login" href="#">¿Olvidaste tu contraseña?</a></p>
+        <button type="submit" class="login-button login-button-block">Ingresar</button>
+      </form>
     </div>
   </div>
-  </div>
+</div>
 
-  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
-
-</body>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}
-</html>

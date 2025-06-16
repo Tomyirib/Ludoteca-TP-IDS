@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="container mt-4 mb-5" style="width: 800px;">
+<div class="container mt-4 mb-5" style="width: 900px;">
 	{% include "carousel.html" %}
 </div>
 
@@ -11,12 +11,12 @@
 	<div class="inner">
 
 		<header>
-			<h1>{{ brand }}</h1>
-			<p>La mejor tienda de videojuegos online.</p>
+			<h1 class="brand-titl">{{ brand }}</h1>
+			<p class="brand-subtitl">La mejor tienda de videojuegos online.</p>
 		</header>
 	</div>
 	<div>
-		<h1 class="text-center">Novedades</h1>
+		<h4 class="text-center">Novedades</h4>
 		{% include "cuadros.html" %}
 	</div>
 </div>
