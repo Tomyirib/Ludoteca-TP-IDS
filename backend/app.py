@@ -2,9 +2,12 @@ from flask import Flask, request, jsonify
 import requests
 from steam_service import fetch_game_data, get_all_games_data
 from db_login import insert_user, login
+from routes.comentarios import comentarios_bp
 from iniciar_db import connect_db as get_db_connection
 
 app = Flask(__name__)
+
+app.register_blueprint(comentarios_bp, url_prefix="/comentarios")
 
 @app.route('/')
 def back():
@@ -84,14 +87,14 @@ def api_login():
 
             if not all([email, contrasenia]):
                 return jsonify({"error": "Faltan campos requeridos"}), 400
-            
+
             result = login(email, contrasenia)
 
             if result == True:
                 return jsonify({"mensaje": "Login exitoso"}), 201
             else:
                 return jsonify({"error": "No se pudo completar el login"}), 500
-        
+
 
         elif 'email_signup' in request.form:
             email = request.form['email_signup']
@@ -101,7 +104,7 @@ def api_login():
 
             if not all([email, contrasenia, first_name, last_name]):
                 return jsonify({'error': 'Faltan campos requeridos'}), 400
-            
+
             result = insert_user(email, contrasenia, first_name, last_name)
             if result == "duplicado":
                 return jsonify({"error": "El usuario ya está registrado"}), 409

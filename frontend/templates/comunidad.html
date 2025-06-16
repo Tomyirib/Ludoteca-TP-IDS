@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/comunidad.css') }}">
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/comunidad.css') }}">
 <div id="main">
     <div class="inner">
         <h1>Comunidad</h1>
@@ -11,9 +11,47 @@
         <div class="comunidad-container">
             {% include 'comentarios.html' %}
         </div>
+
+        <!-- starting here -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/comentarios.css') }}">
+
+        <section class="comunidad-section">
+            <h2 class="comunidad-header">Mis Comentarios</h2>
+            <div class="comunidad-content">
+                {% if my_dict %}
+                {# Dictionary is not empty #}
+                {% for c in comentarios_usuario %}
+                <div class="comentario">
+                    <div class="comentario-layout">
+                        <div class="comentario-juego">
+                            <img class="juego-imagen" src={{ c.juego_imagen }} alt={{ c.juego_nombre }}>
+                            <div class="juego-nombre"><a href="{{url_for('generic', game_id=c.juego_id)}}">{{ c.juego_nombre }}</a></div>
+                        </div>
+                        <div class="comentario-body">
+                            <p class="comentario-texto">
+                                {{ c.comentario_texto }}
+                            </p>
+                            <div class="timestamp">{{ c.comentario_timestamp }}</div>
+                        </div>
+                        <div class="comentario-borrar">
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                {# Dictionary is empty #}
+                <p>No tienes Comentarios</p>
+                {% endif %}
+            </div>
+        </section>
+        <!-- ending here  -->
+
+
     </div>
 
 </div>
+
 
 
 {% endblock %}

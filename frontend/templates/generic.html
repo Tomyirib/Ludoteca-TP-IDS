@@ -54,6 +54,12 @@
 			{% endfor %}
 		</ul>
 
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/comunidad.css') }}">
+		<div class="comunidad-container">
+			{% include 'dejar_comentario.html' %}
+            {% include 'comentarios.html' %}
+        </div>
+
 	</div>
 </div>
 

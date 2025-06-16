@@ -1,0 +1,39 @@
+{# {% if session.offline %} #}
+{# Usuario no logueado #}
+{# <p>Inicia sesion para poder comentar</p> #}
+{# {% else %} #}
+{# Sesion Iniciada #}
+{# <p>Dejar Comentario</p> #}
+{# {% endif %} #}
+
+<section class="comunidad-section">
+    <h2 class="comunidad-header">Comentar</h2>
+
+    <div class="comunidad-content">
+        <div class="comentario">
+            <div class="comentario-layout">
+                <div class="comentario-juego">
+                    {# <img class="juego-imagen" src={{ juego.header_image }} alt={{ juego.name }}> #}
+                    {# <div class="juego-nombre">{{ juego.name }}</div> #}
+                </div>
+
+                <div class="comentario-body">
+                    <p class="comentario-texto">{{ juego.name }}</p>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field">
+                                <textarea name="message" id="message" placeholder="Deja tu comentario...."></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Enviar" class="primary" /></li>
+                        </ul>
+                    </form>
+                </div>
+
+                <div class="comentario-submit">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
