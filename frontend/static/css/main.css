@@ -4223,16 +4223,16 @@ body:not(.is-touch) .tiles article>a:hover .image:after {
     right: 0;
 }
 body {
-    background-color: #1b2838; /* Azul oscuro estilo Steam */
-	color: #c7d5e0; /* Texto claro legible */
+    background-color: #1b2838; 
+	color: #c7d5e0; 
 }
 
 a {
-    color: #66c0f4; /* Color de enlaces estilo Steam */
+    color: #66c0f4; 
 }
 
 header, footer {
-    background-color: #1b2838; /* Un tono aún más oscuro para header/footer */
+    background-color: #1b2838; 
 }
 .logo .title {
     color: #66c0f4;
@@ -4242,11 +4242,11 @@ header, footer {
     background-color: #1b2838;
     color: #c7d5e0;
 }
-/* Logo */
+
 .logo .title {
     color: #66c0f4;
 }
-/* Menú desplegable (menú hamburguesa) */
+
 #menu {
     background-color: #171a21;
     color: #c7d5e0;
@@ -4260,14 +4260,14 @@ header, footer {
 #menu a:hover {
     color: #66c0f4;
 }
-/* Íconos del footer */
+
 #footer .icons a {
     color: #66c0f4;
 }
 #footer .icons a:hover {
     color: #ffffff;
 }
-/* Formularios en el footer si los usás */
+
 #footer input,
 #footer textarea {
     background-color: #1b2838;
@@ -4280,8 +4280,8 @@ header, footer {
     border-color: #66c0f4;
 }
 .brand-titl, .brand-subtitl {
-    background-color: #171a21; /* O el color que quieras */
-    color: #c7d5e0; /* Color claro estilo Steam */
+    background-color: #171a21; 
+    color: #c7d5e0; 
     margin: 0;
     padding: 0;
 }
@@ -4294,21 +4294,18 @@ body,
   color: #c7d5e0;
 }
 
-/* Texto principal */
 #login-title,
 .login-h1,
 .login-label {
   color: #c7d5e0;
 }
 
-/* Campos de entrada */
 .login-input {
   background-color: #2a475e;
   color: #c7d5e0;
   border: 1px solid #1b2838;
 }
 
-/* Botones */
 .login-button {
   background-color: #66c0f4;
   color: #0e1c25;
@@ -4319,7 +4316,6 @@ body,
   background-color: #417a9b;
 }
 
-/* Enlaces */
 .a-login {
   color: #66c0f4;
   text-decoration: none;
@@ -4330,7 +4326,6 @@ body,
   text-decoration: underline;
 }
 
-/* Fondo de contenedor del formulario (si querés que coincida) */
 .form {
   background-color: #1b2838;
   color: #c7d5e0;
