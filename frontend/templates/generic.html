@@ -5,34 +5,45 @@
 <div id="main">
 	<div class="inner">
 		<h1 class="game-title-main">{{ juego.name }}</h1>
-		<div id="gameCarousel" class="carousel slide mb-4" data-bs-ride="false">
-			<div class="carousel-inner">
-				{% if juego.videos %}
-				<div class="carousel-item active">
-					<video class="d-block w-100" controls>
-						<source src="{{ juego.videos[0] }}" type="video/mp4">
-						Tu navegador no soporta video.
-					</video>
-				</div>
-				{% endif %}
+		<div class="d-flex justify-content-center">
+			<div id="gameCarousel" class="carousel slide mb-4" data-bs-ride="false" style="max-width: 1200px;">
+				<div class="carousel-inner">
+					{% if juego.videos %}
+					<div class="carousel-item active">
+						<video class="d-block w-100" controls>
+							<source src="{{ juego.videos[0] }}" type="video/mp4">
+							Tu navegador no soporta video.
+						</video>
+					</div>
+					{% endif %}
 
-				{% for url in juego.screenshots [0:5]%}
-				<div class="carousel-item {% if not juego.videos and loop.first %}active{% endif %}">
-					<img src="{{ url }}" class="d-block w-100" alt="Screenshot {{ loop.index }}">
+					{% for url in juego.screenshots [0:5]%}
+					<div class="carousel-item {% if not juego.videos and loop.first %}active{% endif %}">
+						<img src="{{ url }}" class="d-block w-100" alt="Screenshot {{ loop.index }}">
+					</div>
+					{% endfor %}
 				</div>
-				{% endfor %}
+
+				<button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				</button>
 			</div>
-
-			<button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			</button>
 		</div>
 		<p>{{ juego.description }}</p>
-		<p class="sub-titles"><strong>Precio:</strong> {{ juego.price }}</p>
-
+		<p class="sub-titles">
+			<strong>Precio:</strong> {{ juego.price }}
+			{% if session.user_id %}
+		<form action="{{ url_for('add') }}" method="post">
+			<input type="hidden" name="game_id" value="{{ juego.id }}">
+			<button type="submit" class="cart-button">Añadir al carrito</button>
+		</form>
+		{% else %}
+		<a href="{{ url_for('login') }}" class="cart-button">Inicia sesión para añadir al carrito</a>
+		{% endif %}
+		</p>
 		<p class="sub-titles"><strong>Géneros y Categorías</strong></p>
 		<ul class="list">
 			{% for gen in juego.generos %}
