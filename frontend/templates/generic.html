@@ -4,7 +4,7 @@
 
 <div id="main">
 	<div class="inner">
-		<h1>{{ juego.name }}</h1>
+		<h1 class="text-center sub-titles">{{ juego.name }}</h1>
 		<div id="gameCarousel" class="carousel slide mb-4" data-bs-ride="false">
 			<div class="carousel-inner">
 				{% if juego.videos %}
@@ -30,22 +30,19 @@
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			</button>
 		</div>
-		<p><strong>Descripción:</strong> {{ juego.description }}</p>
-		<p><strong>Precio:</strong> {{ juego.price }}</p>
+		<p>{{ juego.description }}</p>
+		<p class="sub-titles"><strong>Precio:</strong> {{ juego.price }}</p>
 
-		<p><strong>Géneros:</strong></p>
-		<ul>
+		<p class="sub-titles"><strong>Géneros y Categorías</strong></p>
+		<ul class="list">
 			{% for gen in juego.generos %}
 			<li>{{ gen }}</li>
 			{% endfor %}
-		</ul>
-
-		<p><strong>Categorías:</strong></p>
-		<ul>
 			{% for cat in juego.categorias %}
 			<li>{{ cat }}</li>
 			{% endfor %}
 		</ul>
+
 	</div>
 </div>
 
