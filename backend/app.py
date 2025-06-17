@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 import requests
 from steam_service import fetch_game_data, get_all_games_data
 from db_login import insert_user, login
-from routes.comentarios import comentarios_bp
 from iniciar_db import connect_db as get_db_connection
+from routes.comentarios import comentarios_bp
 
 app = Flask(__name__)
 

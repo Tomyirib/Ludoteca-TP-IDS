@@ -5,7 +5,7 @@
 {# Sesion Iniciada #}
 {# <p>Dejar Comentario</p> #}
 {# {% endif %} #}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/comentarios.css') }}">
 <section class="comunidad-section">
     <h2 class="comunidad-header">Comentar</h2>
 
@@ -18,8 +18,8 @@
                 </div>
 
                 <div class="comentario-body">
-                    <p class="comentario-texto">{{ juego.name }}</p>
-                    <form method="post" action="#">
+                    {# <p class="comentario-texto">{{ juego.name }}</p> #}
+                    <form class="comentario-texto"method="post" action="">
                         <div class="fields">
                             <div class="field">
                                 <textarea name="message" id="message" placeholder="Deja tu comentario...."></textarea>
