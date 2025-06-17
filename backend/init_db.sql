@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS comentarios (
     juego_id INT NOT NULL,
     comentario_texto VARCHAR(511) NOT NULL,
     comentario_timestamp DATETIME NOT NULL,
-    FOREIGN KEY (comentario_id)
+    FOREIGN KEY (usuario_id)
         REFERENCES usuario(id_usuario)
         ON DELETE CASCADE,
     FOREIGN KEY (juego_id)

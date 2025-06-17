@@ -19,10 +19,11 @@
 
                 <div class="comentario-body">
                     {# <p class="comentario-texto">{{ juego.name }}</p> #}
-                    <form class="comentario-texto"method="post" action="">
+                    <form class="comentario-texto" method="post" action="/post_comentario">
                         <div class="fields">
                             <div class="field">
-                                <textarea name="message" id="message" placeholder="Deja tu comentario...."></textarea>
+                                <textarea name="comentario_texto" id="message" placeholder="Deja tu comentario...."></textarea>
+                                <input type="hidden" name="juego_id" value="{{ juego.id }}">
                             </div>
                         </div>
                         <ul class="actions">

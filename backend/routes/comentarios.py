@@ -1,5 +1,5 @@
 # Create Blueprint
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 # import dependencies
 from iniciar_db import connect_db
@@ -10,7 +10,7 @@ comentarios_bp = Blueprint("comentarios", __name__)
 # Queries
 QUERY_RECIENTES = "SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username, juegos.id AS juego_id, juegos.name AS juego_nombre, comentarios.comentario_texto, juegos.header_image AS juego_imagen, comentarios.comentario_timestamp FROM comentarios INNER JOIN usuario ON comentarios.usuario_id=usuario.id_usuario INNER JOIN juegos ON comentarios.juego_id=juegos.id ORDER BY comentario_timestamp LIMIT 10"
 QUERY_JUEGO = "SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username, juegos.id AS juego_id, juegos.name AS juego_nombre, comentarios.comentario_texto, juegos.header_image AS juego_imagen, comentarios.comentario_timestamp FROM comentarios INNER JOIN usuario ON comentarios.usuario_id=usuario.id_usuario INNER JOIN juegos ON comentarios.juego_id=juegos.id WHERE comentarios.juego_id = %s ORDER BY comentario_timestamp"
-
+INSERT_COMENTARIO = "INSERT INTO comentarios (usuario_id, juego_id, comentario_texto, comentario_timestamp) VALUES (%s, %s, %s, CURRENT_TIMESTAMP)"
 
 # Create the routes
 
@@ -26,7 +26,7 @@ def get_comentarios_recientes():
     cursor.close()
     conn.close()
     if not comentarios:
-        return ("No hay comentarios recientes", 404)
+        return ("No hay comentarios recientes", 204)
     return jsonify(comentarios)
 
 
@@ -40,5 +40,26 @@ def get_comentarios_juego(juego_id):
     cursor.close()
     conn.close()
     if not comentarios:
-        return (("No hay comentarios del juego %d", juego_id), 404)
+        return ("No hay comentarios para este juego", 204)
     return jsonify(comentarios)
+
+# Subir comentario a base de datos
+@comentarios_bp.route("/ingresar_comentario", methods=["POST"])
+def ingresar_comentario():
+    # conneccion a db
+    conn = connect_db()
+    cursor = conn.cursor(dictionary=True)
+
+    # armar Query con informacion recibida
+    data = request.form.to_dict()
+    usuario_id = int(data.get("usuario_id").strip())
+    juego_id = int(data.get("juego_id").strip())
+    comentario_texto = data.get("comentario_texto").strip()
+
+    # execute, commit and close
+    cursor.execute(INSERT_COMENTARIO, (usuario_id, juego_id, comentario_texto))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return ("Comentario ingresado correctamente", 201)

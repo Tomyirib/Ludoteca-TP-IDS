@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import requests
 
 app = Flask(__name__)
@@ -69,6 +69,24 @@ def comunidad():
     comentarios_recientes = obtener_comentarios_recientes()
     # comentarios_usuario = obtener_comentarios_usuario()
     return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes)
+
+@app.route('/post_comentario', methods=["POST"])
+def post_comentario():
+    comentario_data = request.form.to_dict()
+    # Ver si session esta iniciada
+    # Si no hay usuario en session flash error
+    # Armar comentario con informacion de session
+    comentario_data["usuario_id"] = "1"
+    redirect_id = int(request.form["juego_id"])
+    # Request al API
+    response = requests.post(f"{API_BASE}/comentarios/ingresar_comentario", comentario_data)
+    # Si error en API
+    if response.status_code == 500:
+        # Flash error
+        return print("No se pudo ingresar comentario desde backend"), 500
+
+    # si todo bien, redirijo a la misma pagina
+    return redirect(url_for('generic', game_id=redirect_id))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
