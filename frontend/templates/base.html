@@ -29,13 +29,14 @@
         {% block header %}
         <header id="header">
             <div class="inner">
-
+                
+                
                 <!-- Logo -->
                 <a href="{{ url_for('index') }}" class="logo">
                     <span class="symbol"><img src="{{ url_for('static', filename='/images/logo.svg', _external=True) }}"
                             alt="" /></span><span class="title">{{ brand }}</span>
                 </a>
-
+                
                 <!-- Nav -->
                 {% block nav %}
                 <nav>
@@ -52,11 +53,19 @@
         <nav id="menu">
             <h2>Menu</h2>
             <ul>
+                {% if nombre %}
+                    <p>Bienvenido, {{ nombre }}!</p>
+                    <button id="logoutBtn">Cerrar sesión</button>
+                {% else %}
+                    <p>No estás logueado</p>
+                {% endif %}
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="{{ url_for('catalogo') }}">Catálogo</a></li>
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 <li><a href="{{ url_for('carrito') }}"><span class="material-symbols-outlined"
                             style="font-size: 36px">shopping_cart</span></a></li>
+
+
             </ul>
         </nav>
         {% endblock %}

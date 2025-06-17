@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request,render_template, jsonify, session, redirect, flash, url_for
 import requests
 from steam_service import fetch_game_data, get_all_games_data
 from db_login import insert_user, login
@@ -7,6 +7,7 @@ from iniciar_db import connect_db as get_db_connection
 app = Flask(__name__)
 
 @app.route('/')
+
 def back():
     return jsonify({"status": "OK", "message": "Backend API is running"}), 200
 
@@ -87,12 +88,14 @@ def api_login():
             
             result = login(email, contrasenia)
 
-            if result == True:
-                return jsonify({"mensaje": "Login exitoso"}), 201
+            if result:
+                session['email'] = email
+                session['first_name'] = result['first_name']
+                session['last_name'] = result['last_name']
+                return redirect(f'http://localhost:5000/?nombre={result["first_name"]}')
             else:
-                return jsonify({"error": "No se pudo completar el login"}), 500
-        
-
+                flash("Email o contraseña incorrectos", "error")
+                return redirect('http://127.0.0.1:5000/login') #corregir (otro puesto = eerorr)
         elif 'email_signup' in request.form:
             email = request.form['email_signup']
             contrasenia = request.form['password_signup']
@@ -100,15 +103,26 @@ def api_login():
             last_name = request.form['last_name']
 
             if not all([email, contrasenia, first_name, last_name]):
-                return jsonify({'error': 'Faltan campos requeridos'}), 400
+                flash("Faltan campos requeridos", "error")
+                return redirect('http://localhost:5000/login') #lo mismo, sale error con url_for
             
             result = insert_user(email, contrasenia, first_name, last_name)
             if result == "duplicado":
-                return jsonify({"error": "El usuario ya está registrado"}), 409
+                flash("El usuario ya está registrado", "error")
+                return redirect('http://localhost:5000/login')#lo mismo
             elif result is True:
-                return jsonify({'mensaje': 'Usuario registrado correctamente'}), 201
+                flash("Registro exitoso. Ahora podés iniciar sesión.", "success")
+                return redirect('http://localhost:5000/login')#ño mismos
             else:
-                return jsonify({'error': 'No se pudo registrar el usuario'}), 500
+                flash("Error al registrar usuario", "error")
+                return redirect('http://localhost:5000/login')#lo mismo
+            
+app.secret_key = "la_key_es_tp_intro_ludoteca"
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return jsonify({"mensaje": "Logout exitoso"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

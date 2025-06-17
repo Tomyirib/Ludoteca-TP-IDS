@@ -29,15 +29,11 @@ def login(email, contrasenia):
     if not conn:
         return False
     
-    cursor = conn.cursor()
-    cursor.execute("SELECT contrasenia FROM usuario WHERE email = %s", (email,))
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT first_name, last_name, contrasenia FROM usuario WHERE email = %s", (email,))
     resultado = cursor.fetchone()
 
-    if resultado:
-        contrasenia_guardada = resultado[0]
-
-        if contrasenia_guardada == contrasenia:
-            return True
-        
-        else:
-            return False
+    if resultado and resultado['contrasenia'] == contrasenia:
+        return resultado
+    else:
+        return False

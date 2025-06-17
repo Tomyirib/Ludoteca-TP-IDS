@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import requests
 
 app = Flask(__name__)
@@ -7,6 +7,7 @@ BRAND = 'Ludoteca Vapor'
 @app.route('/')
 def index():
 
+    nombre = request.args.get('nombre')
     game_ids = [440, 570, 730, 578080, 271590, 292030, 359550, 252490, 381210, 105600, 275850, 346110]
     juegos = []
     for game_id in game_ids:
@@ -14,7 +15,7 @@ def index():
         if juego:
             juegos.append(juego)
 
-    return render_template('index.html', brand=BRAND, juegos=juegos)
+    return render_template('index.html', brand=BRAND, juegos=juegos, nombre=nombre)
 
 @app.route('/juego/<int:game_id>', methods=['GET'])
 def generic(game_id):
