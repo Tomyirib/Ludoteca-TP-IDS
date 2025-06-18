@@ -9,32 +9,42 @@
 <section class="comunidad-section">
     <h2 class="comunidad-header">Comentar</h2>
 
-    <div class="comunidad-content">
-        <div class="comentario">
-            <div class="comentario-layout">
-                <div class="comentario-juego">
-                    {# <img class="juego-imagen" src={{ juego.header_image }} alt={{ juego.name }}> #}
-                    {# <div class="juego-nombre">{{ juego.name }}</div> #}
-                </div>
-
-                <div class="comentario-body">
-                    {# <p class="comentario-texto">{{ juego.name }}</p> #}
-                    <form class="comentario-texto" method="post" action="/post_comentario">
-                        <div class="fields">
-                            <div class="field">
-                                <textarea name="comentario_texto" id="message" placeholder="Deja tu comentario...."></textarea>
-                                <input type="hidden" name="juego_id" value="{{ juego.id }}">
-                            </div>
-                        </div>
-                        <ul class="actions">
-                            <li><input type="submit" value="Enviar" class="primary" /></li>
-                        </ul>
-                    </form>
-                </div>
-
-                <div class="comentario-submit">
-                </div>
+<div class="comunidad-content">
+    <div class="comentario">
+        <div class="comentario-layout">
+            <div class="comentario-juego">
+                <img class="juego-imagen" src="{{ juego.header_image }}" alt="{{ juego.name }}">
+                <div class="juego-nombre">{{ juego.name }}</div>
             </div>
+            <form class="comentario-texto" method="post" action="/post_comentario">
+                <div class="comentario-body">
+                    <div class="rating">
+                        <input type="radio" id="star5" name="rating" value="5" />
+                        <label for="star5">&#9733;</label>
+
+                        <input type="radio" id="star4" name="rating" value="4" />
+                        <label for="star4">&#9733;</label>
+
+                        <input type="radio" id="star3" name="rating" value="3" />
+                        <label for="star3">&#9733;</label>
+
+                        <input type="radio" id="star2" name="rating" value="2" />
+                        <label for="star2">&#9733;</label>
+
+                        <input type="radio" id="star1" name="rating" value="1" />
+                        <label for="star1">&#9733;</label>
+                    </div>
+                    <div class="fields">
+                        <div class="field">
+                            <textarea name="comentario_texto" id="message" placeholder="Deja tu comentario...."></textarea>
+                            <input type="hidden" name="juego_id" value="{{ juego.id }}">
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Enviar" class="primary" /></li>
+                    </ul>
+                </div>
+            </form>
         </div>
     </div>
-</section>
+</div>

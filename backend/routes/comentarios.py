@@ -8,9 +8,34 @@ from iniciar_db import connect_db
 comentarios_bp = Blueprint("comentarios", __name__)
 
 # Queries
-QUERY_RECIENTES = "SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username, juegos.id AS juego_id, juegos.name AS juego_nombre, comentarios.comentario_texto, juegos.header_image AS juego_imagen, comentarios.comentario_timestamp FROM comentarios INNER JOIN usuario ON comentarios.usuario_id=usuario.id_usuario INNER JOIN juegos ON comentarios.juego_id=juegos.id ORDER BY comentario_timestamp LIMIT 10"
-QUERY_JUEGO = "SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username, juegos.id AS juego_id, juegos.name AS juego_nombre, comentarios.comentario_texto, juegos.header_image AS juego_imagen, comentarios.comentario_timestamp FROM comentarios INNER JOIN usuario ON comentarios.usuario_id=usuario.id_usuario INNER JOIN juegos ON comentarios.juego_id=juegos.id WHERE comentarios.juego_id = %s ORDER BY comentario_timestamp"
-INSERT_COMENTARIO = "INSERT INTO comentarios (usuario_id, juego_id, comentario_texto, comentario_timestamp) VALUES (%s, %s, %s, CURRENT_TIMESTAMP)"
+QUERY_RECIENTES = """
+SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
+       juegos.id AS juego_id, juegos.name AS juego_nombre,
+       comentarios.comentario_texto, comentarios.rating,
+       juegos.header_image AS juego_imagen,
+       comentarios.comentario_timestamp
+FROM comentarios
+INNER JOIN usuario ON comentarios.usuario_id = usuario.id_usuario
+INNER JOIN juegos ON comentarios.juego_id = juegos.id
+ORDER BY comentario_timestamp DESC
+LIMIT 10
+"""
+QUERY_JUEGO = """
+SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
+       juegos.id AS juego_id, juegos.name AS juego_nombre,
+       comentarios.comentario_texto, comentarios.rating,
+       juegos.header_image AS juego_imagen,
+       comentarios.comentario_timestamp
+FROM comentarios
+INNER JOIN usuario ON comentarios.usuario_id = usuario.id_usuario
+INNER JOIN juegos ON comentarios.juego_id = juegos.id
+WHERE comentarios.juego_id = %s
+ORDER BY comentario_timestamp DESC
+"""
+INSERT_COMENTARIO = """
+INSERT INTO comentarios (usuario_id, juego_id, comentario_texto, rating, comentario_timestamp)
+VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
+"""
 
 # Create the routes
 
@@ -55,9 +80,12 @@ def ingresar_comentario():
     usuario_id = int(data.get("usuario_id").strip())
     juego_id = int(data.get("juego_id").strip())
     comentario_texto = data.get("comentario_texto").strip()
+    rating_str = data.get("rating")
+    rating = data.get("rating", "0").strip()  #Le pongo valor por defecto 0 REVISAR
+    rating = int(rating)
 
     # execute, commit and close
-    cursor.execute(INSERT_COMENTARIO, (usuario_id, juego_id, comentario_texto))
+    cursor.execute(INSERT_COMENTARIO, (usuario_id, juego_id, comentario_texto, rating))
     conn.commit()
     cursor.close()
     conn.close()

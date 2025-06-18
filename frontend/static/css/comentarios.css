@@ -41,13 +41,11 @@
     border-radius: 6px;
     padding: 10px 15px;
     min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    justify-content: left;
 }
 
 .comentario-texto {
-    font-size: 1rem;
+    font-size: 1.3rem;
     /* color: #333; */
     margin: 0 0 10px 0;
     flex-grow: 1;
@@ -79,4 +77,75 @@
     font-size: 0.85rem;
     text-align: center;
     /* color: #333; */
+}
+
+.rating {
+  	display: flex;
+  	flex-direction: row-reverse;
+ 	justify-content: flex-end;
+  	padding-top: 2vh;
+	z-index: 10;
+}
+
+.rating input {
+  	display: none !important;
+	position: absolute;
+  	left: -9999px;
+  	opacity: 0;
+}
+
+.rating label {
+  	font-size: 2em !important;
+  	color: #ccc;
+  	cursor: pointer;
+  	transition: color 0.2s;
+  	margin: 0 2px !important; /* Reducí el espacio horizontal */
+ 	padding: 0 !important;
+	padding-left: 0.5vh;
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+  	color: orange;
+}.rating-title {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.rating input:checked ~ label {
+  	color: orange;
+}
+
+.rating label::before {
+  	content: none !important;
+}
+
+.list {
+	margin-bottom: 5vh;
+}
+
+.primary {
+	width: 17vh;
+	height: 4vh !important;
+	font-size: 0.7rem !important;
+	
+}
+
+.actions {
+	justify-content: center;
+}
+
+.comunidad-section {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.comentario-body span {
+    color: gold;
+    font-size: 1.2em;
+    margin-right: 2px;
+}
+
+.estrella {
+    font-size: 1rem !important;
 }

@@ -13,6 +13,9 @@
                     <div class="juego-nombre"><a href="{{url_for('generic', game_id=c.juego_id)}}">{{ c.juego_nombre }}</a></div>
                 </div>
                 <div class="comentario-body">
+                    {% for i in range(c.rating) %}
+                    <span class="estrella">&#9733;</span>
+                    {% endfor %}
                     <p class="comentario-texto">
                         {{ c.comentario_texto }}
                     </p>
@@ -20,8 +23,7 @@
                 </div>
                 <div class="comentario-usuario">
                     {# <img class="avatar" src="{{ url_for('static', filename='images/' + c.usuario_avatar) }}" #}
-                     <img class="avatar" src="{{ url_for('static', filename='images/logo.svg') }}"
-                        alt="Usuario">
+                     <img class="avatar" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Usuario">
                     <div class="username">{{ c.usuario_username }}</div>
                 </div>
             </div>
