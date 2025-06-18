@@ -4,6 +4,7 @@ from steam_service import fetch_game_data, get_all_games_data
 from db_login import insert_user, login
 from iniciar_db import connect_db as get_db_connection
 from routes.comentarios import comentarios_bp
+import bcrypt
 
 app = Flask(__name__)
 app.secret_key = "SECRET_KEY"
@@ -104,8 +105,10 @@ def auth():
 
         if not all([email, password, first_name, last_name]):
             return jsonify({"error": "Faltan campos requeridos"}), 400
+        
+        hashed_password = hashear_password(password)
 
-        result = insert_user(email, password, first_name, last_name)
+        result = insert_user(email, hashed_password, first_name, last_name)
         if result == "duplicado":
             return jsonify({"error": "El usuario ya está registrado"}), 409
         elif result is True:
@@ -114,6 +117,9 @@ def auth():
             return jsonify({"error": "No se pudo registrar el usuario"}), 500
     else:
         return jsonify({"error": "Solicitud inválida"}), 400
+    
+def hashear_password(password):
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 @app.route('/user/<email>', methods=['GET'])
 def get_user(email):

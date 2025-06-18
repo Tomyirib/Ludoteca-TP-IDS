@@ -1,5 +1,6 @@
 from iniciar_db import connect_db
 import mysql.connector
+import bcrypt
 #funcion agregar usuarios a la db
 
 def insert_user(email, contrasenia, first_name, last_name):
@@ -33,7 +34,11 @@ def login(email, contrasenia):
     cursor.execute("SELECT id_usuario, first_name, last_name, contrasenia FROM usuario WHERE email = %s", (email,))
     resultado = cursor.fetchone()
 
-    if resultado and resultado['contrasenia'] == contrasenia:
+    hashed_password = resultado['contrasenia']
+    if resultado and check_password(contrasenia, hashed_password):
         return resultado
     else:
         return False
+
+def check_password(password, hashed):
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
