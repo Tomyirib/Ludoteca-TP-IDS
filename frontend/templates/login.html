@@ -1,9 +1,15 @@
-
 {% extends "base.html" %}
 {% block footer %}{% endblock %}
 
 {% block content %}
 <div class="form">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
   <h1 id="login-title">{{ brand }}</h1>
   <ul class="tab-group">
     <li class="tab active"><a class="a-login" href="#signup">Registrarse</a></li>
@@ -13,7 +19,7 @@
   <div class="tab-content">
     <div id="signup">
       <h1 class="login-h1">Registrarse</h1>
-      <form action="http://localhost:8080/auth" method="POST">
+      <form action="{{ url_for('register') }}" method="POST">
         <div class="top-row">
           <div class="field-wrap">
             <label class="login-label">Nombre</label>
@@ -41,7 +47,7 @@
 
     <div id="login">
       <h1 class="login-h1">Inicio de sesión</h1>
-      <form action="http://localhost:8080/auth" method="post">
+      <form action="{{ url_for('login') }}" method="POST">
         <div class="field-wrap">
           <label class="login-label">Correo electrónico</label>
           <input class="login-input" type="email" name="email_login" required />
