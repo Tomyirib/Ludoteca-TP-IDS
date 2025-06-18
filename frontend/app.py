@@ -3,6 +3,7 @@ import requests
 
 app = Flask(__name__)
 BRAND = 'Ludoteca Vapor'
+API_BASE = "http://localhost:8080"
 app.secret_key = 'SECRET_KEY'
 
 @app.route('/')
@@ -25,7 +26,8 @@ def generic(game_id):
         nombre = get_user_name(session['email'])
     juego = get_game(game_id)
     if juego:
-        return render_template('generic.html', juego=juego, brand=BRAND, nombre=nombre)
+        comentarios_juego = obtener_comentarios_juego(game_id)
+        return render_template('generic.html', juego=juego, brand=BRAND, comentarios_recientes=comentarios_juego, nombre=nombre)
     else:
         return print("Juego no encontrado"), 404
 
@@ -198,6 +200,42 @@ def get_user_name(email):
     if resp.status_code == 200:
         return resp.json().get('first_name')
     return None
+
+def obtener_comentarios_recientes():
+    response = requests.get(f"{API_BASE}/comentarios/recientes")
+    if response.status_code == 200:
+        return response.json()
+    return []
+
+def obtener_comentarios_juego(juego_id):
+    response = requests.get(f"{API_BASE}/comentarios/{juego_id}")
+    if response.status_code == 200:
+        return response.json()
+    return []
+
+@app.route('/comunidad')
+def comunidad():
+    comentarios_recientes = obtener_comentarios_recientes()
+    # comentarios_usuario = obtener_comentarios_usuario()
+    return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes)
+
+@app.route('/post_comentario', methods=["POST"])
+def post_comentario():
+    comentario_data = request.form.to_dict()
+    # Ver si session esta iniciada
+    # Si no hay usuario en session flash error
+    # Armar comentario con informacion de session
+    comentario_data["usuario_id"] = "1"
+    redirect_id = int(request.form["juego_id"])
+    # Request al API
+    response = requests.post(f"{API_BASE}/comentarios/ingresar_comentario", comentario_data)
+    # Si error en API
+    if response.status_code == 500:
+        # Flash error
+        return print("No se pudo ingresar comentario desde backend"), 500
+
+    # si todo bien, redirijo a la misma pagina
+    return redirect(url_for('generic', game_id=redirect_id))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

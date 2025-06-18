@@ -3,9 +3,12 @@ import requests
 from steam_service import fetch_game_data, get_all_games_data
 from db_login import insert_user, login
 from iniciar_db import connect_db as get_db_connection
+from routes.comentarios import comentarios_bp
 
 app = Flask(__name__)
 app.secret_key = "SECRET_KEY"
+
+app.register_blueprint(comentarios_bp, url_prefix="/comentarios")
 
 @app.route('/')
 
@@ -78,21 +81,21 @@ def get_games():
     })
 
 @app.route('/auth', methods=['POST'])
-def api_login():
-    if 'email_login' in request.form:
+def auth():
+    if 'email_login' in request.form and 'password_login' in request.form:
         email = request.form['email_login']
         password = request.form['password_login']
 
         if not all([email, password]):
             return jsonify({"error": "Faltan campos requeridos"}), 400
-                
+
         result = login(email, password)
 
         if result:
-            return jsonify({"success": True}), 200
+            return jsonify({"mensaje": "Login exitoso"}), 200
         else:
             return jsonify({"error": "Email o contraseña incorrectos"}), 401
-        
+
     elif 'email_signup' in request.form:
         email = request.form['email_signup']
         password = request.form['password_signup']
@@ -101,17 +104,17 @@ def api_login():
 
         if not all([email, password, first_name, last_name]):
             return jsonify({"error": "Faltan campos requeridos"}), 400
-        
+
         result = insert_user(email, password, first_name, last_name)
         if result == "duplicado":
             return jsonify({"error": "El usuario ya está registrado"}), 409
         elif result is True:
-            return jsonify({"success": True}), 201
+            return jsonify({"mensaje": "Usuario registrado correctamente"}), 201
         else:
-            return jsonify({"error": "Error al registrar usuario"}), 500
+            return jsonify({"error": "No se pudo registrar el usuario"}), 500
     else:
         return jsonify({"error": "Solicitud inválida"}), 400
-            
+
 @app.route('/user/<email>', methods=['GET'])
 def get_user(email):
     conn = get_db_connection()
@@ -161,7 +164,5 @@ def agregar_a_biblioteca():
         return jsonify({'message': 'Juegos agregados a biblioteca'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

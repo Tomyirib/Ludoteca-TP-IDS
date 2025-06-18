@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS requisitos_recomendados (
 );
 
 
--- Tabla para login 
+-- Tabla para login
 
 CREATE TABLE IF NOT EXISTS usuario (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
@@ -83,6 +83,25 @@ CREATE TABLE IF NOT EXISTS usuario (
     contrasenia VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL
+);
+
+<<<<<<< HEAD
+
+-- Tabla Comentarios
+
+CREATE TABLE IF NOT EXISTS comentarios (
+    comentario_id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    juego_id INT NOT NULL,
+    comentario_texto VARCHAR(511) NOT NULL,
+    comentario_timestamp DATETIME NOT NULL,
+    rating INT NOT NULL,
+    FOREIGN KEY (usuario_id)
+        REFERENCES usuario(id_usuario)
+        ON DELETE CASCADE,
+    FOREIGN KEY (juego_id)
+        REFERENCES juegos(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS biblioteca (
