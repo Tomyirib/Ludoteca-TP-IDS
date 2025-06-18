@@ -8,8 +8,16 @@ DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
     'password': 'root',
+    'port': 3306,
+    'database': 'ludoteca'
+}
+DB_CONFIG2 = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'root',
     'port': 3306
 }
+
 
 TABLAS = [
     "juegos",
@@ -25,6 +33,17 @@ TABLAS = [
 ]
 
 def connect_db():
+    conn = None
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        if conn.is_connected():
+            print(f"✅ Conexión exitosa a la base de datos ludoteca")
+        return conn
+    except Error as e:
+        print(f"❌ Error al conectar a la base de datos: {e}")
+        return None
+    
+def connect_db2():
     conn = None
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
@@ -141,7 +160,7 @@ def check_if_exists_data(connection):
 def init_db():
     conn = None
     try:
-        conn = connect_db()
+        conn = connect_db2()
     
         if conn:
             if check_if_exists_data(conn):
