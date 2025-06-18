@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     last_name VARCHAR(255) NOT NULL
 );
 
+<<<<<<< HEAD
 
 -- Tabla Comentarios
 
@@ -101,4 +102,11 @@ CREATE TABLE IF NOT EXISTS comentarios (
     FOREIGN KEY (juego_id)
         REFERENCES juegos(id)
         ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS biblioteca (
+    id_ INT AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(255) NOT NULL,
+    game_id INT NOT NULL,
+    UNIQUE KEY user_game_unique (user_email, game_id)
 );
