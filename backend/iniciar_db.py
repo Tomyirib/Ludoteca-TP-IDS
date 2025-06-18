@@ -12,6 +12,19 @@ DB_CONFIG = {
     'port': 3306
 }
 
+TABLAS = [
+    "juegos",
+    "generos",
+    "juego_genero",
+    "screenshots",
+    "videos",
+    "categorias",
+    "juego_categoria",
+    "requisitos_minimos",
+    "requisitos_recomendados",
+    "usuario"
+]
+
 def connect_db():
     conn = None
     try:
@@ -112,16 +125,21 @@ def clean_database(connection, db_name):
 
     try:
         with connection.cursor() as cursor: # Usamos un context manager para el cursor
-            # Encadenamos las sentencias en un solo bloque, separadas por ;
-            # y ejecutamos en un solo `execute` si el conector lo permite (MySQL Connector lo hace para DDL)
-            sql_script = f"""
-            DROP DATABASE IF EXISTS {db_name};
-            """
-            # El método `execute` puede manejar múltiples sentencias DDL separadas por ;
-            cursor.execute(sql_script)
             
-            connection.commit() # Confirma todos los cambios
-            print(f"✅ Base de datos '{db_name}' limpia y recreada con éxito.")
+            for table in TABLAS:
+                try:
+                    cursor.execute(f"SELECT EXISTS(SELECT 1 FROM `{table}` LIMIT 1);")
+                    result = cursor.fetchone()
+                    if result and result[0]:  # Si hay al menos una fila
+                        print(f"ℹ️ La tabla '{table}' contiene datos. No se eliminará la base de datos.")
+                        return False
+                except Error as e:
+                    print(f"⚠️ No se pudo acceder a la tabla '{table}' (puede no existir): {e}")
+
+        
+            cursor.execute(f"DROP DATABASE IF EXISTS {db_name};")
+            connection.commit()
+            print(f"✅ Base de datos '{db_name}' eliminada porque estaba vacía.")
             return True
 
     except Error as e:

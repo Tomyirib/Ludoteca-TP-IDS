@@ -1,10 +1,8 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
 {% block menu %}{% endblock %}
 {% block nav%}{% endblock %}
 {% block footer %}{% endblock %}
 {% block content %}
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -13,14 +11,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
     <style>
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
-</style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
+    </style>
 </head>
 
 <body class="body-carrito">
@@ -28,25 +26,30 @@
     <div class="carrito-title-cont">
         <h2 class="carrito-title">Tu carrito</h2>
     </div>
+
+    {% for juego in juegos %}
     <div class="carrito-producto">
         <div class="game-photo">
-            <img src="{{ url_for('static', filename='images/balatro.webp')}}">
+            <img src="{{ juego.header_image }}" alt="{{ juego.name }}">
         </div>
         <div class="game-info">
-            <h3 class="game-title">Balatro</h3>
-            <p class="game-descr">Jueguito de cartas, que se yo, bumchacalacapum, en el que se cartea la carta</p>
-            <p class="game-tags">Tags: Cartas, Cartas?</p>
-        </div>
-        <div class="game-price-cont">
-            <p class="game-price">$60</p>
+            <h3 class="game-title-carrito">{{ juego.name }}</h3>
+            <p class="game-price-carrito">{{ juego.price }}</p>
         </div>
         <div class="carrito-eliminar">
-            <span class="material-symbols-outlined">close</span>
-        </div>
+        <form method="POST" action="{{ url_for('eliminar_del_carrito') }}" class="form-eliminar-carrito">
+            <input type="hidden" name="game_id" value="{{ juego.id }}">
+            <button type="submit" class="btn-x-carrito">
+                <span class="material-symbols-outlined close-carrito">close</span>
+            </button>
+        </form>
     </div>
-    <div class="carrito-resumen">
-        <p id="total">Tu total es: $60</p>
-        <button class="checkout">Proceder al pago</button>      
     </div>
+    {% endfor %}
+
+    <form method="POST" action="{{ url_for('procesar_compra') }}">
+        <button type="submit" class="checkout">Procesar compra</button>
+    </form>
+</body>
+
 {% endblock %}
-</html>

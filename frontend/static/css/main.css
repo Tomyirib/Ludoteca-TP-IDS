@@ -2576,8 +2576,8 @@ button,
 	background-color: transparent;
 	border-radius: 4px;
 	border: 0;
-	box-shadow: inset 0 0 0 2px #585858;
-	color: #585858 !important;
+	box-shadow: inset 0 0 0 2px #554e4e;
+	color: #d5c8c8 !important;
 	cursor: pointer;
 	display: inline-block;
 	font-size: 0.8em;
@@ -3295,15 +3295,15 @@ body.is-menu-visible #menu .close {
 
 #main {
 	padding: 0em 0 6em 0;
-	
+
 }
 
 @media screen and (max-width: 736px) {
 
-#main {
+	#main {
 		padding: 0em 0 4em 0;
-		
-}
+
+	}
 
 }
 
@@ -3808,13 +3808,21 @@ p {
 }
 
 .cart-button {
+	width: auto;
+	min-width: 100px;
+	max-width: 100%;
+	white-space: nowrap;
+	text-overflow: unset;
+	display: inline-block;
+	margin: 2em 0;
 	background-color: #007bff;
 	color: white;
 	border: none;
 	border-radius: 8px;
-	padding: 10px 12px;
+	padding: 0.3em 1.2em;
 	cursor: pointer;
-	font-size: 24px;
+	font-size: 0.8em;
+	text-align: center;
 	transition: background-color 0.3s ease;
 }
 
@@ -4190,149 +4198,163 @@ body:not(.is-touch) .tiles article>a:hover .image:after {
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	text-align: center;
 }
+
 .material-symbols-outlined {
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+	font-variation-settings:
+		'FILL' 0,
+		'wght' 400,
+		'GRAD' 0,
+		'opsz' 24;
 	font-family: 'Material Symbols Outlined';
 }
 
 .carousel-control-prev,
 .carousel-control-next {
-    box-shadow: none !important;
-    background: rgba(0, 0, 0, 0);
-    width: 10%;
-    top: 0;
-    bottom: 0;
-    height: 95%;
-    border-radius: 0;
+	box-shadow: none !important;
+	background: rgba(0, 0, 0, 0);
+	width: 10%;
+	top: 0;
+	bottom: 0;
+	height: 95%;
+	border-radius: 0;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    width: 3rem;
-    height: 3rem;
+	width: 3rem;
+	height: 3rem;
 }
 
 .carousel-control-prev {
-    left: 0;
+	left: 0;
 }
+
 .carousel-control-next {
-    right: 0;
+	right: 0;
 }
+
 body {
-    background-color: #1b2838; 
-	color: #c7d5e0; 
+	background-color: #1b2838;
+	color: #c7d5e0;
 }
 
 a {
-    color: #66c0f4; 
+	color: #66c0f4;
 }
 
-header, footer {
-    background-color: #1b2838; 
+header,
+footer {
+	background-color: #1b2838;
 }
+
 .logo .title {
-    color: #66c0f4;
+	color: #66c0f4;
 }
- 
+
 #footer {
-    background-color: #1b2838;
-    color: #c7d5e0;
+	background-color: #1b2838;
+	color: #c7d5e0;
 }
 
 .logo .title {
-    color: #66c0f4;
+	color: #66c0f4;
 }
 
 #menu {
-    background-color: #171a21;
-    color: #c7d5e0;
-    border-top: 1px solid #2a475e;
+	background-color: #171a21;
+	color: #c7d5e0;
+	border-top: 1px solid #2a475e;
 }
+
 #menu h2,
 #menu h3,
 #menu a {
-    color: #c7d5e0;
+	color: #c7d5e0;
 }
+
 #menu a:hover {
-    color: #66c0f4;
+	color: #66c0f4;
 }
 
 #footer .icons a {
-    color: #66c0f4;
+	color: #66c0f4;
 }
+
 #footer .icons a:hover {
-    color: #ffffff;
+	color: #ffffff;
 }
 
 #footer input,
 #footer textarea {
-    background-color: #1b2838;
-    color: #c7d5e0;
-    border: 1px solid #2a475e;
+	background-color: #1b2838;
+	color: #c7d5e0;
+	border: 1px solid #2a475e;
 }
+
 #footer input:focus,
 #footer textarea:focus {
-    outline: none;
-    border-color: #66c0f4;
+	outline: none;
+	border-color: #66c0f4;
 }
-.brand-titl, .brand-subtitl {
-    background-color: #171a21; 
-    color: #c7d5e0; 
-    margin: 0;
-    padding: 0;
+
+.brand-titl,
+.brand-subtitl {
+	background-color: #171a21;
+	color: #c7d5e0;
+	margin: 0;
+	padding: 0;
 }
-.game-title-main{
+
+.game-title-main {
 	padding-top: 1.30rem;
 }
+
 body,
 .body-login {
-  background-color: #171a21;
-  color: #c7d5e0;
+	background-color: #171a21;
+	color: #c7d5e0;
 }
 
 #login-title,
 .login-h1,
 .login-label {
-  color: #c7d5e0;
+	color: #c7d5e0;
 }
 
 .login-input {
-  background-color: #2a475e;
-  color: #c7d5e0;
-  border: 1px solid #1b2838;
+	background-color: #2a475e;
+	color: #c7d5e0;
+	border: 1px solid #1b2838;
 }
 
 .login-button {
-  background-color: #66c0f4;
-  color: #0e1c25;
-  border: none;
+	background-color: #66c0f4;
+	color: #0e1c25;
+	border: none;
 }
 
 .login-button:hover {
-  background-color: #417a9b;
+	background-color: #417a9b;
 }
 
 .a-login {
-  color: #66c0f4;
-  text-decoration: none;
+	color: #66c0f4;
+	text-decoration: none;
 }
 
 .a-login:hover {
-  color: #ffffff;
-  text-decoration: underline;
+	color: #ffffff;
+	text-decoration: underline;
 }
 
 .form {
-  background-color: #1b2838;
-  color: #c7d5e0;
+	background-color: #1b2838;
+	color: #c7d5e0;
 }
 
 .sub-titles {
 	font-size: 2rem;
+	display: flex;
 }
 
 .list {
@@ -4346,4 +4368,87 @@ body,
 	.list {
 		columns: 1;
 	}
+}
+
+.precio-carrito {
+	display: flex;
+	align-items: center;
+	gap: 1.5em;
+	margin-bottom: 1em;
+	flex-wrap: wrap;
+}
+
+.precio-carrito .sub-titles {
+	font-size: 2rem;
+	margin: 0;
+	display: inline;
+}
+.logout-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logout-text {
+  color: white;
+  margin: 0;
+  font-size: 14px;
+}
+
+.logout-button {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  font-size: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #666;
+  transform: scale(1.05);
+}
+.game-title-carrito {
+    color: #000000;
+    font-size: 18px;
+}
+
+.game-price-carrito {
+    color: #000000; 
+    font-weight: bold;
+}
+.close-carrito {
+    color: #e74c3c;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    display: inline-block;
+}
+
+.close-carrito:hover {
+    color: #ff6b5a;
+    transform: scale(1.1);
+}
+.form-eliminar-carrito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-x-carrito {
+  background: none !important;
+  border: none !important;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
 }
