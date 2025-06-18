@@ -31,3 +31,11 @@
     padding-top: 10px;
     /* color: #555; */
 }
+
+.avg-rating {
+    font-size: 2rem;
+}
+
+.emoji {
+    font-size: 2rem;
+}
