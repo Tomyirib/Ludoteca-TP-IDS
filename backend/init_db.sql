@@ -85,7 +85,6 @@ CREATE TABLE IF NOT EXISTS usuario (
     last_name VARCHAR(255) NOT NULL
 );
 
-<<<<<<< HEAD
 
 -- Tabla Comentarios
 

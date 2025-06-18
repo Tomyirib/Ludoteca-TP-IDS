@@ -8,7 +8,6 @@ DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
     'password': 'root',
-    'database': 'ludoteca',
     'port': 3306
 }
 
@@ -30,7 +29,7 @@ def connect_db():
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         if conn.is_connected():
-            print(f"✅ Conexión exitosa a la base de datos '{DB_CONFIG['database']}'")
+            print(f"✅ Conexión exitosa a la base de datos ludoteca")
         return conn
     except Error as e:
         print(f"❌ Error al conectar a la base de datos: {e}")
@@ -47,17 +46,15 @@ def ejecutar_init_db(connection):
 
         for command in sql_commands:
             try:
-                if command: # Asegurarse de que el comando no esté vacío
-                    cursor.execute(command)
-                    # Si la sentencia es un SELECT o SHOW, puede haber resultados.
-                    # Aunque para init_db.sql, generalmente no hay.
+                if command: 
+                    cursor.execute(command)                
                     if cursor.with_rows:
-                        cursor.fetchall() # Consumir resultados si los hay
-                connection.commit() # Confirmar cada sentencia si es una modificación
+                        cursor.fetchall() 
+                connection.commit() 
             except Error as err:
                 print(f"❌ Error al ejecutar una sentencia SQL: {command}")
                 print(f"Error: {err}")
-                connection.rollback() # Revertir si hay un error en una sentencia
+                connection.rollback() 
         print("✅ Script init_db.sql ejecutado.")
     except FileNotFoundError:
         print("❌ Error: Archivo 'backend/init_db.sql' no encontrado.")
@@ -117,48 +114,45 @@ def generar_insert_sql(connection, name, data):
         print(f"Se encontraron {error_count} errores durante la inserción.")
     cursor.close()
 
-def clean_database(connection, db_name):
+def check_if_exists_data(connection):
     
-    if not connection or not connection.is_connected():
-        print("❌ No hay una conexión activa al servidor MySQL para limpiar la base de datos.")
-        return False
+    for table in TABLAS:
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SHOW DATABASES LIKE 'ludoteca';")
+            result = cursor.fetchone()
 
-    try:
-        with connection.cursor() as cursor: # Usamos un context manager para el cursor
-            
-            for table in TABLAS:
-                try:
-                    cursor.execute(f"SELECT EXISTS(SELECT 1 FROM `{table}` LIMIT 1);")
-                    result = cursor.fetchone()
-                    if result and result[0]:  # Si hay al menos una fila
-                        print(f"ℹ️ La tabla '{table}' contiene datos. No se eliminará la base de datos.")
-                        return False
-                except Error as e:
-                    print(f"⚠️ No se pudo acceder a la tabla '{table}' (puede no existir): {e}")
+            if not result:
+                print(" La base de datos 'ludoteca' no existe. ")
+                return False
 
+            cursor.execute("USE ludoteca;")
+            cursor.execute(f"SELECT EXISTS(SELECT 1 FROM `{table}` LIMIT 1);")
+            result = cursor.fetchone()
+            if result and result[0]:  
+                print(f"ℹ️ La tabla '{table}' contiene datos. No se eliminará la base de datos.")
+                return True
+        except Error as e:
+            print(f"⚠️ No se pudo acceder a la tabla '{table}' (puede no existir): {e}")
+            return False
         
-            cursor.execute(f"DROP DATABASE IF EXISTS {db_name};")
-            connection.commit()
-            print(f"✅ Base de datos '{db_name}' eliminada porque estaba vacía.")
-            return True
-
-    except Error as e:
-        print(f"❌ Error durante la limpieza y recreación de la base de datos '{db_name}': {e}")
-        connection.rollback() # Revertir si hay un error
-        return False
+    return True
 
 def init_db():
     conn = None
     try:
         conn = connect_db()
+    
         if conn:
-            if clean_database(conn, DB_CONFIG['database']):
-                ejecutar_init_db(conn)
-                print("\nObteniendo datos de juegos...")
-                all_games_data = get_all_games_data()[0]# Esto debería devolver una lista de juegos
-                if all_games_data:
-                    generar_insert_sql(conn, "juegos", [g["game_info"] for g in all_games_data])
-                    populate_tables(conn, all_games_data)
+            if check_if_exists_data(conn):
+                return
+            
+            ejecutar_init_db(conn)
+            print("\nObteniendo datos de juegos...")
+            all_games_data = get_all_games_data()[0]# Esto debería devolver una lista de juegos
+            if all_games_data:
+                generar_insert_sql(conn, "juegos", [g["game_info"] for g in all_games_data])
+                populate_tables(conn, all_games_data)
             else:
                 print("No se obtuvieron datos de juegos para insertar.")
     finally:
