@@ -3295,15 +3295,15 @@ body.is-menu-visible #menu .close {
 
 #main {
 	padding: 0em 0 6em 0;
-	
+
 }
 
 @media screen and (max-width: 736px) {
 
-#main {
+	#main {
 		padding: 0em 0 4em 0;
-		
-}
+
+	}
 
 }
 
@@ -3808,13 +3808,19 @@ p {
 }
 
 .cart-button {
+	width: auto;
+	min-width: 0;
+	max-width: 300px;
+	display: inline-block;
+	margin: 0.5em 0;
 	background-color: #007bff;
 	color: white;
 	border: none;
 	border-radius: 8px;
-	padding: 10px 12px;
+	padding: 0.3em 1.2em;
 	cursor: pointer;
-	font-size: 24px;
+	font-size: 1em;
+	text-align: center;
 	transition: background-color 0.3s ease;
 }
 
@@ -4190,149 +4196,163 @@ body:not(.is-touch) .tiles article>a:hover .image:after {
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	text-align: center;
 }
+
 .material-symbols-outlined {
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+	font-variation-settings:
+		'FILL' 0,
+		'wght' 400,
+		'GRAD' 0,
+		'opsz' 24;
 	font-family: 'Material Symbols Outlined';
 }
 
 .carousel-control-prev,
 .carousel-control-next {
-    box-shadow: none !important;
-    background: rgba(0, 0, 0, 0);
-    width: 10%;
-    top: 0;
-    bottom: 0;
-    height: 95%;
-    border-radius: 0;
+	box-shadow: none !important;
+	background: rgba(0, 0, 0, 0);
+	width: 10%;
+	top: 0;
+	bottom: 0;
+	height: 95%;
+	border-radius: 0;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    width: 3rem;
-    height: 3rem;
+	width: 3rem;
+	height: 3rem;
 }
 
 .carousel-control-prev {
-    left: 0;
+	left: 0;
 }
+
 .carousel-control-next {
-    right: 0;
+	right: 0;
 }
+
 body {
-    background-color: #1b2838; 
-	color: #c7d5e0; 
+	background-color: #1b2838;
+	color: #c7d5e0;
 }
 
 a {
-    color: #66c0f4; 
+	color: #66c0f4;
 }
 
-header, footer {
-    background-color: #1b2838; 
+header,
+footer {
+	background-color: #1b2838;
 }
+
 .logo .title {
-    color: #66c0f4;
+	color: #66c0f4;
 }
- 
+
 #footer {
-    background-color: #1b2838;
-    color: #c7d5e0;
+	background-color: #1b2838;
+	color: #c7d5e0;
 }
 
 .logo .title {
-    color: #66c0f4;
+	color: #66c0f4;
 }
 
 #menu {
-    background-color: #171a21;
-    color: #c7d5e0;
-    border-top: 1px solid #2a475e;
+	background-color: #171a21;
+	color: #c7d5e0;
+	border-top: 1px solid #2a475e;
 }
+
 #menu h2,
 #menu h3,
 #menu a {
-    color: #c7d5e0;
+	color: #c7d5e0;
 }
+
 #menu a:hover {
-    color: #66c0f4;
+	color: #66c0f4;
 }
 
 #footer .icons a {
-    color: #66c0f4;
+	color: #66c0f4;
 }
+
 #footer .icons a:hover {
-    color: #ffffff;
+	color: #ffffff;
 }
 
 #footer input,
 #footer textarea {
-    background-color: #1b2838;
-    color: #c7d5e0;
-    border: 1px solid #2a475e;
+	background-color: #1b2838;
+	color: #c7d5e0;
+	border: 1px solid #2a475e;
 }
+
 #footer input:focus,
 #footer textarea:focus {
-    outline: none;
-    border-color: #66c0f4;
+	outline: none;
+	border-color: #66c0f4;
 }
-.brand-titl, .brand-subtitl {
-    background-color: #171a21; 
-    color: #c7d5e0; 
-    margin: 0;
-    padding: 0;
+
+.brand-titl,
+.brand-subtitl {
+	background-color: #171a21;
+	color: #c7d5e0;
+	margin: 0;
+	padding: 0;
 }
-.game-title-main{
+
+.game-title-main {
 	padding-top: 1.30rem;
 }
+
 body,
 .body-login {
-  background-color: #171a21;
-  color: #c7d5e0;
+	background-color: #171a21;
+	color: #c7d5e0;
 }
 
 #login-title,
 .login-h1,
 .login-label {
-  color: #c7d5e0;
+	color: #c7d5e0;
 }
 
 .login-input {
-  background-color: #2a475e;
-  color: #c7d5e0;
-  border: 1px solid #1b2838;
+	background-color: #2a475e;
+	color: #c7d5e0;
+	border: 1px solid #1b2838;
 }
 
 .login-button {
-  background-color: #66c0f4;
-  color: #0e1c25;
-  border: none;
+	background-color: #66c0f4;
+	color: #0e1c25;
+	border: none;
 }
 
 .login-button:hover {
-  background-color: #417a9b;
+	background-color: #417a9b;
 }
 
 .a-login {
-  color: #66c0f4;
-  text-decoration: none;
+	color: #66c0f4;
+	text-decoration: none;
 }
 
 .a-login:hover {
-  color: #ffffff;
-  text-decoration: underline;
+	color: #ffffff;
+	text-decoration: underline;
 }
 
 .form {
-  background-color: #1b2838;
-  color: #c7d5e0;
+	background-color: #1b2838;
+	color: #c7d5e0;
 }
 
 .sub-titles {
 	font-size: 2rem;
+	display: flex;
 }
 
 .list {

@@ -31,8 +31,17 @@
 			</button>
 		</div>
 		<p>{{ juego.description }}</p>
-		<p class="sub-titles"><strong>Precio:</strong> {{ juego.price }}</p>
-
+		<p class="sub-titles"><strong>Precio:</strong> {{ juego.price }}
+			{{ session.user_id }}
+			{% if session.user_id %}
+		<form action="{{ url_for('add') }}" method="post" style="display:inline;">
+			<input type="hidden" name="game_id" value="{{ juego.id }}">
+			<button type="submit" class="cart-button">Añadir al carrito</button>
+		</form>
+		{% else %}
+		<a href="{{ url_for('login') }}" class="cart-button">Inicia sesión para añadir al carrito</a>
+		{% endif %}
+		</p>
 		<p class="sub-titles"><strong>Géneros y Categorías</strong></p>
 		<ul class="list">
 			{% for gen in juego.generos %}
