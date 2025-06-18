@@ -79,6 +79,9 @@ def logout():
 
 @app.route('/carrito')
 def carrito():
+    if 'email' not in session:
+        flash('Debes iniciar sesión para ver tu biblioteca.', 'danger')
+        return redirect(url_for('login'))
     carrito_ids = session.get('carrito', [])
     juegos_carrito = []
     total = 0.0
@@ -129,12 +132,12 @@ def catalogo():
 @app.route('/biblioteca')
 def biblioteca():
     nombre = None
-    if 'email' in session:
-        nombre = get_user_name(session['email'])
-
+    if 'email' not in session:
+        flash('Debes iniciar sesión para ver tu biblioteca.', 'danger')
+        return redirect(url_for('login'))
+    nombre = get_user_name(session['email'])
     email = session['email']
 
-    # Llamás al backend para obtener los juegos de la biblioteca de ese usuario
     resp = requests.get(f'http://localhost:8080/biblioteca/{email}')
     if resp.status_code != 200:
         flash("Error al obtener la biblioteca", "danger")
