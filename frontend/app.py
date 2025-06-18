@@ -79,7 +79,27 @@ def logout():
 
 @app.route('/carrito')
 def carrito():
-    return render_template('carrito.html', brand=BRAND)
+    carrito_ids = session.get('carrito', [])
+    juegos_carrito = []
+    total = 0.0
+
+    for game_id in carrito_ids:
+        game_info = get_game(game_id)
+        if game_info:
+            juegos_carrito.append(game_info)
+            
+            price_str = game_info.get("price", "")
+            if price_str and "Gratis" not in price_str:
+               
+                import re
+                num = re.sub(r'[^\d,\.]', '', price_str)
+                num = num.replace(",", ".")
+                try:
+                    total += float(num)
+                except:
+                    pass
+
+    return render_template('carrito.html', brand=BRAND, juegos=juegos_carrito, total=round(total, 2))
 
 @app.route('/add', methods=['POST'])
 def add():
@@ -105,6 +125,14 @@ def catalogo():
     juegos = data["games"]
     total = data["total"]
     return render_template('catalogo.html', juegos=juegos, page=page, total=total, per_page=per_page, brand=BRAND, nombre=nombre)
+
+@app.route('/eliminar', methods=['POST'])
+def eliminar_del_carrito():
+    game_id = request.form.get('game_id')
+    if 'carrito' in session:
+        session['carrito'] = [gid for gid in session['carrito'] if gid != game_id]
+    flash('Juego eliminado del carrito.', 'info')
+    return redirect(url_for('carrito'))
 
 def get_game(game_id):
     response = requests.get(f"http://localhost:8080/games/{game_id}")

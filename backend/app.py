@@ -122,6 +122,14 @@ def get_user(email):
         return jsonify(user)
     else:
         return jsonify({"error": "Usuario no encontrado"}), 404
+    
+@app.route('/eliminar', methods=['POST'])
+def eliminar_del_carrito():
+    game_id = request.form.get('game_id')
+    if 'carrito' in session:
+        session['carrito'] = [gid for gid in session['carrito'] if gid != game_id]
+    flash('Juego eliminado del carrito.', 'info')
+    return redirect(url_for('carrito'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

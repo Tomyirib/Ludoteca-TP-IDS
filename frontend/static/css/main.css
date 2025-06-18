@@ -4410,3 +4410,45 @@ body,
   background-color: #666;
   transform: scale(1.05);
 }
+.game-title-carrito {
+    color: #000000;
+    font-size: 18px;
+}
+
+.game-price-carrito {
+    color: #000000; 
+    font-weight: bold;
+}
+.close-carrito {
+    color: #e74c3c;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    display: inline-block;
+}
+
+.close-carrito:hover {
+    color: #ff6b5a;
+    transform: scale(1.1);
+}
+.form-eliminar-carrito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-x-carrito {
+  background: none !important;
+  border: none !important;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
+}
