@@ -17,7 +17,7 @@ def index():
         juego = get_game(game_id)
         if juego:
             juegos.append(juego)
-    return render_template('index.html', brand=BRAND, juegos=juegos, nombre=nombre)
+    return render_template('index.html', juegos=juegos, nombre=nombre)
 
 @app.route('/juego/<int:game_id>', methods=['GET'])
 def generic(game_id):
@@ -27,7 +27,7 @@ def generic(game_id):
     juego = get_game(game_id)
     if juego:
         comentarios_juego = obtener_comentarios_juego(game_id)
-        return render_template('generic.html', juego=juego, brand=BRAND, comentarios_recientes=comentarios_juego, nombre=nombre)
+        return render_template('generic.html', juego=juego, comentarios_recientes=comentarios_juego, nombre=nombre)
     else:
         return print("Juego no encontrado"), 404
 
@@ -44,6 +44,11 @@ def login():
         resp = requests.post('http://localhost:8080/auth', data=data)
         if resp.status_code == 200:
             session['email'] = request.form['email_login']
+            user = get_user_info(session['email'])
+            session['first_name'] = user['first_name']
+            session['es_admin'] = user['es_admin']
+            session['esta_logueado'] = True
+            session['usuario_id'] = user['id_usuario']
             flash('Inicio de sesión exitoso', 'success')
             return redirect(url_for('index'))
         else:
@@ -92,10 +97,10 @@ def carrito():
         game_info = get_game(game_id)
         if game_info:
             juegos_carrito.append(game_info)
-            
+
             price_str = game_info.get("price", "")
             if price_str and "Gratis" not in price_str:
-               
+
                 import re
                 num = re.sub(r'[^\d,\.]', '', price_str)
                 num = num.replace(",", ".")
@@ -192,13 +197,19 @@ def get_game(game_id):
         return response.json()
     else:
         return None
-    
+
 
 
 def get_user_name(email):
     resp = requests.get(f'http://localhost:8080/user/{email}')
     if resp.status_code == 200:
         return resp.json().get('first_name')
+    return None
+
+def get_user_info(email):
+    resp = requests.get(f'http://localhost:8080/user_info/{email}')
+    if resp.status_code == 200:
+        return resp.json()
     return None
 
 def obtener_comentarios_recientes():
@@ -208,7 +219,13 @@ def obtener_comentarios_recientes():
     return []
 
 def obtener_comentarios_juego(juego_id):
-    response = requests.get(f"{API_BASE}/comentarios/{juego_id}")
+    response = requests.get(f"{API_BASE}/comentarios/juegos/{juego_id}")
+    if response.status_code == 200:
+        return response.json()
+    return []
+
+def obtener_comentarios_usuario(usuario_id):
+    response = requests.get(f"{API_BASE}/comentarios/usuario/{usuario_id}")
     if response.status_code == 200:
         return response.json()
     return []
@@ -216,8 +233,10 @@ def obtener_comentarios_juego(juego_id):
 @app.route('/comunidad')
 def comunidad():
     comentarios_recientes = obtener_comentarios_recientes()
-    # comentarios_usuario = obtener_comentarios_usuario()
-    return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes)
+    comentarios_usuario = []
+    if 'usuario_id' in session:
+        comentarios_usuario = obtener_comentarios_usuario(session['usuario_id'])
+    return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes, comentarios_usuario=comentarios_usuario)
 
 @app.route('/post_comentario', methods=["POST"])
 def post_comentario():

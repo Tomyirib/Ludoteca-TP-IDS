@@ -23,6 +23,7 @@ TABLAS = [
     "requisitos_minimos",
     "requisitos_recomendados",
     "usuario"
+    "biblioteca"
 ]
 
 def connect_db():
@@ -37,7 +38,7 @@ def connect_db():
         return None
 
 def ejecutar_init_db(connection):
-    
+
     try:
         cursor = connection.cursor()
         with open("backend/init_db.sql", "r") as file:
@@ -118,14 +119,14 @@ def generar_insert_sql(connection, name, data):
     cursor.close()
 
 def clean_database(connection, db_name):
-    
+
     if not connection or not connection.is_connected():
         print("❌ No hay una conexión activa al servidor MySQL para limpiar la base de datos.")
         return False
 
     try:
         with connection.cursor() as cursor: # Usamos un context manager para el cursor
-            
+
             for table in TABLAS:
                 try:
                     cursor.execute(f"SELECT EXISTS(SELECT 1 FROM `{table}` LIMIT 1);")
@@ -136,7 +137,7 @@ def clean_database(connection, db_name):
                 except Error as e:
                     print(f"⚠️ No se pudo acceder a la tabla '{table}' (puede no existir): {e}")
 
-        
+
             cursor.execute(f"DROP DATABASE IF EXISTS {db_name};")
             connection.commit()
             print(f"✅ Base de datos '{db_name}' eliminada porque estaba vacía.")

@@ -60,9 +60,9 @@
         <nav id="menu">
             <h2>Menu</h2>
             <ul>
-                {% if nombre %}
+                {% if session['first_name'] %}
                 <div class="logout-container">
-                    <p class="logout-text">Bienvenido, {{ nombre }}!</p>
+                    <p class="logout-text">Bienvenido, {{ session['first_name'] }}!</p>
                     <a href="{{ url_for('logout') }}">
                     <button id="logoutBtn" class="logout-button">Cerrar sesión</button>
                     </a>
