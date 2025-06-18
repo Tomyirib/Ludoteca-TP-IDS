@@ -5,6 +5,7 @@ from db_login import insert_user, login
 from iniciar_db import connect_db as get_db_connection
 
 app = Flask(__name__)
+app.secret_key = "SECRET_KEY"
 
 @app.route('/')
 
@@ -81,48 +82,53 @@ def api_login():
     if request.method == 'POST':
         if 'email_login' in request.form:
             email = request.form['email_login']
-            contrasenia = request.form['password_login']
+            password = request.form['password_login']
 
-            if not all([email, contrasenia]):
+            if not all([email, password]):
                 return jsonify({"error": "Faltan campos requeridos"}), 400
             
-            result = login(email, contrasenia)
+            result = login(email, password)
 
             if result:
                 session['email'] = email
                 session['first_name'] = result['first_name']
                 session['last_name'] = result['last_name']
-                return redirect(f'http://localhost:5000/?nombre={result["first_name"]}')
+                response = redirect('http://localhost:5000/')
+               # response.headers['X-User-Id'] = str(result['id_usuario'])
+                return response
             else:
-                flash("Email o contraseña incorrectos", "error")
-                return redirect('http://127.0.0.1:5000/login') #corregir (otro puesto = eerorr)
+                return "Email o contraseña incorrectos", 401
         elif 'email_signup' in request.form:
             email = request.form['email_signup']
-            contrasenia = request.form['password_signup']
+            password = request.form['password_signup']
             first_name = request.form['first_name']
             last_name = request.form['last_name']
 
-            if not all([email, contrasenia, first_name, last_name]):
+            if not all([email, password, first_name, last_name]):
                 flash("Faltan campos requeridos", "error")
                 return redirect('http://localhost:5000/login') #lo mismo, sale error con url_for
             
-            result = insert_user(email, contrasenia, first_name, last_name)
+            result = insert_user(email, password, first_name, last_name)
             if result == "duplicado":
                 flash("El usuario ya está registrado", "error")
                 return redirect('http://localhost:5000/login')#lo mismo
             elif result is True:
                 flash("Registro exitoso. Ahora podés iniciar sesión.", "success")
-                return redirect('http://localhost:5000/login')#ño mismos
+                return redirect('http://localhost:5000/login')#lo mismos
             else:
                 flash("Error al registrar usuario", "error")
                 return redirect('http://localhost:5000/login')#lo mismo
             
-app.secret_key = "la_key_es_tp_intro_ludoteca"
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    return jsonify({"mensaje": "Logout exitoso"}), 200
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id_usuario, first_name FROM usuarios WHERE id_usuario = %s", (user_id,))
+    user = cursor.fetchone()
+    if user:
+        return jsonify(user)
+    else:
+        return jsonify({"error": "Usuario no encontrado"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
