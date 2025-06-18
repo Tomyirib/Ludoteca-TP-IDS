@@ -61,10 +61,12 @@
             <h2>Menu</h2>
             <ul>
                 {% if nombre %}
-                <p>Bienvenido, {{ nombre }}!</p>
-                <a href="{{ url_for('logout') }}">
-                    <button id="logoutBtn">Cerrar sesión</button>
-                </a>
+                <div class="logout-container">
+                    <p class="logout-text">Bienvenido, {{ nombre }}!</p>
+                    <a href="{{ url_for('logout') }}">
+                    <button id="logoutBtn" class="logout-button">Cerrar sesión</button>
+                    </a>
+                </div>
                 {% else %}
                 <p>No estás logueado</p>
                 {% endif %}
@@ -142,7 +144,17 @@
     <script src="{{ url_for('static', filename='/js/util.js', _external=True) }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='/js/main.js', _external=True) }}"></script>
-
+    <script>
+    // Hace que los alert se oculten después de 3 segundos
+    setTimeout(function () {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function (alert) {
+            alert.style.transition = 'opacity 0.5s ease';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);  // Elimina el elemento del DOM luego
+        });
+    }, 3000);
+    </script>
 </body>
 
 </html>
