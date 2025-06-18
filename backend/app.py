@@ -122,14 +122,46 @@ def get_user(email):
         return jsonify(user)
     else:
         return jsonify({"error": "Usuario no encontrado"}), 404
-    
-@app.route('/eliminar', methods=['POST'])
-def eliminar_del_carrito():
-    game_id = request.form.get('game_id')
-    if 'carrito' in session:
-        session['carrito'] = [gid for gid in session['carrito'] if gid != game_id]
-    flash('Juego eliminado del carrito.', 'info')
-    return redirect(url_for('carrito'))
+
+@app.route('/biblioteca/<email>', methods=['GET'])
+def obtener_biblioteca(email):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT g.*
+            FROM biblioteca b
+            JOIN juegos g ON b.game_id = g.id
+            WHERE b.user_email = %s
+        """, (email,))
+        juegos = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify({'juegos': juegos}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/biblioteca/agregar', methods=['POST'])
+def agregar_a_biblioteca():
+    data = request.get_json()
+    email = data.get('email')
+    game_ids = data.get('game_ids', [])
+
+    if not email or not game_ids:
+        return jsonify({'error': 'Faltan datos'}), 400
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        for game_id in game_ids:
+            cursor.execute("INSERT IGNORE INTO biblioteca (user_email, game_id) VALUES (%s, %s)", (email, game_id))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({'message': 'Juegos agregados a biblioteca'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

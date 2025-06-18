@@ -126,6 +126,24 @@ def catalogo():
     total = data["total"]
     return render_template('catalogo.html', juegos=juegos, page=page, total=total, per_page=per_page, brand=BRAND, nombre=nombre)
 
+@app.route('/biblioteca')
+def biblioteca():
+    nombre = None
+    if 'email' in session:
+        nombre = get_user_name(session['email'])
+
+    email = session['email']
+
+    # Llamás al backend para obtener los juegos de la biblioteca de ese usuario
+    resp = requests.get(f'http://localhost:8080/biblioteca/{email}')
+    if resp.status_code != 200:
+        flash("Error al obtener la biblioteca", "danger")
+        juegos = []
+    else:
+        juegos = resp.json().get('juegos', [])
+
+    return render_template('biblioteca.html', brand=BRAND, juegos=juegos,nombre=nombre)
+
 @app.route('/eliminar', methods=['POST'])
 def eliminar_del_carrito():
     game_id = request.form.get('game_id')
@@ -134,6 +152,35 @@ def eliminar_del_carrito():
     flash('Juego eliminado del carrito.', 'info')
     return redirect(url_for('carrito'))
 
+
+@app.route('/procesar_compra', methods=['POST'])
+def procesar_compra():
+    carrito = session.get('carrito', [])
+    email = session.get('email')
+
+    if not email or not carrito:
+        flash('Debes iniciar sesión y tener juegos en el carrito.', 'danger')
+        return redirect(url_for('carrito'))
+
+    data = {
+        'email': email,
+        'game_ids': carrito
+    }
+
+    try:
+        resp = requests.post('http://localhost:8080/biblioteca/agregar', json=data)
+        if resp.status_code == 200:
+            session['carrito'] = []
+            flash('Compra procesada. Juegos agregados a tu biblioteca.', 'success')
+            return redirect(url_for('carrito'))
+        else:
+            error = resp.json().get('error', 'Error desconocido')
+            flash(f'Error: {error}', 'danger')
+            return redirect(url_for('carrito'))
+    except Exception as e:
+        flash(f'Error al conectar con backend: {e}', 'danger')
+        return redirect(url_for('carrito'))
+
 def get_game(game_id):
     response = requests.get(f"http://localhost:8080/games/{game_id}")
     if response.status_code == 200:
@@ -141,6 +188,8 @@ def get_game(game_id):
     else:
         return None
     
+
+
 def get_user_name(email):
     resp = requests.get(f'http://localhost:8080/user/{email}')
     if resp.status_code == 200:

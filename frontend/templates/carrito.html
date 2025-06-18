@@ -47,11 +47,9 @@
     </div>
     {% endfor %}
 
-    <div class="carrito-resumen">
-        <p id="total">Tu total es: ${{ total }}</p>
-        <button class="checkout">Proceder al pago</button>      
-    </div>
-  </div>
+    <form method="POST" action="{{ url_for('procesar_compra') }}">
+        <button type="submit" class="checkout">Procesar compra</button>
+    </form>
 </body>
 
 {% endblock %}

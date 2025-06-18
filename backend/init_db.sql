@@ -84,3 +84,10 @@ CREATE TABLE IF NOT EXISTS usuario (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS biblioteca (
+    id_ INT AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(255) NOT NULL,
+    game_id INT NOT NULL,
+    UNIQUE KEY user_game_unique (user_email, game_id)
+);
