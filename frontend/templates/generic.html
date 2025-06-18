@@ -55,6 +55,28 @@
 		</ul>
 
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/comunidad.css') }}">
+<div class="puntuacion">
+	<h2 class="rating-txt">
+		{% if rating_prom | float > 0 %}
+			Valoración promedio de los usuarios: 
+			<span class="avg-rating">{{ '%.1f' % (rating_prom | float) }}/5</span>
+			<span class="emoji">
+				{% set rating = rating_prom | float %}
+				{% if rating >= 4.5 %} 😍
+				{% elif rating >= 3.5 %} 😊
+				{% elif rating >= 2.5 %} 🙂 
+				{% elif rating >= 1.5 %} 😐
+				{% else %} 😞 
+				{% endif %}
+			</span>
+		{% else %}
+			<p>Todavía no hay valoraciones <span class="emoji">👀</span></p>
+			<p style="margin-top: 15px">¡Se el primero en comentar!</p>
+		{% endif %}
+	</h2>
+</div>
+
+
 		<div class="comunidad-container">
 			{% include 'dejar_comentario.html' %}
             {% include 'comentarios.html' %}

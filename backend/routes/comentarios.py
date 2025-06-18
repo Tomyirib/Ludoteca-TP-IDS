@@ -106,7 +106,7 @@ def ingresar_comentario():
     juego_id = int(data.get("juego_id").strip())
     comentario_texto = data.get("comentario_texto").strip()
     rating_str = data.get("rating")
-    rating = data.get("rating", "0").strip()  #Le pongo valor por defecto 0 REVISAR
+    rating = data.get("rating", "1").strip()  #Le pongo valor por defecto 0 REVISAR
     rating = int(rating)
 
     # execute, commit and close

@@ -27,7 +27,8 @@ def generic(game_id):
     juego = get_game(game_id)
     if juego:
         comentarios_juego = obtener_comentarios_juego(game_id)
-        return render_template('generic.html', juego=juego, comentarios_recientes=comentarios_juego, nombre=nombre)
+        valoracion_promedio = obtener_valoracion_promedio(game_id)
+        return render_template('generic.html', juego=juego, comentarios_recientes=comentarios_juego, rating_prom=valoracion_promedio, nombre=nombre)
     else:
         return print("Juego no encontrado"), 404
 
@@ -217,6 +218,12 @@ def obtener_comentarios_recientes():
     if response.status_code == 200:
         return response.json()
     return []
+
+def obtener_valoracion_promedio(game_id):
+    response = requests.get(f"{API_BASE}/rating/{game_id}")
+    if response.status_code == 200:
+        return response.json().get('promedio', 0)
+    return 0
 
 def obtener_comentarios_juego(juego_id):
     response = requests.get(f"{API_BASE}/comentarios/juegos/{juego_id}")
