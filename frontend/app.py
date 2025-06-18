@@ -8,8 +8,8 @@ app.secret_key = 'SECRET_KEY'
 @app.route('/')
 def index():
     nombre = None
-    if 'user_id' in session:
-        nombre = get_user_name(session['user_id'])
+    if 'email' in session:
+        nombre = get_user_name(session['email'])
     game_ids = [440, 570, 730, 578080, 271590, 292030, 359550, 252490, 381210, 105600, 275850, 346110]
     juegos = []
     for game_id in game_ids:
@@ -18,43 +18,43 @@ def index():
             juegos.append(juego)
     return render_template('index.html', brand=BRAND, juegos=juegos, nombre=nombre)
 
-# CAMBIAR/QUITAR ESTO 
-@app.context_processor
-def inject_user_name():
-    nombre = None
-    if 'user_id' in session:
-        nombre = get_user_name(session['user_id'])
-    return dict(nombre=nombre)
-
 @app.route('/juego/<int:game_id>', methods=['GET'])
 def generic(game_id):
+    nombre = None
+    if 'email' in session:
+        nombre = get_user_name(session['email'])
     juego = get_game(game_id)
     if juego:
-        return render_template('generic.html', juego=juego, brand=BRAND)
+        return render_template('generic.html', juego=juego, brand=BRAND, nombre=nombre)
     else:
         return print("Juego no encontrado"), 404
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    nombre = None
+    if 'email' in session:
+        nombre = get_user_name(session['email'])
     if request.method == 'POST':
         data = {
             'email_login': request.form['email_login'],
             'password_login': request.form['password_login']
         }
-        resp = requests.post('http://localhost:8080/auth', data=data, allow_redirects=False)
-        if resp.status_code == 302:
-            user_id = resp.headers.get('X-User-Id')
-            session['user_id'] = request.form['first_name']
+        resp = requests.post('http://localhost:8080/auth', data=data)
+        if resp.status_code == 200:
             session['email'] = request.form['email_login']
             flash('Inicio de sesión exitoso', 'success')
             return redirect(url_for('index'))
         else:
-            flash('Usuario o contraseña incorrectos', 'danger')
-            return render_template('login.html', brand=BRAND)
-    return render_template('login.html', brand=BRAND)
+            mensaje = resp.json().get('error', 'Usuario o contraseña incorrectos')
+            flash(mensaje, 'danger')
+            return render_template('login.html', brand=BRAND, nombre=nombre)
+    return render_template('login.html', brand=BRAND, nombre=nombre)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    nombre = None
+    if 'email' in session:
+        nombre = get_user_name(session['email'])
     if request.method == 'POST':
         data = {
             'email_signup': request.form['email_signup'],
@@ -62,13 +62,14 @@ def register():
             'first_name': request.form['first_name'],
             'last_name': request.form['last_name']
         }
-        resp = requests.post('http://localhost:8080/auth', data=data, allow_redirects=False)
-        if resp.status_code == 302:
+        resp = requests.post('http://localhost:8080/auth', data=data)
+        if resp.status_code == 201:
             flash('Registro exitoso. Ya podés iniciar sesión.', 'success')
             return redirect(url_for('login'))
         else:
-            flash('Error al registrar usuario. Por favor, intente nuevamente.', 'danger')
-    return render_template('login.html', brand=BRAND)
+            mensaje = resp.json().get('error', 'Error al registrar usuario. Por favor, intente nuevamente.')
+            flash(mensaje, 'danger')
+    return render_template('login.html', brand=BRAND, nombre=nombre)
 
 @app.route('/logout')
 def logout():
@@ -82,7 +83,7 @@ def carrito():
 
 @app.route('/add', methods=['POST'])
 def add():
-    if 'user_id' not in session:
+    if 'email' not in session:
         flash('Debes iniciar sesión para agregar al carrito.', 'danger')
         return redirect(url_for('login'))
     game_id = request.form.get('game_id')
@@ -94,24 +95,26 @@ def add():
 
 @app.route('/catalogo')
 def catalogo():
+    nombre = None
+    if 'email' in session:
+        nombre = get_user_name(session['email'])
     page = int(request.args.get('page', 1))
     per_page = 12
     response = requests.get(f"http://localhost:8080/games?page={page}&per_page={per_page}")
     data = response.json()
     juegos = data["games"]
     total = data["total"]
-    return render_template('catalogo.html', juegos=juegos, page=page, total=total, per_page=per_page, brand=BRAND)
+    return render_template('catalogo.html', juegos=juegos, page=page, total=total, per_page=per_page, brand=BRAND, nombre=nombre)
 
 def get_game(game_id):
     response = requests.get(f"http://localhost:8080/games/{game_id}")
-
     if response.status_code == 200:
         return response.json()
     else:
         return None
     
-def get_user_name(user_id):
-    resp = requests.get(f'http://localhost:8080/user/{user_id}')
+def get_user_name(email):
+    resp = requests.get(f'http://localhost:8080/user/{email}')
     if resp.status_code == 200:
         return resp.json().get('first_name')
     return None

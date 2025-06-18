@@ -79,51 +79,44 @@ def get_games():
 
 @app.route('/auth', methods=['POST'])
 def api_login():
-    if request.method == 'POST':
-        if 'email_login' in request.form:
-            email = request.form['email_login']
-            password = request.form['password_login']
+    if 'email_login' in request.form:
+        email = request.form['email_login']
+        password = request.form['password_login']
 
-            if not all([email, password]):
-                return jsonify({"error": "Faltan campos requeridos"}), 400
-            
-            result = login(email, password)
+        if not all([email, password]):
+            return jsonify({"error": "Faltan campos requeridos"}), 400
+                
+        result = login(email, password)
 
-            if result:
-                session['email'] = email
-                session['first_name'] = result['first_name']
-                session['last_name'] = result['last_name']
-                response = redirect('http://localhost:5000/')
-               # response.headers['X-User-Id'] = str(result['id_usuario'])
-                return response
-            else:
-                return "Email o contraseña incorrectos", 401
-        elif 'email_signup' in request.form:
-            email = request.form['email_signup']
-            password = request.form['password_signup']
-            first_name = request.form['first_name']
-            last_name = request.form['last_name']
+        if result:
+            return jsonify({"success": True}), 200
+        else:
+            return jsonify({"error": "Email o contraseña incorrectos"}), 401
+        
+    elif 'email_signup' in request.form:
+        email = request.form['email_signup']
+        password = request.form['password_signup']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
 
-            if not all([email, password, first_name, last_name]):
-                flash("Faltan campos requeridos", "error")
-                return redirect('http://localhost:5000/login') #lo mismo, sale error con url_for
+        if not all([email, password, first_name, last_name]):
+            return jsonify({"error": "Faltan campos requeridos"}), 400
+        
+        result = insert_user(email, password, first_name, last_name)
+        if result == "duplicado":
+            return jsonify({"error": "El usuario ya está registrado"}), 409
+        elif result is True:
+            return jsonify({"success": True}), 201
+        else:
+            return jsonify({"error": "Error al registrar usuario"}), 500
+    else:
+        return jsonify({"error": "Solicitud inválida"}), 400
             
-            result = insert_user(email, password, first_name, last_name)
-            if result == "duplicado":
-                flash("El usuario ya está registrado", "error")
-                return redirect('http://localhost:5000/login')#lo mismo
-            elif result is True:
-                flash("Registro exitoso. Ahora podés iniciar sesión.", "success")
-                return redirect('http://localhost:5000/login')#lo mismos
-            else:
-                flash("Error al registrar usuario", "error")
-                return redirect('http://localhost:5000/login')#lo mismo
-            
-@app.route('/user/<int:user_id>', methods=['GET'])
-def get_user(user_id):
+@app.route('/user/<email>', methods=['GET'])
+def get_user(email):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id_usuario, first_name FROM usuarios WHERE id_usuario = %s", (user_id,))
+    cursor.execute("SELECT first_name FROM usuario WHERE email = %s", (email,))
     user = cursor.fetchone()
     if user:
         return jsonify(user)
