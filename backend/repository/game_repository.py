@@ -1,18 +1,27 @@
 from iniciar_db import connect_db as get_db_connection
+from flask import jsonify
 
 QUERY_GET_BY_ID = """
-SELECT 
-        j.*, 
-        c.descripcion AS categories,
-        s.url AS screenshots,
-        v.url AS videos
-    FROM juegos j
-    LEFT JOIN juego_categoria jc ON j.id = jc.juego_id
-    LEFT JOIN categorias c ON jc.categoria_id = c.id
-    LEFT JOIN screenshots s ON j.id = s.juego_id
-    LEFT JOIN videos v ON j.id = v.juego_id
-    WHERE j.id = %s
+SELECT * FROM juegos WHERE id = %s
 """
+
+QUERY_GET_GENDERS = """
+                   SELECT g.descripcion
+                   FROM generos g
+                            JOIN juego_genero jg ON g.id_genero = jg.id_genero
+                   WHERE jg.id_juego = %s
+                   """
+
+QUERY_GET_CATEGORIES = """
+                   SELECT c.descripcion
+                   FROM categorias c
+                            JOIN juego_categoria jc ON c.id = jc.categoria_id
+                   WHERE jc.juego_id = %s
+                   """
+
+QUERY_GET_URL = "SELECT url FROM screenshots WHERE juego_id = %s"
+
+QUERY_GET_VIDEOS = "SELECT url FROM videos WHERE juego_id = %s"
 
 QUERY_GET_ALL_GAMES = """
 SELECT 
@@ -32,9 +41,26 @@ def get_game_by_id(id):
     connection = get_db_connection()
 
     cursor = connection.cursor(dictionary=True)
-    cursor.execute(QUERY_GET_BY_ID, id)
 
-    game = cursor.fetchAll()
+    cursor.execute(QUERY_GET_BY_ID, (id,))
+    game = cursor.fetchone()
+
+    cursor.execute(QUERY_GET_GENDERS, (id,))
+    generos = cursor.fetchall()
+
+    cursor.execute(QUERY_GET_CATEGORIES, (id,))
+    categories = cursor.fetchall()
+
+    cursor.execute(QUERY_GET_URL, (id,))
+    screenshots = cursor.fetchall()
+
+    cursor.execute(QUERY_GET_VIDEOS, (id,))
+    videos = cursor.fetchall()
+
+    game["generos"] = generos
+    game['categories'] = categories
+    game['screenshots'] = screenshots
+    game['videos'] = videos
 
     close_connection(cursor, connection)
 
