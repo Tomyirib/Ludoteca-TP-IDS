@@ -18,7 +18,7 @@
     </noscript>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart" />
-    
+
 </head>
 
 <body class="is-preload">
@@ -29,14 +29,14 @@
         {% block header %}
         <header id="header">
             <div class="inner">
-                
-                
+
+
                 <!-- Logo -->
                 <a href="{{ url_for('index') }}" class="logo">
                     <span class="symbol"><img src="{{ url_for('static', filename='/images/logo.svg', _external=True) }}"
                             alt="" /></span><span class="title">{{ brand }}</span>
                 </a>
-                
+
                 <!-- Nav -->
                 {% block nav %}
                 <nav>
@@ -54,10 +54,12 @@
             <h2>Menu</h2>
             <ul>
                 {% if nombre %}
-                    <p>Bienvenido, {{ nombre }}!</p>
+                <p>Bienvenido, {{ nombre }}!</p>
+                <a href="{{ url_for('logout') }}">Cerrar sesión>
                     <button id="logoutBtn">Cerrar sesión</button>
+                </a>
                 {% else %}
-                    <p>No estás logueado</p>
+                <p>No estás logueado</p>
                 {% endif %}
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="{{ url_for('catalogo') }}">Catálogo</a></li>
