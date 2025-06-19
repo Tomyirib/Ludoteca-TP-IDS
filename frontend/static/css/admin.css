@@ -208,3 +208,133 @@
 }
 
 /* Content */
+
+.admin-content {
+    /* background: rgba(255, 255, 255, 0.95); */
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); */
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.content-header h2 {
+    color: #d4deed;
+    font-weight: 700;
+}
+
+.content-filters {
+    display: flex;
+    gap: 1rem;
+}
+
+/* .search-input {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 200px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+} */
+
+/* Admin User Management Table */
+
+/* Admin Table */
+.admin-table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* background: white; */
+}
+
+.admin-table th {
+    /* background: #f7fafc; */
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #4a5568;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-table td {
+    padding: 1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    vertical-align: middle;
+}
+
+.admin-table tr:hover {
+    background: #28475c;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-weight: 600;
+    color: #a0aabb;
+}
+
+.user-id {
+    color: #a0aabb;
+    font-size: 0.75rem;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.role-admin {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+}
+
+.role-user {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.text-muted {
+    color: #718096;
+    font-size: 0.875rem;
+}

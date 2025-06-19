@@ -1,10 +1,19 @@
 from flask import Flask, render_template, request, session, redirect, flash, url_for
 import requests
 
+from comments import get_user_avatar_color
+from routes.admin import admin_bp
+
 app = Flask(__name__)
 BRAND = 'Ludoteca Vapor'
 API_BASE = "http://localhost:8080"
 app.secret_key = 'SECRET_KEY'
+
+# Register blueprints
+app.register_blueprint(admin_bp, url_prefix='/admin')
+
+# Jinja Env - Filters
+app.jinja_env.filters['hash_color'] = get_user_avatar_color
 
 @app.route('/')
 def index():
@@ -264,16 +273,6 @@ def post_comentario():
     return redirect(url_for('generic', game_id=redirect_id))
 
 # Admin Routes
-
-@app.route('/admin')
-# require admin: is_admin_user()
-def admin_dashboard():
-    """Admin dashboard with statistics"""
-    # user = get_current_user()
-    user = []
-    # stats = get_admin_dashboard_data()
-    stats = []
-    return render_template('admin/dashboard.html', user=user, stats=stats)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
