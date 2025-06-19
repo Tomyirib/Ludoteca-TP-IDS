@@ -12,7 +12,7 @@ def get_game(game_id):
 
     return jsonify(result)
 
-@games_bp.route('/search', methods=['GET'])
+@games_bp.route('/', methods=['GET'])
 def get_games():
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 12))

@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request
 from iniciar_db import connect_db
 
 # Define my blueprint
-comentarios_bp = Blueprint("comentarios", __name__)
+comentarios_bp = Blueprint("comments", __name__)
 
 # Queries
 QUERY_RECIENTES = """
@@ -40,7 +40,7 @@ VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
 # Create the routes
 
 # get_comentarios_recientes devuelve los 10 comentarios mas recientes
-@comentarios_bp.route("/recientes")
+@comentarios_bp.route("/recents")
 def get_comentarios_recientes():
 # def get_comentarios_recientes(cantidad):
     conn = connect_db()
@@ -56,7 +56,7 @@ def get_comentarios_recientes():
 
 
 # get_comentarios_juego devuelve los comentarios mas recientes del juego pasado
-@comentarios_bp.route("/<int:juego_id>")
+@comentarios_bp.route("/<int:game_id>")
 def get_comentarios_juego(juego_id):
     conn = connect_db()
     cursor = conn.cursor(dictionary=True)
@@ -91,3 +91,24 @@ def ingresar_comentario():
     conn.close()
 
     return ("Comentario ingresado correctamente", 201)
+
+
+@comentarios_bp.route('/rating/<int:game_id>')
+def get_rating_by_game_id(game_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+                       SELECT AVG(rating) AS promedio
+                       FROM comentarios
+                       WHERE juego_id = %s
+                       """, (game_id,))
+        result = cursor.fetchone()
+        promedio = result[0] if result[0] is not None else 0
+        return jsonify({'promedio': round(promedio, 1)}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
