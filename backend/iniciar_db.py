@@ -30,6 +30,7 @@ TABLAS = [
     "requisitos_minimos",
     "requisitos_recomendados",
     "usuario"
+    "biblioteca"
 ]
 
 def connect_db():
@@ -42,7 +43,7 @@ def connect_db():
     except Error as e:
         print(f"❌ Error al conectar a la base de datos: {e}")
         return None
-    
+
 def connect_db2():
     conn = None
     try:
@@ -55,7 +56,7 @@ def connect_db2():
         return None
 
 def ejecutar_init_db(connection):
-    
+
     try:
         cursor = connection.cursor()
         with open("backend/init_db.sql", "r") as file:
@@ -74,6 +75,7 @@ def ejecutar_init_db(connection):
                 print(f"❌ Error al ejecutar una sentencia SQL: {command}")
                 print(f"Error: {err}")
                 connection.rollback() 
+
         print("✅ Script init_db.sql ejecutado.")
     except FileNotFoundError:
         print("❌ Error: Archivo 'backend/init_db.sql' no encontrado.")
@@ -134,7 +136,6 @@ def generar_insert_sql(connection, name, data):
     cursor.close()
 
 def check_if_exists_data(connection):
-    
     for table in TABLAS:
         try:
             cursor = connection.cursor()
@@ -148,20 +149,20 @@ def check_if_exists_data(connection):
             cursor.execute("USE ludoteca;")
             cursor.execute(f"SELECT EXISTS(SELECT 1 FROM `{table}` LIMIT 1);")
             result = cursor.fetchone()
+
             if result and result[0]:  
                 print(f"ℹ️ La tabla '{table}' contiene datos. No se eliminará la base de datos.")
                 return True
         except Error as e:
             print(f"⚠️ No se pudo acceder a la tabla '{table}' (puede no existir): {e}")
             return False
-        
     return True
 
 def init_db():
     conn = None
     try:
         conn = connect_db2()
-    
+
         if conn:
             if check_if_exists_data(conn):
                 return

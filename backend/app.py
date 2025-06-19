@@ -132,6 +132,17 @@ def get_user(email):
     else:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
+@app.route('/user_info/<email>', methods=['GET'])
+def get_user_info(email):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id_usuario, first_name, es_admin, email FROM usuario WHERE email = %s", (email,))
+    user = cursor.fetchone()
+    if user:
+        return jsonify(user)
+    else:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
 @app.route('/biblioteca/<email>', methods=['GET'])
 def obtener_biblioteca(email):
     try:
