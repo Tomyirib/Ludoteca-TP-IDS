@@ -263,5 +263,17 @@ def post_comentario():
     # si todo bien, redirijo a la misma pagina
     return redirect(url_for('generic', game_id=redirect_id))
 
+# Admin Routes
+
+@app.route('/admin')
+# require admin: is_admin_user()
+def admin_dashboard():
+    """Admin dashboard with statistics"""
+    # user = get_current_user()
+    user = []
+    # stats = get_admin_dashboard_data()
+    stats = []
+    return render_template('admin/dashboard.html', user=user, stats=stats)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

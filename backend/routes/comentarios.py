@@ -1,10 +1,9 @@
-# Create Blueprint
-from flask import Blueprint, jsonify, request
-
+# Blueprint
 # import dependencies
+from flask import Blueprint, jsonify, request
 from iniciar_db import connect_db
 
-# Define my blueprint
+# Define blueprint
 comentarios_bp = Blueprint("comentarios", __name__)
 
 # Queries
@@ -49,7 +48,7 @@ INSERT INTO comentarios (usuario_id, juego_id, comentario_texto, rating, comenta
 VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
 """
 
-# Create the routes
+# Create routes
 
 # get_comentarios_recientes devuelve los 10 comentarios mas recientes
 @comentarios_bp.route("/recientes")
