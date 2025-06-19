@@ -1,10 +1,21 @@
 from flask import Flask, render_template, request, session, redirect, flash, url_for
 import requests
+from flask_mail import Mail, Message
+
 
 app = Flask(__name__)
 BRAND = 'Ludoteca Vapor'
 API_BASE = "http://localhost:8080"
 app.secret_key = 'SECRET_KEY'
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'ludotecavapor@gmail.com'
+app.config['MAIL_PASSWORD'] = 'sloo scvg etsy txgw '
+
+mail = Mail(app)
 
 @app.route('/')
 def index():
@@ -243,6 +254,31 @@ def post_comentario():
 
     # si todo bien, redirijo a la misma pagina
     return redirect(url_for('generic', game_id=redirect_id))
+
+@app.route('/contacto', methods=['GET', 'POST'])
+def contacto():
+    if request.method == 'POST':
+        try:
+            nombre = request.form['name']
+            mensaje = request.form['message']
+            email = request.form['email']
+
+            msg = Message(
+                subject=f"Nuevo mensaje de {nombre}",
+                sender='{email}',
+                recipients=['ludotecavapor@gmail.com'],
+                body=f"Remitente: {email}\n\n{mensaje}"
+            )
+            mail.send(msg)
+
+            flash('✅ Email enviado con éxito.', 'success')
+            return redirect(url_for('index'))
+
+        except Exception as e:
+            flash('❌ Error al enviar el email. Intente nuevamente.', 'error')
+            return redirect(url_for('index')) 
+
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

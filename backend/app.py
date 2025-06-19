@@ -12,7 +12,6 @@ app.secret_key = "SECRET_KEY"
 app.register_blueprint(comentarios_bp, url_prefix="/comentarios")
 
 @app.route('/')
-
 def back():
     return jsonify({"status": "OK", "message": "Backend API is running"}), 200
 
