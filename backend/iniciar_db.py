@@ -66,15 +66,16 @@ def ejecutar_init_db(connection):
 
         for command in sql_commands:
             try:
-                if command:
-                    cursor.execute(command)
+                if command: 
+                    cursor.execute(command)                
                     if cursor.with_rows:
-                        cursor.fetchall()
-                connection.commit()
+                        cursor.fetchall() 
+                connection.commit() 
             except Error as err:
                 print(f"❌ Error al ejecutar una sentencia SQL: {command}")
                 print(f"Error: {err}")
-                connection.rollback()
+                connection.rollback() 
+
         print("✅ Script init_db.sql ejecutado.")
     except FileNotFoundError:
         print("❌ Error: Archivo 'backend/init_db.sql' no encontrado.")
@@ -135,7 +136,6 @@ def generar_insert_sql(connection, name, data):
     cursor.close()
 
 def check_if_exists_data(connection):
-
     for table in TABLAS:
         try:
             cursor = connection.cursor()
@@ -149,13 +149,13 @@ def check_if_exists_data(connection):
             cursor.execute("USE ludoteca;")
             cursor.execute(f"SELECT EXISTS(SELECT 1 FROM `{table}` LIMIT 1);")
             result = cursor.fetchone()
-            if result and result[0]:
+
+            if result and result[0]:  
                 print(f"ℹ️ La tabla '{table}' contiene datos. No se eliminará la base de datos.")
                 return True
         except Error as e:
             print(f"⚠️ No se pudo acceder a la tabla '{table}' (puede no existir): {e}")
             return False
-
     return True
 
 def init_db():
@@ -166,7 +166,7 @@ def init_db():
         if conn:
             if check_if_exists_data(conn):
                 return
-
+            
             ejecutar_init_db(conn)
             print("\nObteniendo datos de juegos...")
             all_games_data = get_all_games_data()[0]# Esto debería devolver una lista de juegos
