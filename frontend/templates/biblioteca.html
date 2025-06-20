@@ -1,21 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Mi Biblioteca</h1>
+<h4 class="text-center">Mi Biblioteca</h4>
 
 {% if juegos %}
-  <ul>
-    {% for juego in juegos %}
-      <li>
-        <h3>{{ juego.name }}</h3>
-        <img src="{{ juego.header_image }}" alt="{{ juego.name }}" style="width:150px;">
-        <p>Precio: {{ juego.price }}</p>
-        <p>{{ juego.description }}</p>
-      </li>
-    {% endfor %}
-  </ul>
+{% include "cuadros.html" %}
 {% else %}
-  <p>No tienes juegos en tu biblioteca.</p>
+<p>No tienes juegos en tu biblioteca.</p>
 {% endif %}
 
 {% endblock %}
