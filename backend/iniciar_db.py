@@ -47,7 +47,7 @@ def connect_db():
 def connect_db2():
     conn = None
     try:
-        conn = mysql.connector.connect(**DB_CONFIG)
+        conn = mysql.connector.connect(**DB_CONFIG2)
         if conn.is_connected():
             print(f"✅ Conexión exitosa a la base de datos ludoteca")
         return conn
