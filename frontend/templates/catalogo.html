@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block footer %}{% endblock %}
 {% block content %}
+<h4 class="title-search">Buscar juegos:</h4>
+<input type="search" id="search">
+<div id="resultados" id="links"></div>
 
 {% include "cuadros.html" %}
 <br>
@@ -12,5 +15,5 @@
     {% if page * per_page < total %} <a href="{{ url_for('catalogo', page=page+1) }}">Siguiente</a>
         {% endif %}
 </div>
-
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
 {% endblock %}
