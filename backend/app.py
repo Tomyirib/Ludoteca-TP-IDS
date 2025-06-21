@@ -5,9 +5,11 @@ from db_login import insert_user, login
 from iniciar_db import connect_db as get_db_connection
 from routes.comentarios import comentarios_bp
 import bcrypt
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = "SECRET_KEY"
+CORS(app)
 
 app.register_blueprint(comentarios_bp, url_prefix="/comentarios")
 
