@@ -7,19 +7,7 @@ from iniciar_db import connect_db
 # Define my blueprint
 comentarios_bp = Blueprint("comments", __name__)
 
-# Queries
-QUERY_RECIENTES = """
-SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
-       juegos.id AS juego_id, juegos.name AS juego_nombre,
-       comentarios.comentario_texto, comentarios.rating,
-       juegos.header_image AS juego_imagen,
-       comentarios.comentario_timestamp
-FROM comentarios
-INNER JOIN usuario ON comentarios.usuario_id = usuario.id_usuario
-INNER JOIN juegos ON comentarios.juego_id = juegos.id
-ORDER BY comentario_timestamp DESC
-LIMIT 10
-"""
+
 QUERY_JUEGO = """
 SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
        juegos.id AS juego_id, juegos.name AS juego_nombre,
@@ -43,13 +31,6 @@ VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
 @comentarios_bp.route("/recents")
 def get_comentarios_recientes():
 # def get_comentarios_recientes(cantidad):
-    conn = connect_db()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(QUERY_RECIENTES)
-    # cursor.execute(QUERY_RECIENTES+"%s", (cantidad))
-    comentarios = cursor.fetchall()
-    cursor.close()
-    conn.close()
     if not comentarios:
         return ("No hay comentarios recientes", 204)
     return jsonify(comentarios)

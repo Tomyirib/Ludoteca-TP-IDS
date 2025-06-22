@@ -1,18 +1,10 @@
 from user_service import add_user
+from auth_repository import get_user_by_email
 
-def login(email, contrasenia):
-    conn = connect_db()
-    if not conn:
-        return False
+def login(email, password):
+    return get_user_by_email(email, password)
 
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id_usuario, first_name, last_name, contrasenia FROM usuario WHERE email = %s", (email,))
-    resultado = cursor.fetchone()
-
-    if resultado and resultado['contrasenia'] == contrasenia:
-        return resultado
-    else:
-        return False
-
+#TODO revisar si el register tiene que estar en el servicio de auth.
+# Agregar las validaciones antes de agregar y eso.
 def register(email, password, first_name, last_name):
     return add_user(email, password, first_name, last_name)
