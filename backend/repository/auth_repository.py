@@ -1,4 +1,4 @@
-from iniciar_db import connect_db as get_db_connection
+from config.iniciar_db import connect_db as get_db_connection
 
 QUERY_GET_USER_BY_EMAIL = """
 SELECT id_usuario, first_name, last_name, contrasenia FROM usuario WHERE email = %s

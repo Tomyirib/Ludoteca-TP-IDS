@@ -24,20 +24,3 @@ def add_comment(request):
 
 def get_rating_by_game_id(game_id):
     return get_rating_by_game_id(game_id)
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("""
-                       SELECT AVG(rating) AS promedio
-                       FROM comentarios
-                       WHERE juego_id = %s
-                       """, (game_id,))
-        result = cursor.fetchone()
-        promedio = result[0] if result[0] is not None else 0
-        return jsonify({'promedio': round(promedio, 1)}), 200
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()

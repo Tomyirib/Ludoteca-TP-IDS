@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from library_service import add_library, get_library
+from service.library_service import add_library, get_library
 library_bp = Blueprint("library", __name__)
 
 @library_bp.route('/add', methods=['POST'])

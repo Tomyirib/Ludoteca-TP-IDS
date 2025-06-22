@@ -1,5 +1,5 @@
-from user_service import add_user
-from auth_repository import get_user_by_email
+from service.user_service import add_user
+from repository.auth_repository import get_user_by_email
 
 def login(email, password):
     return get_user_by_email(email, password)

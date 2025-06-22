@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 
 user_bp = Blueprint("user", __name__)
 
-@app.route('/user/<email>', methods=['GET'])
+@user_bp.route('/user/<email>', methods=['GET'])
 def get_user(email):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)

@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from backend.service.steam_service import get_all_games_data
+from service.steam_service import get_all_games_data
 import json
 
 DB_CONFIG = {

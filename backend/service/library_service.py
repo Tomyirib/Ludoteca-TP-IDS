@@ -1,5 +1,5 @@
-from library_repository import add_library as add
-from library_repository import get_library as get
+from repository.library_repository import add_library as add
+from repository.library_repository import get_library as get
 from flask import jsonify
 
 def add_library(request):

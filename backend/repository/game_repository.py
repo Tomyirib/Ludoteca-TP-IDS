@@ -1,4 +1,4 @@
-from iniciar_db import connect_db as get_db_connection
+from config.iniciar_db import connect_db as get_db_connection
 from flask import jsonify
 
 QUERY_GET_BY_ID = """
