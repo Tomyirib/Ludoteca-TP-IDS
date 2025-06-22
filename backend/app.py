@@ -17,4 +17,4 @@ app.register_blueprint(library_bp, url_prefix="/library")
 app.register_blueprint(user_bp, url_prefix="/user")
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(host='0.0.0.0', debug=True, port=8080)

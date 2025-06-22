@@ -204,7 +204,7 @@ def procesar_compra():
         return redirect(url_for('carrito'))
 
 def get_game(game_id):
-    response = requests.get(f"http://localhost:8080/games/{game_id}")
+    response = requests.get(f"http://backend:8080/games/{game_id}")
     if response.status_code == 200:
         return response.json()
     else:
@@ -300,4 +300,4 @@ def contacto():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=True, port=3000)

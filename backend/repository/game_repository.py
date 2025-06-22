@@ -40,6 +40,9 @@ QUERY_COUNT_TOTAL = """
 def get_game_by_id(id):
     connection = get_db_connection()
 
+    if not connection:
+        print("No database connection")
+
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute(QUERY_GET_BY_ID, (id,))
