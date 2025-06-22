@@ -7,7 +7,7 @@
 <html>
 
 <head>
-    <title>{{ brand }}</title>
+    <title>Ludoteca Vapor</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
@@ -41,7 +41,7 @@
                 <!-- Logo -->
                 <a href="{{ url_for('index') }}" class="logo">
                     <span class="symbol"><img src="{{ url_for('static', filename='/images/logo.svg', _external=True) }}"
-                            alt="" /></span><span class="title">{{ brand }}</span>
+                            alt="" /></span><span class="title">Ludoteca Vapor</span>
                 </a>
 
                 <!-- Nav -->
@@ -60,9 +60,9 @@
         <nav id="menu">
             <h2>Menu</h2>
             <ul>
-                {% if nombre %}
+                {% if session['first_name'] %}
                 <div class="logout-container">
-                    <p class="logout-text">Bienvenido, {{ nombre }}!</p>
+                    <p class="logout-text">Bienvenido, {{ session['first_name'] }}!</p>
                     <a href="{{ url_for('logout') }}">
                     <button id="logoutBtn" class="logout-button">Cerrar sesión</button>
                     </a>
@@ -95,7 +95,7 @@
             <div class="inner">
                 <section>
                     <h2>Contactanos</h2>
-                    <form method="post" action="#">
+                    <form method="post" action="{{ url_for('contacto') }}">
                         <div class="fields">
                             <div class="field half">
                                 <input type="text" name="name" id="name" placeholder="Nombre" />

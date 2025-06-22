@@ -1,7 +1,7 @@
 # Create Blueprint
 from flask import Blueprint, jsonify, request
 
-from repository.comments_repository import add_comment, get_rating_by_game_id, get_comments_by_game, get_recents
+from repository.comments_repository import add_comment, get_rating_by_game_id, get_comments_by_game, get_recents, get_comments_by_user
 
 # Define my blueprint
 comments_bp = Blueprint("comments", __name__)
@@ -25,3 +25,8 @@ def add_comment():
 @comments_bp.route('/rating/<int:game_id>')
 def get_rating_by_game_id(game_id):
     return get_rating_by_game_id(game_id)
+
+
+@comments_bp.route("/user/<int:usuario_id>")
+def get_comments_users(usuario_id):
+    return get_comments_by_user(usuario_id)

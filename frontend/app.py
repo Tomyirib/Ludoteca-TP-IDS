@@ -1,10 +1,21 @@
 from flask import Flask, render_template, request, session, redirect, flash, url_for
 import requests
+from flask_mail import Mail, Message
+
 
 app = Flask(__name__)
 BRAND = 'Ludoteca Vapor'
 API_BASE = "http://localhost:8080"
 app.secret_key = 'SECRET_KEY'
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'ludotecavapor@gmail.com'
+app.config['MAIL_PASSWORD'] = 'sloo scvg etsy txgw '
+
+mail = Mail(app)
 
 @app.route('/')
 def index():
@@ -17,7 +28,7 @@ def index():
         juego = get_game(game_id)
         if juego:
             juegos.append(juego)
-    return render_template('index.html', brand=BRAND, juegos=juegos, nombre=nombre)
+    return render_template('index.html', juegos=juegos, nombre=nombre)
 
 @app.route('/juego/<int:game_id>', methods=['GET'])
 def generic(game_id):
@@ -28,7 +39,7 @@ def generic(game_id):
     if juego:
         comentarios_juego = obtener_comentarios_juego(game_id)
         valoracion_promedio = obtener_valoracion_promedio(game_id)
-        return render_template('generic.html', juego=juego, brand=BRAND, comentarios_recientes=comentarios_juego, rating_prom=valoracion_promedio, nombre=nombre)
+        return render_template('generic.html', juego=juego, comentarios_recientes=comentarios_juego, rating_prom=valoracion_promedio, nombre=nombre)
     else:
         return print("Juego no encontrado"), 404
 
@@ -45,6 +56,11 @@ def login():
         resp = requests.post('http://localhost:8080/auth/login', data=data)
         if resp.status_code == 200:
             session['email'] = request.form['email_login']
+            user = get_user_info(session['email'])
+            session['first_name'] = user['first_name']
+            session['es_admin'] = user['es_admin']
+            session['esta_logueado'] = True
+            session['usuario_id'] = user['id_usuario']
             flash('Inicio de sesión exitoso', 'success')
             return redirect(url_for('index'))
         else:
@@ -93,10 +109,10 @@ def carrito():
         game_info = get_game(game_id)
         if game_info:
             juegos_carrito.append(game_info)
-            
+
             price_str = game_info.get("price", "")
             if price_str and "Gratis" not in price_str:
-               
+
                 import re
                 num = re.sub(r'[^\d,\.]', '', price_str)
                 num = num.replace(",", ".")
@@ -193,13 +209,19 @@ def get_game(game_id):
         return response.json()
     else:
         return None
-    
+
 
 
 def get_user_name(email):
     resp = requests.get(f'http://localhost:8080/user/{email}')
     if resp.status_code == 200:
         return resp.json().get('first_name')
+    return None
+
+def get_user_info(email):
+    resp = requests.get(f'http://localhost:8080/user_info/{email}')
+    if resp.status_code == 200:
+        return resp.json()
     return None
 
 def obtener_comentarios_recientes():
@@ -220,11 +242,19 @@ def obtener_comentarios_juego(juego_id):
         return response.json()
     return []
 
+def obtener_comentarios_usuario(usuario_id):
+    response = requests.get(f"{API_BASE}/comments/user/{usuario_id}")
+    if response.status_code == 200:
+        return response.json()
+    return []
+
 @app.route('/comunidad')
 def comunidad():
     comentarios_recientes = obtener_comentarios_recientes()
-    # comentarios_usuario = obtener_comentarios_usuario()
-    return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes)
+    comentarios_usuario = []
+    if 'usuario_id' in session:
+        comentarios_usuario = obtener_comentarios_usuario(session['usuario_id'])
+    return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes, comentarios_usuario=comentarios_usuario)
 
 @app.route('/post_comentario', methods=["POST"])
 def post_comentario():
@@ -243,6 +273,31 @@ def post_comentario():
 
     # si todo bien, redirijo a la misma pagina
     return redirect(url_for('generic', game_id=redirect_id))
+
+@app.route('/contacto', methods=['GET', 'POST'])
+def contacto():
+    if request.method == 'POST':
+        try:
+            nombre = request.form['name']
+            mensaje = request.form['message']
+            email = request.form['email']
+
+            msg = Message(
+                subject=f"Nuevo mensaje de {nombre}",
+                sender='{email}',
+                recipients=['ludotecavapor@gmail.com'],
+                body=f"Remitente: {email}\n\n{mensaje}"
+            )
+            mail.send(msg)
+
+            flash('✅ Email enviado con éxito.', 'success')
+            return redirect(url_for('index'))
+
+        except Exception as e:
+            flash('❌ Error al enviar el email. Intente nuevamente.', 'error')
+            return redirect(url_for('index')) 
+
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

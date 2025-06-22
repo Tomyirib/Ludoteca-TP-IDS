@@ -4,7 +4,7 @@
     padding: 15px;
     margin-bottom: 15px;
     /* background-color: #fff; */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .comentario-layout {
@@ -80,64 +80,67 @@
 }
 
 .rating {
-  	display: flex;
-  	flex-direction: row-reverse;
- 	justify-content: flex-end;
-  	padding-top: 2vh;
-	z-index: 10;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    padding-top: 2vh;
+    z-index: 10;
 }
 
 .rating input {
-  	display: none !important;
-	position: absolute;
-  	left: -9999px;
-  	opacity: 0;
+    display: none !important;
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
 }
 
 .rating label {
-  	font-size: 2em !important;
-  	color: #ccc;
-  	cursor: pointer;
-  	transition: color 0.2s;
-  	margin: 0 2px !important; /* Reducí el espacio horizontal */
- 	padding: 0 !important;
-	padding-left: 0.5vh;
+    font-size: 2em !important;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+    margin: 0 2px !important;
+    /* Reducí el espacio horizontal */
+    padding: 0 !important;
+    padding-left: 0.5vh;
 }
 
 .rating label:hover,
-.rating label:hover ~ label {
-  	color: orange;
-}.rating-title {
-	padding: 0 !important;
-	margin: 0 !important;
+.rating label:hover~label {
+    color: orange;
 }
 
-.rating input:checked ~ label {
-  	color: orange;
+.rating-title {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.rating input:checked~label {
+    color: orange;
 }
 
 .rating label::before {
-  	content: none !important;
+    content: none !important;
 }
 
 .list {
-	margin-bottom: 5vh;
+    margin-bottom: 5vh;
 }
 
 .primary {
-	width: 17vh;
-	height: 4vh !important;
-	font-size: 0.7rem !important;
-	
+    width: 17vh;
+    height: 4vh !important;
+    font-size: 0.7rem !important;
+
 }
 
 .actions {
-	justify-content: center;
+    justify-content: center;
 }
 
 .comunidad-section {
-	margin: 0 !important;
-	padding: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .comentario-body span {
@@ -148,4 +151,39 @@
 
 .estrella {
     font-size: 1rem !important;
+}
+
+@media (max-width: 700px) {
+    .comentario-layout {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .comentario-juego,
+    .comentario-usuario {
+        width: 100%;
+        align-items: center;
+    }
+
+    .comunidad-section {
+        min-width: 0;
+        width: 100%;
+        padding: 5px;
+    }
+
+    .comentario {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .comentario-texto {
+        font-size: 1rem;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .rating label {
+        font-size: 1.5em !important;
+    }
 }

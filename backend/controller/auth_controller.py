@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from service.auth_service import register
-
+import bcrypt
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route('/register', methods=['POST'])
@@ -13,7 +13,9 @@ def register():
     if not all([email, password, first_name, last_name]):
         return jsonify({"error": "Faltan campos requeridos"}), 400
 
-    result = register(email, password, first_name, last_name)
+    hashed_password = hashear_password(password)
+
+    result = register(email, hashed_password, first_name, last_name)
     if result == "duplicado":
         return jsonify({"error": "El usuario ya está registrado"}), 409
     elif result is True:
@@ -35,3 +37,6 @@ def login():
         return jsonify({"mensaje": "Login exitoso"}), 200
     else:
         return jsonify({"error": "Email o contraseña incorrectos"}), 401
+
+def hashear_password(password):
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')

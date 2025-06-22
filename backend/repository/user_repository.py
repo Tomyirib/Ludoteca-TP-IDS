@@ -28,3 +28,11 @@ def get_user(email):
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT first_name FROM usuario WHERE email = %s", (email,))
     user = cursor.fetchone()
+    return user
+
+def get_info(email):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id_usuario, first_name, es_admin, email FROM usuario WHERE email = %s", (email,))
+    user = cursor.fetchone()
+    return user

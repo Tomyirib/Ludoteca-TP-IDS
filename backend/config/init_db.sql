@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS requisitos_recomendados (
 
 CREATE TABLE IF NOT EXISTS usuario (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    es_admin BOOLEAN,
+    es_admin BOOLEAN DEFAULT FALSE,
     email VARCHAR(255) UNIQUE NOT NULL,
     contrasenia VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,

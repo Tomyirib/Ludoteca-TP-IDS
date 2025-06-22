@@ -39,6 +39,19 @@ WHERE comentarios.juego_id = %s
 ORDER BY comentario_timestamp DESC
 """
 
+QUERY_USUARIO = """
+SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
+       juegos.id AS juego_id, juegos.name AS juego_nombre,
+       comentarios.comentario_texto, comentarios.rating,
+       juegos.header_image AS juego_imagen,
+       comentarios.comentario_timestamp
+FROM comentarios
+INNER JOIN usuario ON comentarios.usuario_id = usuario.id_usuario
+INNER JOIN juegos ON comentarios.juego_id = juegos.id
+WHERE comentarios.usuario_id = %s
+ORDER BY comentario_timestamp DESC
+"""
+
 def get_recents():
     conn = connect_db()
     cursor = conn.cursor(dictionary=True)
@@ -85,3 +98,14 @@ def get_rating_by_game_id():
     finally:
         cursor.close()
         conn.close()
+
+def get_comments_by_user(user):
+    conn = connect_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(QUERY_USUARIO, (user,))
+    comments = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    if not comments:
+        return ("No hay comentarios para este juego", 204)
+    return jsonify(comments)
