@@ -10,6 +10,8 @@ Trabajo Practico Final para la material de introduccion al desarrollo de softwar
 - Gianluca Miguel Pate - Padron: 105695
 - Dionel Ulises Paco Anagua - Padron: 113561
 
+docker-compose up --build
+
 ## Endpoints
 - '/' o index -----> Es el home de la pagina. Aca vemos juegos que son "novedad" o "populares" tanto con un formato de carrusel como 
 con cuadros que muestran la descripcion y el precio del mismo.

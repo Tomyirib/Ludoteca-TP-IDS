@@ -4,14 +4,14 @@ from service.steam_service import get_all_games_data
 import json
 
 DB_CONFIG = {
-    'host': 'localhost',
+    'host': 'mysql',
     'user': 'root',
     'password': 'root',
     'port': 3306,
     'database': 'ludoteca'
 }
 DB_CONFIG2 = {
-    'host': 'localhost',
+    'host': 'mysql',
     'user': 'root',
     'password': 'root',
     'port': 3306
@@ -102,7 +102,7 @@ def generar_insert_sql(connection, name, data):
 
             if isinstance(value, str):
                 # Escapar comillas simples correctamente para SQL
-                values.append(f"'{value.replace("'", "''")}'")
+                values.append("'" + value.replace("'", "''") + "'")
             elif isinstance(value, (int, float)):
                 values.append(str(value))
             elif isinstance(value, (list, dict)):
@@ -113,7 +113,7 @@ def generar_insert_sql(connection, name, data):
                 values.append("NULL")
             else:
                 # Caso por defecto, convertir a string y escapar
-                values.append(f"'{str(value).replace("'", "''")}'")
+                values.append("'" + value.replace("'", "''") + "'")
 
         cols_str = ", ".join(columns)
         vals_str = ", ".join(values)
