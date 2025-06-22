@@ -18,7 +18,7 @@ def get_comments_by_game_id(game_id):
     return get_comments_by_game(game_id)
 
 # Subir comentario a base de datos
-@comments_bp.route("/ingresar_comentario", methods=["POST"])
+@comments_bp.route("/add", methods=["POST"])
 def add_comment():
     return add_comment(request.form.to_dict())
 

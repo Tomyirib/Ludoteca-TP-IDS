@@ -42,7 +42,7 @@ def login():
             'email_login': request.form['email_login'],
             'password_login': request.form['password_login']
         }
-        resp = requests.post('http://localhost:8080/auth', data=data)
+        resp = requests.post('http://localhost:8080/auth/login', data=data)
         if resp.status_code == 200:
             session['email'] = request.form['email_login']
             flash('Inicio de sesión exitoso', 'success')
@@ -65,7 +65,7 @@ def register():
             'first_name': request.form['first_name'],
             'last_name': request.form['last_name']
         }
-        resp = requests.post('http://localhost:8080/auth', data=data)
+        resp = requests.post('http://localhost:8080/auth/register', data=data)
         if resp.status_code == 201:
             flash('Registro exitoso. Ya podés iniciar sesión.', 'success')
             return redirect(url_for('login'))
@@ -141,7 +141,7 @@ def biblioteca():
     nombre = get_user_name(session['email'])
     email = session['email']
 
-    resp = requests.get(f'http://localhost:8080/biblioteca/{email}')
+    resp = requests.get(f'http://localhost:8080/library/{email}')
     if resp.status_code != 200:
         flash("Error al obtener la biblioteca", "danger")
         juegos = []
@@ -174,7 +174,7 @@ def procesar_compra():
     }
 
     try:
-        resp = requests.post('http://localhost:8080/biblioteca/agregar', json=data)
+        resp = requests.post('http://localhost:8080/library/add', json=data)
         if resp.status_code == 200:
             session['carrito'] = []
             flash('Compra procesada. Juegos agregados a tu biblioteca.', 'success')
@@ -203,19 +203,19 @@ def get_user_name(email):
     return None
 
 def obtener_comentarios_recientes():
-    response = requests.get(f"{API_BASE}/comentarios/recientes")
+    response = requests.get(f"{API_BASE}/comments/recents")
     if response.status_code == 200:
         return response.json()
     return []
 
 def obtener_valoracion_promedio(game_id):
-    response = requests.get(f"{API_BASE}/rating/{game_id}")
+    response = requests.get(f"{API_BASE}/comments/rating/{game_id}")
     if response.status_code == 200:
         return response.json().get('promedio', 0)
     return 0
 
 def obtener_comentarios_juego(juego_id):
-    response = requests.get(f"{API_BASE}/comentarios/{juego_id}")
+    response = requests.get(f"{API_BASE}/comments/{juego_id}")
     if response.status_code == 200:
         return response.json()
     return []
@@ -235,7 +235,7 @@ def post_comentario():
     comentario_data["usuario_id"] = "1"
     redirect_id = int(request.form["juego_id"])
     # Request al API
-    response = requests.post(f"{API_BASE}/comentarios/ingresar_comentario", comentario_data)
+    response = requests.post(f"{API_BASE}/comments/add", comentario_data)
     # Si error en API
     if response.status_code == 500:
         # Flash error
