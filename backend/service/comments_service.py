@@ -11,7 +11,6 @@ def add_comment(request):
     usuario_id = int(data.get("usuario_id").strip())
     juego_id = int(data.get("juego_id").strip())
     comentario_texto = data.get("comentario_texto").strip()
-    rating_str = data.get("rating")
     rating = data.get("rating", "1").strip()  # Le pongo valor por defecto 0 REVISAR
     rating = int(rating)
 

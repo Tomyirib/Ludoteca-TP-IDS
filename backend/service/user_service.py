@@ -1,20 +1,13 @@
+from flask import Blueprint, jsonify
+from repository.user_repository import add_user as add
+
 #TODO move to repository
 def add_user(email, password, first_name, last_name):
-    conn = connect_db()
-    if not conn:
-        return False
+    add(email, password, first_name, last_name)
 
-    try:
-        cursor = conn.cursor()
-        sql = "INSERT INTO usuario (email, contrasenia, first_name, last_name) VALUES (%s, %s, %s, %s)"
-        cursor.execute(sql, (email, password, first_name, last_name))
-        conn.commit()
-        return True
-
-    except mysql.connector.IntegrityError as e:
-        if "Duplicate entry" in str(e):
-            return "duplicado"
-        return False
-    finally:
-        cursor.close()
-        conn.close()
+def get_user(email):
+    user = get_user(email)
+    if user:
+        return jsonify(user)
+    else:
+        return jsonify({"error": "Usuario no encontrado"}), 404
