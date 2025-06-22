@@ -11,16 +11,19 @@ def register():
     last_name = request.form['last_name']
 
     if not all([email, password, first_name, last_name]):
+
         return jsonify({"error": "Faltan campos requeridos"}), 400
 
     hashed_password = hashear_password(password)
 
     result = auth_service.register(email, hashed_password, first_name, last_name)
+    print(result)
     if result == "duplicado":
         return jsonify({"error": "El usuario ya está registrado"}), 409
     elif result is True:
         return jsonify({"mensaje": "Usuario registrado correctamente"}), 201
     else:
+        print("Error en el registro")
         return jsonify({"error": "No se pudo registrar el usuario"}), 500
 
 @auth_bp.route('/login', methods=['POST'])

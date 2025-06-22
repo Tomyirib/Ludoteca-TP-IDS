@@ -4,7 +4,7 @@ from repository.user_repository import get_info
 
 #TODO move to repository
 def add_user(email, password, first_name, last_name):
-    add(email, password, first_name, last_name)
+    return add(email, password, first_name, last_name)
 
 def get_user(email):
     user = get_user(email)
