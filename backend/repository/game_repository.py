@@ -24,11 +24,7 @@ QUERY_GET_URL = "SELECT url FROM screenshots WHERE juego_id = %s"
 QUERY_GET_VIDEOS = "SELECT url FROM videos WHERE juego_id = %s"
 
 QUERY_GET_ALL_GAMES = """
-SELECT 
-        j.*, 
-    FROM juegos j
-    LIMIT %s
-    OFFSET %s
+SELECT j.* FROM juegos j LIMIT %s OFFSET %s
 """
 
 QUERY_COUNT_TOTAL = """
