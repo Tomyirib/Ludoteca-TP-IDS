@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8
-    container_name: mysql_ludoteca_tp
+    container_name: mysql_ludoteca
     # restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -9,13 +9,20 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - ./backend/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
 
   backend:
     build: ./backend
     container_name: backend_app
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
       - "8080:8080"
     volumes:

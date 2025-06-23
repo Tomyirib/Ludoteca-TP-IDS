@@ -58,7 +58,7 @@ def ejecutar_init_db(connection):
 
     try:
         cursor = connection.cursor()
-        with open("backend/init_db.sql", "r") as file:
+        with open("init_db.sql", "r") as file:
             init_sql = file.read()
 
         sql_commands = [cmd.strip() for cmd in init_sql.split(';') if cmd.strip()]
@@ -77,7 +77,7 @@ def ejecutar_init_db(connection):
 
         print("✅ Script init_db.sql ejecutado.")
     except FileNotFoundError:
-        print("❌ Error: Archivo 'backend/init_db.sql' no encontrado.")
+        print("❌ Error: Archivo '/backend/config/init_db.sql' no encontrado.")
     except Error as e:
         print(f"❌ Error general al ejecutar init_db: {e}")
     finally:
