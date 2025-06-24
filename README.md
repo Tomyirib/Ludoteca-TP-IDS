@@ -39,6 +39,7 @@ Antes de iniciar los servicios, asegurate de que los puertos necesarios estén l
 lsof -i :3306   # Puerto MySQL
 lsof -i :8080   # Puerto Backend
 lsof -i :3000   # Puerto Frontend
+kill -9 <PID>   # En caso de que un puerto esté en uso
 ```
 
 3. **Iniciar proyecto**
