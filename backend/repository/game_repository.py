@@ -45,16 +45,16 @@ def get_game_by_id(id):
     game = cursor.fetchone()
 
     cursor.execute(QUERY_GET_GENDERS, (id,))
-    generos = cursor.fetchall()
+    generos = [row["descripcion"] for row in cursor.fetchall()]
 
     cursor.execute(QUERY_GET_CATEGORIES, (id,))
-    categories = cursor.fetchall()
+    categories = [row["descripcion"] for row in cursor.fetchall()]
 
     cursor.execute(QUERY_GET_URL, (id,))
-    screenshots = cursor.fetchall()
+    screenshots = [row["url"] for row in cursor.fetchall()]
 
     cursor.execute(QUERY_GET_VIDEOS, (id,))
-    videos = cursor.fetchall()
+    videos = [row["url"] for row in cursor.fetchall()]
 
     game["generos"] = generos
     game['categories'] = categories
