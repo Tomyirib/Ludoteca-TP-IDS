@@ -1,4 +1,5 @@
 from flask import jsonify
+from config.iniciar_db import connect_db as get_db_connection
 
 def add_library(email, game_ids):
     try:
