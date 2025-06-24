@@ -1,4 +1,4 @@
-from comments_repository import get_recents, get_comments_by_user, get_comments_by_game, add_comment, get_rating_by_game_id, get_comments_by_user
+from repository.comments_repository import get_recents, get_comments_by_user, get_comments_by_game, add_comment, get_rating_by_game_id, get_comments_by_user
 
 def get_recents_comments():
     return get_recents()

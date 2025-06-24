@@ -41,7 +41,7 @@ def generic(game_id):
         valoracion_promedio = obtener_valoracion_promedio(game_id)
         return render_template('generic.html', juego=juego, comentarios_recientes=comentarios_juego, rating_prom=valoracion_promedio, nombre=nombre)
     else:
-        return print("Juego no encontrado"), 404
+        return "Juego no encontrado", 404
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -267,9 +267,9 @@ def post_comentario():
     # Request al API
     response = requests.post(f"{API_BASE}/comments/add", comentario_data)
     # Si error en API
-    if response.status_code == 500:
+    if response.status_code != 201:
         # Flash error
-        return print("No se pudo ingresar comentario desde backend"), 500
+        return "No se pudo ingresar comentario desde backend", 500
 
     # si todo bien, redirijo a la misma pagina
     return redirect(url_for('generic', game_id=redirect_id))

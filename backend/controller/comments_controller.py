@@ -9,8 +9,8 @@ comments_bp = Blueprint("comments", __name__)
 
 # get_comentarios_recientes devuelve los 10 comentarios mas recientes
 @comments_bp.route("/recents")
-def get_recents_comments(request):
-    return get_recents(request)
+def get_recents_comments():
+    return get_recents()
 
 # get_comentarios_juego devuelve los comentarios mas recientes del juego pasado
 @comments_bp.route("/<int:game_id>")
@@ -19,11 +19,20 @@ def get_comments_by_game_id(game_id):
 
 # Subir comentario a base de datos
 @comments_bp.route("/add", methods=["POST"])
-def add_comment():
-    return add_comment(request.form.to_dict())
+def add():
+    data = request.form.to_dict()
+    usuario_id = int(data.get("usuario_id"))
+    juego_id = int(data.get("juego_id"))
+    comentario_texto = data.get("comentario_texto")
+    rating = int(data.get("rating", 1))
+    result = add_comment(usuario_id, juego_id, comentario_texto, rating)
+    if result:
+        return "Comentario ingresado correctamente", 201
+    else:
+        return "Problema al guardar", 500
 
 @comments_bp.route('/rating/<int:game_id>')
-def get_rating_by_game_id(game_id):
+def rating_by_game_id(game_id):
     return get_rating_by_game_id(game_id)
 
 

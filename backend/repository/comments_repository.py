@@ -84,7 +84,7 @@ def add_comment(usuario_id, juego_id, comentario_texto, rating):
     except Exception as e:
         return False
 
-def get_rating_by_game_id():
+def get_rating_by_game_id(game_id):
     try:
         conn = connect_db()
         cursor = conn.cursor()
