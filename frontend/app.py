@@ -219,7 +219,7 @@ def get_user_name(email):
     return None
 
 def get_user_info(email):
-    resp = requests.get(f'http://backend:8080/user_info/{email}')
+    resp = requests.get(f'http://backend:8080/user/info/{email}')
     if resp.status_code == 200:
         return resp.json()
     return None

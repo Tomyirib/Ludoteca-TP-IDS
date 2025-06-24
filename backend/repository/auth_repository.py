@@ -14,7 +14,7 @@ def get_user_by_email(email, password):
     user = cursor.fetchone()
 
     hashed_password = user['contrasenia']
-    if user and check_password(hashed_password, hashed_password):
+    if user and check_password(password, hashed_password):
         return user
     else:
         return False
