@@ -1,13 +1,14 @@
 from flask import Blueprint, jsonify
 from repository.user_repository import add_user as add
 from repository.user_repository import get_info
+from repository.user_repository import get_user as get_user_repo
 
 #TODO move to repository
 def add_user(email, password, first_name, last_name):
     return add(email, password, first_name, last_name)
 
 def get_user(email):
-    user = get_user(email)
+    user = get_user_repo(email)
     if user:
         return jsonify(user)
     else:
