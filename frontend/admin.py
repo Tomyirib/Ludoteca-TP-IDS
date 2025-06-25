@@ -50,17 +50,9 @@ def admin_update_user(user_id, first_name, last_name, email, es_admin):
     return update_user(user_data) # API Call to DB
 
 def admin_delete_user(id_usuario):
-    print("\n admin.py frontend functions\nenter admin_delete_user()\n")
-    print("\n admin.py frontend functions\nid_usuario: ", id_usuario)
-    print("\n admin.py frontend functions\nsession id: ", session['usuario_id'], '\n')
-    print("\n admin.py frontend functions\nevaluation: ", (id_usuario == session.get('usuario_id')))
     if id_usuario == session.get('usuario_id'):
         return {"status": "error", "message" : "Cannot delete your own account"}
     return delete_user(id_usuario) # API Call to DB
-
-def get_comments_for_admin():
-    """Get all comments with admin formatting"""
-    return get_all_comments_admin()
 
 # API CALLS
 
@@ -88,9 +80,4 @@ def delete_user(id_usuario):
     """API CALL TO Delete user data by ID"""
     print("\n admin.py frontend functions\nenter delete_user()\n")
     response = requests.post(f'{API_BASE}/users/delete_user/{id_usuario}')
-    return response.json()
-
-def get_all_comments_admin():
-    """API CALL TO Retrieve all comments"""
-    response = requests.get(f'{API_BASE}/comentarios/todos')
     return response.json()

@@ -1,7 +1,7 @@
 # Admin Blueprint
 # import dependencies
 from flask import Blueprint, url_for, request, render_template, flash, redirect
-from admin import get_users_for_admin, get_admin_dashboard_data, admin_update_user, get_user_for_admin, admin_delete_user, get_comments_for_admin
+from admin import get_users_for_admin, get_admin_dashboard_data, admin_update_user, get_user_for_admin, admin_delete_user
 # Define Blueprint
 admin_bp = Blueprint("admin", __name__)
 
@@ -67,20 +67,3 @@ def delete_user(id_usuario):
         flash(response.json()['message'], response.json()['status'])
 
     return redirect(url_for('admin.users'))
-
-    # if success:
-    #     flash(message, 'success')
-    # else:
-    #     flash(message, 'error')
-
-    # return redirect(url_for('admin.users'))
-
-# Moderate Comments
-@admin_bp.route('/comments')
-# @require_admin
-def comments():
-    """Admin comments management page"""
-    # user = get_current_user()
-    user = []
-    comments = get_comments_for_admin()
-    return render_template('admin/comments.html', user=user, comments=comments)

@@ -1,7 +1,5 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/comentarios.css') }}">
 
-{# {% include 'dejar_comentario.html' %} #}
-
 <section class="comunidad-section">
     <h2 class="comunidad-header">Comentarios Recientes</h2>
     <div class="comunidad-content">
@@ -22,8 +20,6 @@
                     <div class="timestamp">{{ c.comentario_timestamp }}</div>
                 </div>
                 <div class="comentario-usuario">
-                    {# <img class="avatar" src="{{ url_for('static', filename='images/' + c.usuario_avatar) }}" #}
-                     {# <img class="avatar" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Usuario"> #}
                      <div class="user-avatar" style="background-color: {{ c.usuario_username | first | upper | hash_color }}">
                                     {{ c.usuario_username[0].upper() }}
                     </div>
