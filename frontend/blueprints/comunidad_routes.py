@@ -14,7 +14,7 @@ def generic(game_id):
     if juego:
         comentarios_juego = obtener_comentarios_juego(game_id)
         valoracion_promedio = obtener_valoracion_promedio(game_id)
-        return render_template('generic.html', juego=juego, comentarios_recientes=comentarios_juego, rating_prom=valoracion_promedio, nombre=nombre)
+        return render_template('endpoints/generic.html', juego=juego, comentarios_recientes=comentarios_juego, rating_prom=valoracion_promedio, nombre=nombre)
     else:
         return "Juego no encontrado", 404
 
@@ -24,7 +24,7 @@ def comunidad():
     comentarios_usuario = []
     if 'usuario_id' in session:
         comentarios_usuario = obtener_comentarios_usuario(session['usuario_id'])
-    return render_template('comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes, comentarios_usuario=comentarios_usuario)
+    return render_template('endpoints/comunidad.html', brand=f"{BRAND} | Comunidad", comentarios_recientes=comentarios_recientes, comentarios_usuario=comentarios_usuario)
 
 @comunidad_bp.route('/post_comentario', methods=["POST"])
 def post_comentario():

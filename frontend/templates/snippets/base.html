@@ -39,7 +39,7 @@
 
 
                 <!-- Logo -->
-                <a href="{{ url_for('index') }}" class="logo">
+                <a href="{{ url_for('main.index') }}" class="logo">
                     <span class="symbol"><img src="{{ url_for('static', filename='/images/logo.svg', _external=True) }}"
                             alt="" /></span><span class="title">Ludoteca Vapor</span>
                 </a>
@@ -63,19 +63,19 @@
                 {% if session['first_name'] %}
                 <div class="logout-container">
                     <p class="logout-text">Bienvenido, {{ session['first_name'] }}!</p>
-                    <a href="{{ url_for('logout') }}">
+                    <a href="{{ url_for('auth.logout') }}">
                     <button id="logoutBtn" class="logout-button">Cerrar sesión</button>
                     </a>
                 </div>
                 {% else %}
                 <p>No estás logueado</p>
                 {% endif %}
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('catalogo') }}">Catálogo</a></li>
-                <li><a href="{{ url_for('comunidad') }}">Comunidad</li>
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('biblioteca') }}">Biblioteca</a></li>
-                <li><a href="{{ url_for('carrito') }}"><span class="material-symbols-outlined"
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('juegos.catalogo') }}">Catálogo</a></li>
+                <li><a href="{{ url_for('comunidad.comunidad') }}">Comunidad</li>
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('main.biblioteca') }}">Biblioteca</a></li>
+                <li><a href="{{ url_for('carrito.carrito') }}"><span class="material-symbols-outlined"
                             style="font-size: 36px">shopping_cart</span></a></li>
 
 
@@ -95,7 +95,7 @@
             <div class="inner">
                 <section>
                     <h2>Contactanos</h2>
-                    <form method="post" action="{{ url_for('contacto') }}">
+                    <form method="post" action="{{ url_for('comunidad.contacto') }}">
                         <div class="fields">
                             <div class="field half">
                                 <input type="text" name="name" id="name" placeholder="Nombre" />

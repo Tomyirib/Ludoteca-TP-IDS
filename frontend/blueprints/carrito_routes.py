@@ -9,7 +9,7 @@ carrito_bp = Blueprint('carrito', __name__)
 def carrito():
     if 'email' not in session:
         flash('Debes iniciar sesión para ver tu biblioteca.', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     carrito_ids = session.get('carrito', [])
     juegos_carrito = []
     total = 0.0
@@ -30,13 +30,13 @@ def carrito():
                 except:
                     pass
 
-    return render_template('carrito.carrito', brand=BRAND, juegos=juegos_carrito, total=round(total, 2))
+    return render_template('endpoints/carrito.html', brand=BRAND, juegos=juegos_carrito, total=round(total, 2))
 
 @carrito_bp.route('/add', methods=['POST'])
 def add():
     if 'email' not in session:
         flash('Debes iniciar sesión para agregar al carrito.', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     game_id = request.form.get('game_id')
     carrito = session.get('carrito', [])
     carrito.append(game_id)

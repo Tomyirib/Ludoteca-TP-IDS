@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "snippets/base.html" %}
 
 {% block content %}
 <h4 class="text-center">Mi Biblioteca</h4>
 
 {% if juegos %}
-{% include "cuadros.html" %}
+{% include "snippets/cuadros.html" %}
 {% else %}
 <p>No tienes juegos en tu biblioteca.</p>
 {% endif %}

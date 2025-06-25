@@ -16,13 +16,13 @@ def index():
         juego = get_game(game_id)
         if juego:
             juegos.append(juego)
-    return redirect(url_for('main.index'), juegos=juegos, nombre=nombre)
+    return render_template('endpoints/index.html', juegos=juegos, nombre=nombre)
 
 @main_bp.route('/carrito')
 def carrito():
     if 'email' not in session:
         flash('Debes iniciar sesión para ver tu biblioteca.', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     carrito_ids = session.get('carrito', [])
     juegos_carrito = []
     total = 0.0
@@ -43,14 +43,14 @@ def carrito():
                 except:
                     pass
 
-    return render_template('main.carrito', brand=BRAND, juegos=juegos_carrito, total=round(total, 2))
+    return render_template('endpoints/carrito.html', brand=BRAND, juegos=juegos_carrito, total=round(total, 2))
 
 @main_bp.route('/biblioteca')
 def biblioteca():
     nombre = None
     if 'email' not in session:
         flash('Debes iniciar sesión para ver tu biblioteca.', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     nombre = get_user_name(session['email'])
     email = session['email']
 
@@ -61,4 +61,4 @@ def biblioteca():
     else:
         juegos = resp.json().get('juegos', [])
 
-    return render_template('main.biblioteca', brand=BRAND, juegos=juegos,nombre=nombre)
+    return render_template('endpoints/biblioteca.html', brand=BRAND, juegos=juegos,nombre=nombre)

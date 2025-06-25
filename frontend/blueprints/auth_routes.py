@@ -28,8 +28,8 @@ def login():
         else:
             mensaje = resp.json().get('error', 'Usuario o contraseña incorrectos')
             flash(mensaje, 'danger')
-            return render_template('auth.login', brand=BRAND, nombre=nombre)
-    return render_template('auth.login', brand=BRAND, nombre=nombre)
+            return render_template('endpoints/login.html', brand=BRAND, nombre=nombre)
+    return render_template('endpoints/login.html', brand=BRAND, nombre=nombre)
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 
@@ -51,7 +51,7 @@ def register():
         else:
             mensaje = resp.json().get('error', 'Error al registrar usuario. Por favor, intente nuevamente.')
             flash(mensaje, 'danger')
-    return render_template('auth.login', brand=BRAND, nombre=nombre)
+    return render_template('endpoints/login.html', brand=BRAND, nombre=nombre)
 
 @auth_bp.route('/logout')
 def logout():
