@@ -10,13 +10,6 @@ DB_CONFIG = {
     'port': 3306,
     'database': 'ludoteca'
 }
-DB_CONFIG2 = {
-    'host': 'mysql',
-    'user': 'root',
-    'password': 'root',
-    'port': 3306
-}
-
 
 TABLAS = [
     "juegos",
@@ -43,18 +36,7 @@ def connect_db():
         print(f"❌ Error al conectar a la base de datos: {e}")
         return None
 
-def connect_db2():
-    conn = None
-    try:
-        conn = mysql.connector.connect(**DB_CONFIG2)
-        if conn.is_connected():
-            print(f"✅ Conexión exitosa a la base de datos ludoteca")
-        return conn
-    except Error as e:
-        print(f"❌ Error al conectar a la base de datos: {e}")
-        return None
-
-def ejecutar_init_db(connection):
+def create_database(connection):
 
     try:
         cursor = connection.cursor()
@@ -129,7 +111,7 @@ def generar_insert_sql(connection, name, data):
             error_count += 1
 
     connection.commit() # Confirmar todas las inserciones al final
-    print(f"✅ Se intentaron insertar {insert_count + error_count} registros en '{name}'.")
+    print(f"✅ Se insertaron {insert_count + error_count} registros en '{name}'.")
     if error_count > 0:
         print(f"Se encontraron {error_count} errores durante la inserción.")
     cursor.close()
@@ -157,23 +139,35 @@ def check_if_exists_data(connection):
             return False
     return True
 
+def connect_db_without_database():
+    config = DB_CONFIG.copy()
+    config.pop("database", None)  # Remueve 'database' del dict
+    try:
+        conn = mysql.connector.connect(**config)
+        if conn.is_connected():
+            print(f"✅ Conexión exitosa a la base de datos ludoteca")
+        return conn
+    except Error as e:
+        print(f"❌ Error al conectar a la base de datos: {e}")
+        return None
+
 def init_db():
     conn = None
     try:
-        conn = connect_db2()
+        conn = connect_db()
 
-        if conn:
-            if check_if_exists_data(conn):
-                return
-            
-            ejecutar_init_db(conn)
-            print("\nObteniendo datos de juegos...")
-            all_games_data = get_all_games_data()[0]# Esto debería devolver una lista de juegos
-            if all_games_data:
-                generar_insert_sql(conn, "juegos", [g["game_info"] for g in all_games_data])
-                populate_tables(conn, all_games_data)
-            else:
-                print("No se obtuvieron datos de juegos para insertar.")
+        if conn and check_if_exists_data(conn):
+            return
+
+        connection = connect_db_without_database()
+        create_database(connection)
+        print("\nObteniendo datos de juegos...")
+        all_games_data = get_all_games_data()[0]
+        if all_games_data:
+            generar_insert_sql(connection, "juegos", [g["game_info"] for g in all_games_data])
+            populate_tables(connection, all_games_data)
+        else:
+            print("No se obtuvieron datos de juegos para insertar.")
     finally:
         if conn and conn.is_connected():
             conn.close()
