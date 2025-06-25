@@ -64,7 +64,10 @@ def login():
             flash('Inicio de sesión exitoso', 'success')
             return redirect(url_for('index'))
         else:
-            mensaje = resp.json().get('error', 'Usuario o contraseña incorrectos')
+            try:
+                mensaje = resp.json().get('error', 'Usuario o contraseña incorrectos')
+            except Exception:
+                mensaje = 'Usuario o contraseña incorrectos'
             flash(mensaje, 'danger')
             return render_template('login.html', brand=BRAND, nombre=nombre)
     return render_template('login.html', brand=BRAND, nombre=nombre)
