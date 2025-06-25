@@ -4467,3 +4467,7 @@ body,
 	margin-bottom: 1vh !important;
 	margin-top: 3vh;
 }
+
+.footer-info {
+	color: rgb(138, 136, 136) !important;
+}
