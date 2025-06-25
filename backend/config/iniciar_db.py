@@ -28,7 +28,7 @@ TABLAS = [
     "juego_categoria",
     "requisitos_minimos",
     "requisitos_recomendados",
-    "usuario"
+    "usuario",
     "biblioteca"
 ]
 
