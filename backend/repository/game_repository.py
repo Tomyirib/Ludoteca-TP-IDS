@@ -84,3 +84,16 @@ def search_games(page, limit):
 def close_connection(cursor, connection):
     cursor.close()
     connection.close()
+
+def fetch_names():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, id FROM juegos")
+        result = cursor.fetchall()
+        return result
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        conn.close()
