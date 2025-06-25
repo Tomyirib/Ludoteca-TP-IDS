@@ -192,6 +192,19 @@ def get_rating(game_id):
         cursor.close()
         conn.close()
 
+@app.route('/games/get_names')
+def get_games_names():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, id FROM juegos")
+        result = cursor.fetchall()
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
