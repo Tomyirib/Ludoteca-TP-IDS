@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from service.game_service import get_game_by_id, search_games
+from repository.game_repository import fetch_names
 
 games_bp = Blueprint("games", __name__)
 
@@ -25,3 +26,8 @@ def get_games():
         "page": page,
         "per_page": per_page
     })
+
+@games_bp.route('/get_names')
+def get_games_name():
+    result = fetch_names()
+    return jsonify(result), 200
