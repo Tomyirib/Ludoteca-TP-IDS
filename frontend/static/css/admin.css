@@ -21,7 +21,7 @@
 }
 
 .admin-title p {
-    color: #718096;
+    color: #a6b5cc;
     font-size: 1.1rem;
 }
 
@@ -29,16 +29,17 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgb(56, 83, 109);
-    color: #93a4bf;
+    /* background: rgb(56, 83, 109); */
+    background: linear-gradient(135deg, #47c6ec, #3364eb);
+    color: #d5dae2;
+    font-size: 1.4rem;
     padding: 0.75rem 1.5rem;
     border-radius: 12px;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgb(27, 40, 56);;
 }
 
 .admin-icon {
-    font-size: 1rem;
+    font-size: 2rem;
 }
 
 /* Dashboard Stats */
@@ -72,23 +73,33 @@
 }
 
 .users-icon {
-    background: rgb(56, 83, 109);
-    /* background: linear-gradient(135deg, #667eea, #764ba2); */
+    /* background: rgb(56, 83, 109); */
+    background: linear-gradient(135deg, #1fc668, #bccc06);
+    font-size: 2rem;
+}
+
+.games-icon {
+    /* background: rgb(56, 83, 109); */
+    background: linear-gradient(135deg, #e8ef15, #f5576c);
+    font-size: 2rem;
 }
 
 .comments-icon {
-    background: rgb(56, 83, 109);
-    /* background: linear-gradient(135deg, #f093fb, #f5576c); */
+    /* background: rgb(56, 83, 109); */
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    font-size: 2rem;
 }
 
 .activity-icon {
-    background: rgb(56, 83, 109);
-    /* background: linear-gradient(135deg, #4facfe, #00f2fe); */
+    /* background: rgb(56, 83, 109); */
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    font-size: 2rem;
 }
 
 .engagement-icon {
-    background: rgb(56, 83, 109);
-    /* background: linear-gradient(135deg, #43e97b, #38f9d7); */
+    /* background: rgb(56, 83, 109); */
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    font-size: 2rem;
 }
 
 .stat-content {

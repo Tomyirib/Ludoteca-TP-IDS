@@ -5,6 +5,7 @@ from db_login import insert_user, login
 from iniciar_db import connect_db as get_db_connection
 from routes.users import users_bp
 from routes.comentarios import comentarios_bp
+from routes.admin import admin_bp
 import bcrypt
 
 app = Flask(__name__)
@@ -12,6 +13,7 @@ app.secret_key = "SECRET_KEY"
 
 app.register_blueprint(comentarios_bp, url_prefix="/comentarios")
 app.register_blueprint(users_bp, url_prefix="/users")
+app.register_blueprint(admin_bp, url_prefix="/admin")
 
 @app.route('/')
 

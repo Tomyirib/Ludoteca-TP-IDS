@@ -14,15 +14,15 @@
             <p>System overview and management tools</p>
         </div>
         <div class="admin-badge">
-            <span class="admin-icon">👑</span>
-            Admin
+            <span class="admin-icon">🔮</span>
+            {{session['first_name']}}
         </div>
     </div>
 
     <!-- Statistics Cards -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon users-icon">👥</div>
+            <div class="stat-icon users-icon">🧟</div>
             <div class="stat-content">
                 <div class="stat-number">{{ stats.total_users or 0 }}</div>
                 <div class="stat-label">Total Users</div>
@@ -31,6 +31,15 @@
         </div>
 
         <div class="stat-card">
+            <div class="stat-icon games-icon">🛸</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ stats.total_games or 0 }}</div>
+                <div class="stat-label">Total Games</div>
+                <div class="stat-detail">{{ stats.total_genres }} Genres</div>
+            </div>
+        </div>
+
+        <div class="stat-card" style="display:none">
             <div class="stat-icon comments-icon">💬</div>
             <div class="stat-content">
                 <div class="stat-number">{{ stats.total_comments or 0 }}</div>
@@ -67,7 +76,7 @@
             </div>
             <div class="action-cards">
                 <a href="{{ url_for('admin.users') }}" class="action-card">
-                    <div class="action-icon">🧟</div>
+                    <div class="stat-icon users-icon">🧟</div>
                     <div class="action-content">
                         <h3>Manage Users</h3>
                         <p>View, edit, and delete user accounts</p>
@@ -86,18 +95,18 @@
             <div class="action-cards">
                 {# <a href="{{ url_for('admin_games') }}" class="action-card"> #}
                 <a href="#" class="action-card">
-                    <div class="action-icon">🛸</div>
+                    <div class="stat-icon games-icon">🛸</div>
                     <div class="action-content">
                         <h3>Moderate Games</h3>
                         <p>Review, edit, and remove games</p>
-                        <span class="action-count">{{ stats.total_gamess or 0 }} games</span>
+                        <span class="action-count">{{ stats.total_games or 0 }} games</span>
                     </div>
                     <div class="action-arrow">→</div>
                 </a>
 
-                {# <a href="{{ url_for('admin_comments') }}" class="action-card"> #}
-                <a href="#" class="action-card">
-                    <div class="action-icon">🐄</div>
+                <a href="{{ url_for('admin.comments') }}" class="action-card">
+                {# <a href="#" class="action-card"> #}
+                    <div class="stat-icon engagement-icon">🐄</div>
                     <div class="action-content">
                         <h3>Moderate Comments</h3>
                         <p>Review, edit, and remove comments</p>

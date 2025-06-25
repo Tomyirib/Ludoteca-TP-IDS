@@ -259,8 +259,10 @@ def post_comentario():
     comentario_data = request.form.to_dict()
     # Ver si session esta iniciada
     # Si no hay usuario en session flash error
+    if 'usuario_id' not in session:
+        flash('Usuario no se encuentra loggeado', 'error')
     # Armar comentario con informacion de session
-    comentario_data["usuario_id"] = "1"
+    comentario_data["usuario_id"] = session['usuario_id']
     redirect_id = int(request.form["juego_id"])
     # Request al API
     response = requests.post(f"{API_BASE}/comentarios/ingresar_comentario", comentario_data)

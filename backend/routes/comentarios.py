@@ -19,6 +19,19 @@ INNER JOIN juegos ON comentarios.juego_id = juegos.id
 ORDER BY comentario_timestamp DESC
 LIMIT 10
 """
+
+QUERY_ALL_COMMENTS = """
+SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
+       juegos.id AS juego_id, juegos.name AS juego_nombre,
+       comentarios.comentario_texto, comentarios.rating,
+       juegos.header_image AS juego_imagen,
+       comentarios.comentario_timestamp
+FROM comentarios
+INNER JOIN usuario ON comentarios.usuario_id = usuario.id_usuario
+INNER JOIN juegos ON comentarios.juego_id = juegos.id
+ORDER BY comentario_timestamp DESC
+"""
+
 QUERY_JUEGO = """
 SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
        juegos.id AS juego_id, juegos.name AS juego_nombre,
@@ -31,6 +44,7 @@ INNER JOIN juegos ON comentarios.juego_id = juegos.id
 WHERE comentarios.juego_id = %s
 ORDER BY comentario_timestamp DESC
 """
+
 QUERY_USUARIO = """
 SELECT comentarios.comentario_id, usuario.id_usuario, usuario.first_name AS usuario_username,
        juegos.id AS juego_id, juegos.name AS juego_nombre,
@@ -43,6 +57,7 @@ INNER JOIN juegos ON comentarios.juego_id = juegos.id
 WHERE comentarios.usuario_id = %s
 ORDER BY comentario_timestamp DESC
 """
+
 INSERT_COMENTARIO = """
 INSERT INTO comentarios (usuario_id, juego_id, comentario_texto, rating, comentario_timestamp)
 VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
@@ -65,6 +80,18 @@ def get_comentarios_recientes():
         return ("No hay comentarios recientes", 204)
     return jsonify(comentarios)
 
+# devuelve todos los comentarios
+@comentarios_bp.route("/todos")
+def get_all_comments_admin():
+    connection = connect_db()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(QUERY_ALL_COMMENTS)
+    comentarios = cursor.fetchall()
+    connection.close()
+    cursor.close()
+    if not comentarios:
+        return ("No hay comentarios recientes", 204)
+    return jsonify(comentarios), 200
 
 # get_comentarios_juego devuelve los comentarios mas recientes del juego pasado
 @comentarios_bp.route("/juegos/<int:juego_id>")

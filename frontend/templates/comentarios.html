@@ -23,7 +23,10 @@
                 </div>
                 <div class="comentario-usuario">
                     {# <img class="avatar" src="{{ url_for('static', filename='images/' + c.usuario_avatar) }}" #}
-                     <img class="avatar" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Usuario">
+                     {# <img class="avatar" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Usuario"> #}
+                     <div class="user-avatar" style="background-color: {{ c.usuario_username | first | upper | hash_color }}">
+                                    {{ c.usuario_username[0].upper() }}
+                    </div>
                     <div class="username">{{ c.usuario_username }}</div>
                 </div>
             </div>
