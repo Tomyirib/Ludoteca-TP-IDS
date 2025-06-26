@@ -92,7 +92,6 @@ def update_user():
         if connection.is_connected():
             cursor.close()
             connection.close()
-        print("\nbackend > update_user: ", result, "\n")
         return jsonify(result[0]), result[1]
 
 # Elimina el usuario con id_usuario
@@ -119,5 +118,4 @@ def delete_user(id_usuario):
         if connection.is_connected():
             cursor.close()
             connection.close()
-        print("\nbackend > delete_user: ", result, "\n")
         return jsonify(result[0]), result[1]

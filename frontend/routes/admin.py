@@ -10,7 +10,6 @@ admin_bp = Blueprint("admin", __name__)
 # Routes
 # Dashboard
 @admin_bp.route('/')
-# @require_admin
 def dashboard():
     """Admin dashboard with statistics"""
     if not is_user_admin():
@@ -21,7 +20,6 @@ def dashboard():
 
 # Manage Users
 @admin_bp.route('/users')
-# @require_admin
 def users():
     """Admin users management page"""
     user = []
@@ -32,7 +30,6 @@ def users():
 
 # Edit Users
 @admin_bp.route('/users/<int:id_usuario>/edit', methods=['GET', 'POST'])
-# @require_admin
 def edit_user(id_usuario):
     """Admin edit user page"""
     if request.method == 'POST':
@@ -62,7 +59,6 @@ def edit_user(id_usuario):
 
 # Delete User
 @admin_bp.route('/users/<int:id_usuario>/delete', methods=['POST'])
-# @require_admin
 def delete_user(id_usuario):
     """Admin delete user"""
     response = admin_delete_user(id_usuario)
