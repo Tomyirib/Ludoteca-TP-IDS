@@ -146,16 +146,16 @@ def check_if_exists_data(connection):
                 return False
 
             cursor.execute("USE ludoteca;")
-            cursor.execute(f"SELECT EXISTS(SELECT 1 FROM `{table}` LIMIT 1);")
+            cursor.execute(f"SELECT EXISTS(SELECT 1 FROM juegos LIMIT 1);")
             result = cursor.fetchone()
 
-            if result and result[0]:
-                print(f"ℹ️ La tabla '{table}' contiene datos. No se eliminará la base de datos.")
+            if result and result[0]:  
+                print(f"ℹ️ La tabla 'juegos' contiene datos. No se eliminará la base de datos.")
                 return True
         except Error as e:
-            print(f"⚠️ No se pudo acceder a la tabla '{table}' (puede no existir): {e}")
+            print(f"⚠️ No se pudo acceder a la tabla 'juegos' (puede no existir): {e}")
             return False
-    return True
+    return False
 
 def init_db():
     conn = None
