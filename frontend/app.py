@@ -8,7 +8,7 @@ from routes.admin import admin_bp
 
 app = Flask(__name__)
 BRAND = 'Ludoteca Vapor'
-API_BASE = "http://0.0.0.0:8080"
+API_BASE = "http://backend:8080"
 app.secret_key = 'SECRET_KEY'
 
 # Register blueprints
