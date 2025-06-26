@@ -1,13 +1,7 @@
-# Admin
-# Funciones auxiliares del FRONTEND se comunican a travez de la API con el backend
-
-# dependencias
 from flask import session, request, jsonify
 import requests
 from datetime import datetime
-
-# ver si puede importar esta constante de un lugar mas general
-API_BASE = 'http://backend:8080/'
+from utils.config import API_BASE
 
 # Hacer solo con session. no hace falta ir a la db
 def is_user_admin():

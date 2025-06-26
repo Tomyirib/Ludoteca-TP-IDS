@@ -7,8 +7,6 @@ Trabajo Practico Final para la material de introduccion al desarrollo de softwar
 - Franco Guastavino - Padron: 113265
 - Alejandro Nicolas Sotelo van Oordt - Padron: 95985
 - Tomás Agustín Irigoyen Barrone - Padron: 114019
-- Gianluca Miguel Pate - Padron: 105695
-- Dionel Ulises Paco Anagua - Padron: 113561
 
 ## 🚀 Levantar el Proyecto con Docker
 
@@ -50,17 +48,22 @@ docker-compose up --build
 Nota: Ante cada cambio es necesario agregar el flag de build, de lo contrario no sumarlo si solo quiere correr una imagen estable
 
 ## Endpoints
-- '/' o index -----> Es el home de la pagina. Aca vemos juegos que son "novedad" o "populares" tanto con un formato de carrusel como 
-con cuadros que muestran la descripcion y el precio del mismo.
+’/’ → (Página principal con juegos destacados)
 
-- '/juego/<int:game_id>' -----> Este endpoint va a mostrar la pagina de cada juego individualmente, segun su id obtenido desde la api de Steam. 
-En la siguiente, se muestra precio, descripcion, generos y categorias, reseñas de usuarios y un boton para añadir al carrito.
+’/catalogo’ → (Muestra todos los juegos disponibles, paginados)
 
-- '/login' -----> Permite al usuario loguearse o registrarse, en caso de no tener cuenta.
+’/juego/<int:game_id>’ → (Muestra los detalles del juego y sus comentarios)
 
-- '/carrito' -----> Como lo indica el nombre, acá deberán aparecer los juegos que el usuario logueado añadió a su carrito para poder finalizar 
-la compra.
+’/login’ → (Formulario y lógica de inicio de sesión)
 
-- '/catalogo' -----> Un endpoint que muestre, en varias paginas, el catalogo de juegos completo pedido a la api de Steam y 
-guardado en nuestra base de datos.
+’/register’ → (Formulario y lógica de registro de usuario)
 
+’/logout’ → (Cierra sesión del usuario)
+
+’/carrito’ → (Muestra el carrito con los juegos agregados)
+
+’/biblioteca’ → (Muestra los juegos comprados por el usuario logueado)
+
+’/comunidad’ → (Muestra los últimos comentarios realizados por los usuarios)
+
+’/admin’ → (Lleva al dashboard de admin)

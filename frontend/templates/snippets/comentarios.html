@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/comentarios.css') }}">
 
+{# {% include 'snippets/dejar_comentario.html' %} #}
+
 <section class="comunidad-section">
     <h2 class="comunidad-header">Comentarios Recientes</h2>
     <div class="comunidad-content">
@@ -8,7 +10,8 @@
             <div class="comentario-layout">
                 <div class="comentario-juego">
                     <img class="juego-imagen" src={{ c.juego_imagen }} alt={{ c.juego_nombre }}>
-                    <div class="juego-nombre"><a href="{{url_for('generic', game_id=c.juego_id)}}">{{ c.juego_nombre }}</a></div>
+                    <div class="juego-nombre"><a href="{{url_for('juegos.generic', game_id=c.juego_id)}}">{{
+                            c.juego_nombre }}</a></div>
                 </div>
                 <div class="comentario-body">
                     {% for i in range(c.rating) %}
@@ -20,8 +23,9 @@
                     <div class="timestamp">{{ c.comentario_timestamp }}</div>
                 </div>
                 <div class="comentario-usuario">
-                     <div class="user-avatar" style="background-color: {{ c.usuario_username | first | upper | hash_color }}">
-                                    {{ c.usuario_username[0].upper() }}
+                    <div class="user-avatar"
+                        style="background-color: {{ c.usuario_username | first | upper | hash_color }}">
+                        {{ c.usuario_username[0].upper() }}
                     </div>
                     <div class="username">{{ c.usuario_username }}</div>
                 </div>

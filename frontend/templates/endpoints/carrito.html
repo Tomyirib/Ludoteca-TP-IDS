@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "snippets/base.html" %}
 {% block menu %}{% endblock %}
 {% block nav%}{% endblock %}
 {% block footer %}{% endblock %}
@@ -37,7 +37,7 @@
             <p class="game-price-carrito">{{ juego.price }}</p>
         </div>
         <div class="carrito-eliminar">
-        <form method="POST" action="{{ url_for('eliminar_del_carrito') }}" class="form-eliminar-carrito">
+        <form method="POST" action="{{ url_for('carrito.eliminar_del_carrito') }}" class="form-eliminar-carrito">
             <input type="hidden" name="game_id" value="{{ juego.id }}">
             <button type="submit" class="btn-x-carrito">
                 <span class="material-symbols-outlined close-carrito">close</span>
@@ -47,7 +47,7 @@
     </div>
     {% endfor %}
 
-    <form method="POST" action="{{ url_for('procesar_compra') }}">
+    <form method="POST" action="{{ url_for('carrito.procesar_compra') }}">
         <button type="submit" class="checkout">Procesar compra</button>
     </form>
 </body>

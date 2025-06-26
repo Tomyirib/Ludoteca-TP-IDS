@@ -1,7 +1,7 @@
 <section class="tiles">
     {% for juego in juegos %}
     <article class="style{{ loop.cycle('1','2','3','4','5','6') }}">
-        <a href="{{ url_for('generic', game_id=juego.id) }}">
+        <a href="{{ url_for('juegos.generic', game_id=juego.id) }}">
             <span class="image">
                 <img src="{{ juego.header_image }}" alt="{{ juego.name }}" />
             </span>

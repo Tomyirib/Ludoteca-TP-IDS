@@ -1,14 +1,7 @@
-# Admin Blueprint
-# import dependencies
 from flask import Blueprint, url_for, request, render_template, flash, redirect, session
-from admin import is_user_admin, get_users_for_admin, get_admin_dashboard_data, admin_update_user, get_user_for_admin, admin_delete_user
-# Define Blueprint
+from utils.admin import is_user_admin, get_users_for_admin, get_admin_dashboard_data, admin_update_user, get_user_for_admin, admin_delete_user
 admin_bp = Blueprint("admin", __name__)
 
-# Queries
-
-# Routes
-# Dashboard
 @admin_bp.route('/')
 def dashboard():
     """Admin dashboard with statistics"""

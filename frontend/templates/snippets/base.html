@@ -39,7 +39,7 @@
 
 
                 <!-- Logo -->
-                <a href="{{ url_for('index') }}" class="logo">
+                <a href="{{ url_for('main.index') }}" class="logo">
                     <span class="symbol"><img src="{{ url_for('static', filename='/images/logo.svg', _external=True) }}"
                             alt="" /></span><span class="title">Ludoteca Vapor</span>
                 </a>
@@ -63,22 +63,22 @@
                 {% if session['first_name'] %}
                 <div class="logout-container">
                     <p class="logout-text">Bienvenido, {{ session['first_name'] }}!</p>
-                    <a href="{{ url_for('logout') }}">
-                    <button id="logoutBtn" class="logout-button">Cerrar sesión</button>
+                    <a href="{{ url_for('auth.logout') }}">
+                        <button id="logoutBtn" class="logout-button">Cerrar sesión</button>
                     </a>
                 </div>
                 {% else %}
                 <p>No estás logueado</p>
                 {% endif %}
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('catalogo') }}">Catálogo</a></li>
-                <li><a href="{{ url_for('comunidad') }}">Comunidad</li>
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('juegos.catalogo') }}">Catálogo</a></li>
+                <li><a href="{{ url_for('comunidad.comunidad') }}">Comunidad</li>
                 {% if session['es_admin']%}
                 <li><a href="{{ url_for('admin.dashboard') }}">Admin</li>
                 {% endif %}
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('biblioteca') }}">Biblioteca</a></li>
-                <li><a href="{{ url_for('carrito') }}"><span class="material-symbols-outlined"
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('main.biblioteca') }}">Biblioteca</a></li>
+                <li><a href="{{ url_for('carrito.carrito') }}"><span class="material-symbols-outlined"
                             style="font-size: 36px">shopping_cart</span></a></li>
 
 
@@ -98,7 +98,7 @@
             <div class="inner">
                 <section>
                     <h2>Contactanos</h2>
-                    <form method="post" action="{{ url_for('contacto') }}">
+                    <form method="post" action="{{ url_for('comunidad.contacto') }}">
                         <div class="fields">
                             <div class="field half">
                                 <input type="text" name="name" id="name" placeholder="Nombre" />
@@ -118,8 +118,10 @@
                 <section>
                     <h2>Follow</h2>
                     <ul class="icons">
-                        <li><a href="https://github.com/Tomyirib/Ludoteca-TP-IDS" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
-                        <li><a href="https://mail.google.com/mail/u/1/?pli=1#inbox" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+                        <li><a href="https://github.com/Tomyirib/Ludoteca-TP-IDS"
+                                class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+                        <li><a href="https://mail.google.com/mail/u/1/?pli=1#inbox"
+                                class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
                     </ul>
                 </section>
                 <ul class="copyright">
@@ -141,15 +143,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='/js/main.js', _external=True) }}"></script>
     <script>
-    // Hace que los alert se oculten después de 3 segundos
-    setTimeout(function () {
-        let alerts = document.querySelectorAll('.alert');
-        alerts.forEach(function (alert) {
-            alert.style.transition = 'opacity 0.5s ease';
-            alert.style.opacity = '0';
-            setTimeout(() => alert.remove(), 500);  // Elimina el elemento del DOM luego
-        });
-    }, 3000);
+        // Hace que los alert se oculten después de 3 segundos
+        setTimeout(function () {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function (alert) {
+                alert.style.transition = 'opacity 0.5s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);  // Elimina el elemento del DOM luego
+            });
+        }, 3000);
     </script>
 </body>
 

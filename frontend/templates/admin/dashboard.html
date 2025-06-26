@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "snippets/base.html" %}
 
 {% block title %} | Admin Dashboard{% endblock %}
 
@@ -26,7 +26,8 @@
             <div class="stat-content">
                 <div class="stat-number">{{ stats.total_users or 0 }}</div>
                 <div class="stat-label">Total Users</div>
-                <div class="stat-detail">{{ stats.admin_users or 0 }} admins, {{ stats.regular_users or 0 }} regular</div>
+                <div class="stat-detail">{{ stats.admin_users or 0 }} admins, {{ stats.regular_users or 0 }} regular
+                </div>
             </div>
         </div>
 
@@ -94,26 +95,26 @@
             </div>
             <div class="action-cards">
                 {# <a href="{{ url_for('admin_games') }}" class="action-card"> #}
-                <a href="#" class="action-card">
-                    <div class="stat-icon games-icon">🛸</div>
-                    <div class="action-content">
-                        <h3>Moderate Games</h3>
-                        <p>Review, edit, and remove games</p>
-                        <span class="action-count">{{ stats.total_games or 0 }} games</span>
-                    </div>
-                    <div class="action-arrow">→</div>
-                </a>
+                    <a href="#" class="action-card">
+                        <div class="stat-icon games-icon">🛸</div>
+                        <div class="action-content">
+                            <h3>Moderate Games</h3>
+                            <p>Review, edit, and remove games</p>
+                            <span class="action-count">{{ stats.total_games or 0 }} games</span>
+                        </div>
+                        <div class="action-arrow">→</div>
+                    </a>
 
-                {# <a href="{{ url_for('admin.comments') }}" class="action-card"> #}
-                <a href="#" class="action-card">
-                    <div class="stat-icon engagement-icon">🐄</div>
-                    <div class="action-content">
-                        <h3>Moderate Comments</h3>
-                        <p>Review, edit, and remove comments</p>
-                        <span class="action-count">{{ stats.total_comments or 0 }} comments</span>
-                    </div>
-                    <div class="action-arrow">→</div>
-                </a>
+                    {# <a href="{{ url_for('admin.comments') }}" class="action-card"> #}
+                        <a href="#" class="action-card">
+                            <div class="stat-icon engagement-icon">🐄</div>
+                            <div class="action-content">
+                                <h3>Moderate Comments</h3>
+                                <p>Review, edit, and remove comments</p>
+                                <span class="action-count">{{ stats.total_comments or 0 }} comments</span>
+                            </div>
+                            <div class="action-arrow">→</div>
+                        </a>
             </div>
         </div>
     </div>

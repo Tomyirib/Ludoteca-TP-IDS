@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "snippets/base.html" %}
 {% block head %}
 {% endblock %}
 
@@ -9,7 +9,7 @@
         <h1>Comunidad</h1>
 
         <div class="comunidad-container">
-            {% include 'comentarios.html' %}
+            {% include 'snippets/comentarios.html' %}
         </div>
 
         <!-- starting here -->
@@ -27,7 +27,7 @@
                         <div class="comentario-layout">
                             <div class="comentario-juego">
                                 <img class="juego-imagen" src={{ c.juego_imagen }} alt={{ c.juego_nombre }}>
-                                <div class="juego-nombre"><a href="{{url_for('generic', game_id=c.juego_id)}}">{{ c.juego_nombre }}</a></div>
+                                <div class="juego-nombre"><a href="{{url_for('juegos.generic', game_id=c.juego_id)}}">{{ c.juego_nombre }}</a></div>
                             </div>
                             <div class="comentario-body">
                                 <p class="comentario-texto">
@@ -54,8 +54,8 @@
             <div class="login-prompt">
                 <div class="prompt-content">
                     <div class="prompt-actions">
-                     <a href="{{ url_for('login') }}" class="btn btn-primary">Iniciar Sesion</a>
-                     <a href="{{ url_for('register') }}" class="btn btn-secondary">Resgistrate</a>
+                     <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Iniciar Sesion</a>
+                     <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">Resgistrate</a>
                     </div>
                 </div>
             </div>

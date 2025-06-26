@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "snippets/base.html" %}
 
 {% block content %}
 
@@ -36,12 +36,12 @@
 		<div class="precio-carrito">
 			<span class="sub-titles"><strong>Precio:</strong> {{ juego.price }}</span>
 			{% if session.email %}
-			<form action="{{ url_for('add') }}" method="post">
+			<form action="{{ url_for('carrito.add') }}" method="post">
 				<input type="hidden" name="game_id" value="{{ juego.id }}">
 				<button type="submit" class="cart-button">Añadir al carrito</button>
 			</form>
 			{% else %}
-			<a href="{{ url_for('login') }}" class="cart-button">Inicia sesión para añadir al carrito</a>
+			<a href="{{ url_for('auth.login') }}" class="cart-button">Inicia sesión para añadir al carrito</a>
 			{% endif %}
 		</div>
 		<p class="sub-titles"><strong>Géneros y Categorías</strong></p>
@@ -78,8 +78,8 @@
 
 
 		<div class="comunidad-container">
-			{% include 'dejar_comentario.html' %}
-            {% include 'comentarios.html' %}
+			{% include 'snippets/dejar_comentario.html' %}
+            {% include 'snippets/comentarios.html' %}
         </div>
 
 	</div>
