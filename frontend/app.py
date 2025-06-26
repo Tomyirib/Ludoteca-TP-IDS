@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, session, redirect, flash, url_for
 import requests
+from flask_mail import Mail, Message
+
 
 from comments import get_user_avatar_color
 from routes.admin import admin_bp
 
 app = Flask(__name__)
 BRAND = 'Ludoteca Vapor'
-API_BASE = "http://localhost:8080"
+API_BASE = "http://backend:8080"
 app.secret_key = 'SECRET_KEY'
 
 # Register blueprints
@@ -14,6 +16,14 @@ app.register_blueprint(admin_bp, url_prefix='/admin')
 
 # Jinja Env - Filters
 app.jinja_env.filters['hash_color'] = get_user_avatar_color
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'ludotecavapor@gmail.com'
+app.config['MAIL_PASSWORD'] = 'sloo scvg etsy txgw '
+
+mail = Mail(app)
 
 @app.route('/')
 def index():
@@ -39,7 +49,7 @@ def generic(game_id):
         valoracion_promedio = obtener_valoracion_promedio(game_id)
         return render_template('generic.html', juego=juego, comentarios_recientes=comentarios_juego, rating_prom=valoracion_promedio, nombre=nombre)
     else:
-        return print("Juego no encontrado"), 404
+        return "Juego no encontrado", 404
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -51,7 +61,7 @@ def login():
             'email_login': request.form['email_login'],
             'password_login': request.form['password_login']
         }
-        resp = requests.post('http://localhost:8080/auth', data=data)
+        resp = requests.post('http://backend:8080/auth/login', data=data)
         if resp.status_code == 200:
             session['email'] = request.form['email_login']
             user = get_user_info(session['email'])
@@ -62,7 +72,10 @@ def login():
             flash('Inicio de sesión exitoso', 'success')
             return redirect(url_for('index'))
         else:
-            mensaje = resp.json().get('error', 'Usuario o contraseña incorrectos')
+            try:
+                mensaje = resp.json().get('error', 'Usuario o contraseña incorrectos')
+            except Exception:
+                mensaje = 'Usuario o contraseña incorrectos'
             flash(mensaje, 'danger')
             return render_template('login.html', brand=BRAND, nombre=nombre)
     return render_template('login.html', brand=BRAND, nombre=nombre)
@@ -79,7 +92,7 @@ def register():
             'first_name': request.form['first_name'],
             'last_name': request.form['last_name']
         }
-        resp = requests.post('http://localhost:8080/auth', data=data)
+        resp = requests.post('http://backend:8080/auth/register', data=data)
         if resp.status_code == 201:
             flash('Registro exitoso. Ya podés iniciar sesión.', 'success')
             return redirect(url_for('login'))
@@ -140,7 +153,7 @@ def catalogo():
         nombre = get_user_name(session['email'])
     page = int(request.args.get('page', 1))
     per_page = 12
-    response = requests.get(f"http://localhost:8080/games?page={page}&per_page={per_page}")
+    response = requests.get(f"http://backend:8080/games?page={page}&per_page={per_page}")
     data = response.json()
     juegos = data["games"]
     total = data["total"]
@@ -155,7 +168,7 @@ def biblioteca():
     nombre = get_user_name(session['email'])
     email = session['email']
 
-    resp = requests.get(f'http://localhost:8080/biblioteca/{email}')
+    resp = requests.get(f'http://backend:8080/library/{email}')
     if resp.status_code != 200:
         flash("Error al obtener la biblioteca", "danger")
         juegos = []
@@ -188,7 +201,7 @@ def procesar_compra():
     }
 
     try:
-        resp = requests.post('http://localhost:8080/biblioteca/agregar', json=data)
+        resp = requests.post('http://backend:8080/library/add', json=data)
         if resp.status_code == 200:
             session['carrito'] = []
             flash('Compra procesada. Juegos agregados a tu biblioteca.', 'success')
@@ -202,7 +215,7 @@ def procesar_compra():
         return redirect(url_for('carrito'))
 
 def get_game(game_id):
-    response = requests.get(f"http://localhost:8080/games/{game_id}")
+    response = requests.get(f"http://backend:8080/games/{game_id}")
     if response.status_code == 200:
         return response.json()
     else:
@@ -211,37 +224,37 @@ def get_game(game_id):
 
 
 def get_user_name(email):
-    resp = requests.get(f'http://localhost:8080/user/{email}')
+    resp = requests.get(f'http://backend:8080/user/{email}')
     if resp.status_code == 200:
         return resp.json().get('first_name')
     return None
 
 def get_user_info(email):
-    resp = requests.get(f'http://localhost:8080/user_info/{email}')
+    resp = requests.get(f'http://backend:8080/user/info/{email}')
     if resp.status_code == 200:
         return resp.json()
     return None
 
 def obtener_comentarios_recientes():
-    response = requests.get(f"{API_BASE}/comentarios/recientes")
+    response = requests.get(f"{API_BASE}/comments/recents")
     if response.status_code == 200:
         return response.json()
     return []
 
 def obtener_valoracion_promedio(game_id):
-    response = requests.get(f"{API_BASE}/rating/{game_id}")
+    response = requests.get(f"{API_BASE}/comments/rating/{game_id}")
     if response.status_code == 200:
         return response.json().get('promedio', 0)
     return 0
 
 def obtener_comentarios_juego(juego_id):
-    response = requests.get(f"{API_BASE}/comentarios/juegos/{juego_id}")
+    response = requests.get(f"{API_BASE}/comments/{juego_id}")
     if response.status_code == 200:
         return response.json()
     return []
 
 def obtener_comentarios_usuario(usuario_id):
-    response = requests.get(f"{API_BASE}/comentarios/usuario/{usuario_id}")
+    response = requests.get(f"{API_BASE}/comments/user/{usuario_id}")
     if response.status_code == 200:
         return response.json()
     return []
@@ -265,16 +278,39 @@ def post_comentario():
     comentario_data["usuario_id"] = session['usuario_id']
     redirect_id = int(request.form["juego_id"])
     # Request al API
-    response = requests.post(f"{API_BASE}/comentarios/ingresar_comentario", comentario_data)
+    response = requests.post(f"{API_BASE}/comments/add", comentario_data)
     # Si error en API
-    if response.status_code == 500:
+    if response.status_code != 201:
         # Flash error
-        return print("No se pudo ingresar comentario desde backend"), 500
+        return "No se pudo ingresar comentario desde backend", 500
 
     # si todo bien, redirijo a la misma pagina
     return redirect(url_for('generic', game_id=redirect_id))
 
-# Admin Routes
+@app.route('/contacto', methods=['GET', 'POST'])
+def contacto():
+    if request.method == 'POST':
+        try:
+            nombre = request.form['name']
+            mensaje = request.form['message']
+            email = request.form['email']
+
+            msg = Message(
+                subject=f"Nuevo mensaje de {nombre}",
+                sender='{email}',
+                recipients=['ludotecavapor@gmail.com'],
+                body=f"Remitente: {email}\n\n{mensaje}"
+            )
+            mail.send(msg)
+
+            flash('✅ Email enviado con éxito.', 'success')
+            return redirect(url_for('index'))
+
+        except Exception as e:
+            flash('❌ Error al enviar el email. Intente nuevamente.', 'error')
+            return redirect(url_for('index'))
+
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=True, port=3000)

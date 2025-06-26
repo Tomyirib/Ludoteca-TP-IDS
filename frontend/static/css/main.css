@@ -4452,3 +4452,18 @@ body,
   box-shadow: none;
   outline: none;
 }
+
+#search {
+	margin-left: 2vh;
+	background-color: #1b2838;
+  	color: #ffffff;
+  	border: 1px solid #2a475e;
+	width: 40vh;
+	height: 5vh;
+}
+
+.title-search {
+	margin-left: 2vh;
+	margin-bottom: 1vh !important;
+	margin-top: 3vh;
+}

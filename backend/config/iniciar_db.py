@@ -1,18 +1,17 @@
-import os
 import mysql.connector
 from mysql.connector import Error
-from steam_service import get_all_games_data
+from service.steam_service import get_all_games_data
 import json
 
 DB_CONFIG = {
-    'host': 'localhost',
+    'host': 'mysql',
     'user': 'root',
     'password': 'root',
     'port': 3306,
     'database': 'ludoteca'
 }
 DB_CONFIG2 = {
-    'host': 'localhost',
+    'host': 'mysql',
     'user': 'root',
     'password': 'root',
     'port': 3306
@@ -29,7 +28,7 @@ TABLAS = [
     "juego_categoria",
     "requisitos_minimos",
     "requisitos_recomendados",
-    "usuario"
+    "usuario",
     "biblioteca"
 ]
 
@@ -47,7 +46,7 @@ def connect_db():
 def connect_db2():
     conn = None
     try:
-        conn = mysql.connector.connect(**DB_CONFIG)
+        conn = mysql.connector.connect(**DB_CONFIG2)
         if conn.is_connected():
             print(f"✅ Conexión exitosa a la base de datos ludoteca")
         return conn
@@ -59,7 +58,7 @@ def ejecutar_init_db(connection):
 
     try:
         cursor = connection.cursor()
-        with open("backend/init_db.sql", "r") as file:
+        with open("init_db.sql", "r") as file:
             init_sql = file.read()
 
         sql_commands = [cmd.strip() for cmd in init_sql.split(';') if cmd.strip()]
@@ -78,7 +77,7 @@ def ejecutar_init_db(connection):
 
         print("✅ Script init_db.sql ejecutado.")
     except FileNotFoundError:
-        print("❌ Error: Archivo 'backend/init_db.sql' no encontrado.")
+        print("❌ Error: Archivo '/backend/config/init_db.sql' no encontrado.")
     except Error as e:
         print(f"❌ Error general al ejecutar init_db: {e}")
     finally:
@@ -103,7 +102,7 @@ def generar_insert_sql(connection, name, data):
 
             if isinstance(value, str):
                 # Escapar comillas simples correctamente para SQL
-                values.append(f"'{value.replace("'", "''")}'")
+                values.append("'" + value.replace("'", "''") + "'")
             elif isinstance(value, (int, float)):
                 values.append(str(value))
             elif isinstance(value, (list, dict)):
@@ -114,7 +113,7 @@ def generar_insert_sql(connection, name, data):
                 values.append("NULL")
             else:
                 # Caso por defecto, convertir a string y escapar
-                values.append(f"'{str(value).replace("'", "''")}'")
+                values.append("'" + value.replace("'", "''") + "'")
 
         cols_str = ", ".join(columns)
         vals_str = ", ".join(values)
