@@ -3,7 +3,6 @@ from repository.user_repository import add_user as add
 from repository.user_repository import get_info
 from repository.user_repository import get_user as get_user_repo
 
-#TODO move to repository
 def add_user(email, password, first_name, last_name):
     return add(email, password, first_name, last_name)
 
