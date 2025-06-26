@@ -8,7 +8,7 @@ from routes.admin import admin_bp
 
 app = Flask(__name__)
 BRAND = 'Ludoteca Vapor'
-API_BASE = "http://backend:8080"
+API_BASE = "http://0.0.0.0:8080"
 app.secret_key = 'SECRET_KEY'
 
 # Register blueprints
@@ -61,7 +61,7 @@ def login():
             'email_login': request.form['email_login'],
             'password_login': request.form['password_login']
         }
-        resp = requests.post('http://backend:8080/auth/login', data=data)
+        resp = requests.post(f'{API_BASE}/auth/login', data=data)
         if resp.status_code == 200:
             session['email'] = request.form['email_login']
             user = get_user_info(session['email'])
@@ -92,7 +92,7 @@ def register():
             'first_name': request.form['first_name'],
             'last_name': request.form['last_name']
         }
-        resp = requests.post('http://backend:8080/auth/register', data=data)
+        resp = requests.post(f'{API_BASE}/auth/register', data=data)
         if resp.status_code == 201:
             flash('Registro exitoso. Ya podés iniciar sesión.', 'success')
             return redirect(url_for('login'))
@@ -153,7 +153,7 @@ def catalogo():
         nombre = get_user_name(session['email'])
     page = int(request.args.get('page', 1))
     per_page = 12
-    response = requests.get(f"http://backend:8080/games?page={page}&per_page={per_page}")
+    response = requests.get(f"{API_BASE}/games?page={page}&per_page={per_page}")
     data = response.json()
     juegos = data["games"]
     total = data["total"]
@@ -168,7 +168,7 @@ def biblioteca():
     nombre = get_user_name(session['email'])
     email = session['email']
 
-    resp = requests.get(f'http://backend:8080/library/{email}')
+    resp = requests.get(f'{API_BASE}/library/{email}')
     if resp.status_code != 200:
         flash("Error al obtener la biblioteca", "danger")
         juegos = []
@@ -201,11 +201,11 @@ def procesar_compra():
     }
 
     try:
-        resp = requests.post('http://backend:8080/library/add', json=data)
+        resp = requests.post(f'{API_BASE}/library/add', json=data)
         if resp.status_code == 200:
             session['carrito'] = []
             flash('Compra procesada. Juegos agregados a tu biblioteca.', 'success')
-            return redirect(url_for('carrito'))
+            return redirect(url_for('biblioteca'))
         else:
             error = resp.json().get('error', 'Error desconocido')
             flash(f'Error: {error}', 'danger')
@@ -215,7 +215,7 @@ def procesar_compra():
         return redirect(url_for('carrito'))
 
 def get_game(game_id):
-    response = requests.get(f"http://backend:8080/games/{game_id}")
+    response = requests.get(f"{API_BASE}/games/{game_id}")
     if response.status_code == 200:
         return response.json()
     else:
@@ -224,13 +224,13 @@ def get_game(game_id):
 
 
 def get_user_name(email):
-    resp = requests.get(f'http://backend:8080/user/{email}')
+    resp = requests.get(f'{API_BASE}/user/{email}')
     if resp.status_code == 200:
         return resp.json().get('first_name')
     return None
 
 def get_user_info(email):
-    resp = requests.get(f'http://backend:8080/user/info/{email}')
+    resp = requests.get(f'{API_BASE}/user/info/{email}')
     if resp.status_code == 200:
         return resp.json()
     return None

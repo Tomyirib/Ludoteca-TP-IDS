@@ -10,13 +10,14 @@ from datetime import datetime
 API_BASE = 'http://localhost:8080/'
 
 # Hacer solo con session. no hace falta ir a la db
-# def is_admin_user():
-#     """Check if current user is admin"""
-#     if not session.get('logged_in'):
-#         return False
+def is_user_admin():
+    """Check if current user is admin"""
+    if session.get('esta_logueado') and session.get('es_admin'):
+        return True
+    return False
 
-#     user = get_user_by_id(session.get('user_id')) # from database
-#     return user and user.get('is_admin', False)
+    # user = get_user_by_id(session.get('user_id')) # from database
+    # return user and user.get('is_admin', False)
 
 
 # Aux Functions
@@ -51,7 +52,7 @@ def admin_update_user(user_id, first_name, last_name, email, es_admin):
 
 def admin_delete_user(id_usuario):
     if id_usuario == session.get('usuario_id'):
-        return {"status": "error", "message" : "Cannot delete your own account"}
+        return {"status": "danger", "message" : "Cannot delete your own account"}
     return delete_user(id_usuario) # API Call to DB
 
 # API CALLS

@@ -73,6 +73,9 @@
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="{{ url_for('catalogo') }}">Catálogo</a></li>
                 <li><a href="{{ url_for('comunidad') }}">Comunidad</li>
+                {% if session['es_admin']%}
+                <li><a href="{{ url_for('admin.dashboard') }}">Admin</li>
+                {% endif %}
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 <li><a href="{{ url_for('biblioteca') }}">Biblioteca</a></li>
                 <li><a href="{{ url_for('carrito') }}"><span class="material-symbols-outlined"

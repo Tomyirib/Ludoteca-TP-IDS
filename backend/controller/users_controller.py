@@ -1,7 +1,7 @@
 # Blueprint
 # import dependencies
 from flask import Blueprint, request, jsonify
-from routes.database import get_db_connection
+from config.iniciar_db import connect_db as get_db_connection
 from mysql.connector import Error
 
 # Define blueprint

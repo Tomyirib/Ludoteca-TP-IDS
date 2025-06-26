@@ -1,7 +1,7 @@
 # Admin Blueprint
 # import dependencies
-from flask import Blueprint, url_for, request, render_template, flash, redirect
-from admin import get_users_for_admin, get_admin_dashboard_data, admin_update_user, get_user_for_admin, admin_delete_user
+from flask import Blueprint, url_for, request, render_template, flash, redirect, session
+from admin import is_user_admin, get_users_for_admin, get_admin_dashboard_data, admin_update_user, get_user_for_admin, admin_delete_user
 # Define Blueprint
 admin_bp = Blueprint("admin", __name__)
 
@@ -13,6 +13,9 @@ admin_bp = Blueprint("admin", __name__)
 # @require_admin
 def dashboard():
     """Admin dashboard with statistics"""
+    if not is_user_admin():
+        flash("Need admin account to proceed", "danger")
+        return redirect(url_for('login'))
     stats = get_admin_dashboard_data()
     return render_template('admin/dashboard.html', stats=stats)
 
@@ -47,6 +50,10 @@ def edit_user(id_usuario):
 
     edit_user = get_user_for_admin(id_usuario)
 
+    if edit_user['id_usuario'] == session['usuario_id']:
+        flash('Cannot edit your own user', 'danger')
+        return redirect(url_for('admin.users'))
+
     if not edit_user:
         flash('User not found', 'error')
         return redirect(url_for('admin.users'))
@@ -59,8 +66,6 @@ def edit_user(id_usuario):
 def delete_user(id_usuario):
     """Admin delete user"""
     response = admin_delete_user(id_usuario)
-    print("\n admin.py frontend routes\n response: ", response,"\n")
-    print("\n admin.py frontend routes\n response type: ", type(response),"\n")
     if type(response) == dict :
         flash(response['message'], response['status'])
     else:
